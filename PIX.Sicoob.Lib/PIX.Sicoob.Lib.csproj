@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>warnings</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Folder Include="Models\Acesso\" />
+		<Folder Include="Models\Cobranca\" />
+		<Folder Include="Models\Webhook\" />
+		<Folder Include="Models\Pix\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Simple.API" Version="1.5.5" />
+	</ItemGroup>
+
+</Project>
