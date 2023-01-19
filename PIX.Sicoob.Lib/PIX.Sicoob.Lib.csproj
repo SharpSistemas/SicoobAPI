@@ -7,10 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Models\Acesso\" />
-		<Folder Include="Models\Cobranca\" />
 		<Folder Include="Models\Webhook\" />
-		<Folder Include="Models\Pix\" />
 	</ItemGroup>
 
 	<ItemGroup>
