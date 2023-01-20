@@ -1,7 +1,7 @@
 ﻿using Sicoob.Shared.Models.Geral;
 using System;
 
-namespace Sicoob.PIX.Lib.Models.Cobranca
+namespace Sicoob.PIX.Models.Cobranca
 {
     internal class CobrancaVencResponse
     {

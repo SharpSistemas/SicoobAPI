@@ -1,17 +1,18 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Newtonsoft.Json;
-using Sicoob.PIX.Lib;
-using Sicoob.PIX.Lib.Models;
+﻿using Newtonsoft.Json;
+using Sicoob.PIX;
+using Sicoob.PIX.Models;
 using System.IO;
 
+// carrega do disco
 var cfg = JsonConvert.DeserializeObject<ConfiguracaoPIX>(File.ReadAllText("config.json"));
-// save (atualiza cfg)
+
+// salva no disco
 //File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg));
 
 var sicoob = new SicoobPIX(cfg);
 await sicoob.SetupAsync();
 
-var pixPeriodo = await sicoob.ConsultarPIXAsync(new Sicoob.PIX.Lib.Models.Pix.ConsultaRequest()
+var pixPeriodo = await sicoob.ConsultarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
 {
     inicio = new System.DateTime(2023, 01, 01),
     fim = new System.DateTime(2023, 01, 21),

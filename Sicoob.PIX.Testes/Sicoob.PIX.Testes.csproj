@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sicoob.PIX.Lib\Sicoob.PIX.Lib.csproj" />
+    <ProjectReference Include="..\Sicoob.PIX.Lib\Sicoob.PIX.csproj" />
   </ItemGroup>
 
 </Project>

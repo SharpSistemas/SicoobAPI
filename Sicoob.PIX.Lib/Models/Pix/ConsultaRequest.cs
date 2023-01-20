@@ -1,7 +1,7 @@
 ﻿using Sicoob.Shared.Models.Geral;
 using System;
 
-namespace Sicoob.PIX.Lib.Models.Pix
+namespace Sicoob.PIX.Models.Pix
 {
     public class ConsultaRequest
     {

@@ -1,11 +1,10 @@
 ﻿using Simple.API;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Sicoob.Shared;
 using Sicoob.Shared.Models.Acesso;
 
-namespace Sicoob.PIX.Lib
+namespace Sicoob.PIX
 {
     public sealed class SicoobPIX : Shared.Sicoob
     {
