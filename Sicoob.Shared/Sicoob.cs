@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sicoob.Shared
 {
-    public class Sicoob
+    public abstract class Sicoob
     {
         private readonly Models.Configuracao config;
         private ClientInfo clientAuth;
@@ -31,11 +31,11 @@ namespace Sicoob.Shared
 
             await atualizaCredenciaisAsync();
         }
-        protected virtual void setupClients(HttpClientHandler handler)
-        { }
-        protected virtual void atualizaClients(Models.Acesso.TokenResponse token)
-        { }
+        protected abstract void setupClients(HttpClientHandler handler);
+        protected abstract void atualizaClients(Models.Acesso.TokenResponse token);
 
+        public async Task AtualizarCredenciaisAsync()
+            => await atualizaCredenciaisAsync();
         private async Task atualizaCredenciaisAsync()
         {
             var response = await clientAuth.FormUrlEncodedPostAsync<Shared.Models.Acesso.TokenResponse>("token", new
@@ -48,12 +48,16 @@ namespace Sicoob.Shared
             atualizaClients(response.Data);
             ExpiresAtUTC = DateTime.UtcNow.AddSeconds(response.Data.expires_in);
         }
-        public async Task AtualizarCredenciaisAsync()
-            => await atualizaCredenciaisAsync();
 
-        protected async Task VeiricaAtualizaCredenciaisAsync()
+        protected async Task<bool> VeiricaAtualizaCredenciaisAsync()
         {
-            if (ExpiresIn.TotalSeconds < 5) await atualizaCredenciaisAsync();
+            if (ExpiresIn.TotalSeconds >= 5)
+            {
+                return false;
+            }
+
+            await atualizaCredenciaisAsync();
+            return true;
         }
     }
 }

@@ -7,7 +7,7 @@ using Sicoob.Shared.Models.Acesso;
 
 namespace Sicoob.PIX.Lib
 {
-    public class SicoobPIX : Shared.Sicoob
+    public sealed class SicoobPIX : Shared.Sicoob
     {
         private ClientInfo clientApi;
         public Models.ConfiguracaoPIX ConfigApi { get; }
@@ -21,11 +21,9 @@ namespace Sicoob.PIX.Lib
         protected override void setupClients(HttpClientHandler handler)
         {
             clientApi = new ClientInfo(ConfigApi.UrlApi, handler);
-            base.setupClients(handler);
         }
         protected override void atualizaClients(TokenResponse token)
         {
-            base.atualizaClients(token);
             clientApi.SetAuthorizationBearer(token.access_token);
         }
 
@@ -43,8 +41,6 @@ namespace Sicoob.PIX.Lib
             response.EnsureSuccessStatusCode();
             return response.Data;
         }
-
-
 
     }
 }
