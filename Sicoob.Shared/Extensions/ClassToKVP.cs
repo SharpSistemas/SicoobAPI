@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Sicoob.PIX.Lib
+namespace Sicoob.Shared
 {
     public static class ClassToKVP
     {
@@ -49,7 +49,7 @@ namespace Sicoob.PIX.Lib
                 }
                 else if (prop.PropertyType == typeof(string))
                 {
-                    sValue = value.ToString();
+                    sValue = value?.ToString();
                 }
                 else if (prop.PropertyType == typeof(DateTime))
                 {

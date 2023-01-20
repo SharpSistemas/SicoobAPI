@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Sicoob.PIX.Lib;
+using Sicoob.Shared;
 using System.Linq;
 
 namespace Sicoob.PIX.UnitTest.ExtensionsTests

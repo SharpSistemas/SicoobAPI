@@ -1,4 +1,4 @@
-﻿namespace Sicoob.PIX.Lib.Models.Acesso
+﻿namespace Sicoob.Shared.Models.Acesso
 {
     public class TokenResponse
     { 

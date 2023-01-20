@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Sicoob.Shared;
 
 namespace Sicoob.PIX.Lib
 {
@@ -34,7 +35,7 @@ namespace Sicoob.PIX.Lib
         }
         private async Task atualizaCredenciaisAsync()
         {
-            var response = await clientAuth.FormUrlEncodedPostAsync<Models.Acesso.TokenResponse>("token", new
+            var response = await clientAuth.FormUrlEncodedPostAsync<Shared.Models.Acesso.TokenResponse>("token", new
             {
                 client_id = config.ClientId,
                 grant_type = "client_credentials",
