@@ -1,18 +1,17 @@
-﻿using NUnit.Framework;
-using Sicoob.Shared.Models;
+﻿using Sicoob.Shared.Models;
+using Xunit;
 
 namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
 {
     public class ScopeTests
     {
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_None()
         {
-            // None
             var scope = new AuthorizationScope();
-            Assert.That(scope.ToScopeString(), Is.EqualTo(""));
+            Assert.Empty(scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_All()
         {
             var scope = new AuthorizationScope()
@@ -31,9 +30,9 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 PAYLOAD_LOCATION_WRITE = true,
                 PAYLOAD_LOCATION_READ = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("cob.write cob.read cobv.write cobv.read lotecobv.write lotecobv.read pix.write pix.read webhook.write webhook.read payloadlocation.write payloadlocation.read"));
+            Assert.Equal("cob.write cob.read cobv.write cobv.read lotecobv.write lotecobv.read pix.write pix.read webhook.write webhook.read payloadlocation.write payloadlocation.read", scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_AllRead()
         {
             var scope = new AuthorizationScope()
@@ -45,9 +44,9 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 WEBHOOK_READ = true,
                 PAYLOAD_LOCATION_READ = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("cob.read cobv.read lotecobv.read pix.read webhook.read payloadlocation.read"));
+            Assert.Equal("cob.read cobv.read lotecobv.read pix.read webhook.read payloadlocation.read", scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_AllWrite()
         {
             var scope = new AuthorizationScope()
@@ -60,9 +59,9 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 WEBHOOK_WRITE = true,
                 PAYLOAD_LOCATION_WRITE = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("cob.write cobv.write lotecobv.write pix.write webhook.write payloadlocation.write"));
+            Assert.Equal("cob.write cobv.write lotecobv.write pix.write webhook.write payloadlocation.write", scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_Pix()
         {
             var scope = new AuthorizationScope()
@@ -70,9 +69,9 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 PIX_WRITE = true,
                 PIX_READ = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("pix.write pix.read"));
+            Assert.Equal("pix.write pix.read", scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_Cob()
         {
             var scope = new AuthorizationScope()
@@ -80,9 +79,9 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 COB_WRITE = true,
                 COB_READ = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("cob.write cob.read"));
+            Assert.Equal("cob.write cob.read", scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_CobV()
         {
             var scope = new AuthorizationScope()
@@ -92,9 +91,9 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 LOTE_COBV_WRITE = true,
                 LOTE_COBV_READ = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("cobv.write cobv.read lotecobv.write lotecobv.read"));
+            Assert.Equal("cobv.write cobv.read lotecobv.write lotecobv.read", scope.ToScopeString());
         }
-        [Test]
+        [Fact]
         public void Models_Configuration_Scope_PixHook()
         {
             var scope = new AuthorizationScope()
@@ -104,7 +103,7 @@ namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
                 WEBHOOK_WRITE = true,
                 WEBHOOK_READ = true,
             };
-            Assert.That(scope.ToScopeString(), Is.EqualTo("pix.write pix.read webhook.write webhook.read"));
+            Assert.Equal("pix.write pix.read webhook.write webhook.read", scope.ToScopeString());
         }
     }
 }
