@@ -17,7 +17,7 @@ namespace Sicoob.PIX.Models.Pix
         public string chave { get; set; }
         public DateTime horario { get; set; }
         public string nomePagador { get; set; }
-        public Pagador pagador { get; set; }
+        public NomeCpfCnpj pagador { get; set; }
         public Devolucao[] devolucoes { get; set; }
 
         public override string ToString()
@@ -38,12 +38,6 @@ namespace Sicoob.PIX.Models.Pix
         {
             public DateTime solicitacao { get; set; }
             public DateTime liquidacao { get; set; }
-        }
-        public class Pagador
-        {
-            public string nome { get; set; }
-            public string? cnpj { get; set; }
-            public string? cpf { get; set; }
         }
     }
 }
