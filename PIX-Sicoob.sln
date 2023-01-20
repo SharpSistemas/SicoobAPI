@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.PIX.Testes", "Sicoob.PIX.Testes\Sicoob.PIX.Testes.csproj", "{F4E1E8D3-9690-48C0-BDAB-8E89C6486BA1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.PIX", "Sicoob.PIX.Lib\Sicoob.PIX.csproj", "{31571823-D5E5-4F24-8A33-33006862268F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.PIX", "Sicoob.PIX\Sicoob.PIX.csproj", "{31571823-D5E5-4F24-8A33-33006862268F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.Shared.UnitTest", "Sicoob.Shared.UnitTest\Sicoob.Shared.UnitTest.csproj", "{C796024A-477D-460A-B511-D6188415FFA2}"
 EndProject

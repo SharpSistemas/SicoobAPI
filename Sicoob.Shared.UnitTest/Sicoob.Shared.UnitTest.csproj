@@ -22,7 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Sicoob.PIX.Lib\Sicoob.PIX.csproj" />
+	  <ProjectReference Include="..\Sicoob.Shared\Sicoob.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
