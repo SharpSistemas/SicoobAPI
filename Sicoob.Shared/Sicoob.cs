@@ -2,19 +2,17 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Sicoob.Shared;
 
-namespace Sicoob.PIX.Lib
+namespace Sicoob.Shared
 {
-    public class SicoobAPI
+    public class Sicoob
     {
-        private readonly Models.ConfiguracaoAPI config;
+        private readonly Models.Configuracao config;
         private ClientInfo clientAuth;
-        private ClientInfo clientApi;
 
         public DateTime ExpiresAtUTC { get; private set; }
 
-        public SicoobAPI(Models.ConfiguracaoAPI config)
+        public Sicoob(Models.Configuracao config)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
@@ -27,12 +25,15 @@ namespace Sicoob.PIX.Lib
             handler.ClientCertificates.Add(x509);
 
             clientAuth = new ClientInfo(config.UrlAutenticacao, handler);
-            clientApi = new ClientInfo(config.UrlApi, handler);
+            setupClients(handler);
 
             await atualizaCredenciaisAsync();
-
-            clientApi.SetHeader("x-sicoob-clientid", config.ClientId);
         }
+        protected virtual void setupClients(HttpClientHandler handler)
+        { }
+        protected virtual void atualizaClients(Models.Acesso.TokenResponse token)
+        { }
+
         private async Task atualizaCredenciaisAsync()
         {
             var response = await clientAuth.FormUrlEncodedPostAsync<Shared.Models.Acesso.TokenResponse>("token", new
@@ -42,25 +43,11 @@ namespace Sicoob.PIX.Lib
                 scope = config.Scope.ToScopeString(),
             });
             response.EnsureSuccessStatusCode();
-
-            clientApi.SetAuthorizationBearer(response.Data.access_token);
+            atualizaClients(response.Data);
             ExpiresAtUTC = DateTime.UtcNow.AddSeconds(response.Data.expires_in);
         }
         public async Task AtualizarCredenciaisAsync()
             => await atualizaCredenciaisAsync();
 
-        public async Task<Models.Pix.ConsultaResponse> ConsultarPIX(Models.Pix.ConsultaRequest consulta)
-        {
-            var response = await clientApi.GetAsync<Models.Pix.ConsultaResponse>("pix", consulta.ToKVP());
-            response.EnsureSuccessStatusCode();
-            return response.Data;
-        }
-
-        public async Task<Models.Pix.PixResponse> ConsultarPIX(string endToEndId)
-        {
-            var response = await clientApi.GetAsync<Models.Pix.PixResponse>($"pix/{endToEndId}");
-            response.EnsureSuccessStatusCode();
-            return response.Data;
-        }
     }
 }

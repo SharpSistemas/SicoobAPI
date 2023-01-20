@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Sicoob.PIX.Lib.Models;
+using Sicoob.Shared.Models;
 
-namespace Sicoob.PIX.UnitTest.ModelsTests.ConfiguracaoTests
+namespace Sicoob.Shared.UnitTest.ModelsTests.ConfiguracaoTests
 {
     public class ScopeTests
     {

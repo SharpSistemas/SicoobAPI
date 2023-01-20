@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Simple.API" Version="1.6.0" />
+  </ItemGroup>
+
 </Project>

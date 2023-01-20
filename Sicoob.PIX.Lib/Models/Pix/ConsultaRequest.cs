@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sicoob.Shared.Models.Geral;
+using System;
 
 namespace Sicoob.PIX.Lib.Models.Pix
 {
@@ -12,12 +13,7 @@ namespace Sicoob.PIX.Lib.Models.Pix
         public string? cpf { get; set; }
         public string? cnpj { get; set; }
 
-        public Paginacao? paginacao {get;set;}
+        public RequestPaginacao? paginacao {get;set;}
 
-    }
-    public class Paginacao
-    {
-        public int paginaAtual { get; set; }
-        public int itensPorPagina { get; set; }
     }
 }

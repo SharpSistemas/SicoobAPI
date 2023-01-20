@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.PIX.Testes", "Sicoob
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.PIX.Lib", "Sicoob.PIX.Lib\Sicoob.PIX.Lib.csproj", "{31571823-D5E5-4F24-8A33-33006862268F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.PIX.UnitTest", "Sicoob.PIX.UnitTest\Sicoob.PIX.UnitTest.csproj", "{C796024A-477D-460A-B511-D6188415FFA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sicoob.Shared.UnitTest", "Sicoob.PIX.UnitTest\Sicoob.Shared.UnitTest.csproj", "{C796024A-477D-460A-B511-D6188415FFA2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sicoob.Shared", "Sicoob.Shared\Sicoob.Shared.csproj", "{0466318D-33CF-46ED-8466-3809F01A97C3}"
 EndProject

@@ -1,27 +1,13 @@
-﻿using System;
+﻿using Sicoob.Shared.Models.Geral;
+using System;
 
 namespace Sicoob.PIX.Lib.Models.Pix
 {
     public class ConsultaResponse
     {
-        public Parametros parametros { get; set; }
+        public ResponseParametros parametros { get; set; }
         public PixResponse[] pix { get; set; }
 
-
-        public class Parametros
-        {
-            public DateTime inicio { get; set; }
-            public DateTime fim { get; set; }
-            public Paginacao paginacao { get; set; }
-        }
-
-        public class Paginacao
-        {
-            public int paginaAtual { get; set; }
-            public int itensPorPagina { get; set; }
-            public int quantidadeDePaginas { get; set; }
-            public int quantidadeTotalDeItens { get; set; }
-        }
     }
     public class PixResponse
     {
@@ -33,6 +19,11 @@ namespace Sicoob.PIX.Lib.Models.Pix
         public string nomePagador { get; set; }
         public Pagador pagador { get; set; }
         public Devolucao[] devolucoes { get; set; }
+
+        public override string ToString()
+        {
+            return $"{horario:g} {valor:C2} {nomePagador}";
+        }
 
         public class Devolucao
         {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Sicoob.PIX.Lib.Models
+namespace Sicoob.Shared.Models
 {
-    public class ConfiguracaoAPI
+    public class Configuracao
     {
         public string ClientId { get; set; }
 
@@ -10,8 +10,6 @@ namespace Sicoob.PIX.Lib.Models
         public string UrlCertificadoPFX { get; set; }
         public string CertificadoSenha { get; set; }
         public AuthorizationScope Scope { get; set; } = new AuthorizationScope();
-
-        public string UrlApi { get; set; } = "https://api.sicoob.com.br/pix/api/v2/";
 
     }
     public class AuthorizationScope

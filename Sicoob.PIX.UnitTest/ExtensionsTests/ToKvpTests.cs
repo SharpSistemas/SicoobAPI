@@ -1,22 +1,21 @@
 ﻿using NUnit.Framework;
-using Sicoob.Shared;
 using System.Linq;
 
-namespace Sicoob.PIX.UnitTest.ExtensionsTests
+namespace Sicoob.Shared.UnitTest.ExtensionsTests
 {
     public class ToKvpTests
     {
         [Test]
         public void Extensions_ToVKP_PixConsulta()
         {
-            var cons = new Lib.Models.Pix.ConsultaRequest()
+            var cons = new PIX.Lib.Models.Pix.ConsultaRequest()
             {
                 inicio = new System.DateTime(2020, 01, 01, 0, 0, 0, System.DateTimeKind.Utc),
                 fim = new System.DateTime(2021, 12, 31, 0, 0, 0, System.DateTimeKind.Utc),
 
                 cnpj = "17189722000139",
 
-                paginacao = new Lib.Models.Pix.Paginacao()
+                paginacao = new Models.Geral.RequestPaginacao()
                 {
                     paginaAtual = 0,
                     itensPorPagina = 200,
