@@ -1,6 +1,7 @@
 ﻿using Sicoob.Shared;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -26,20 +27,18 @@ namespace Sicoob.PIX
             clientApi.SetAuthorizationBearer(token.access_token);
         }
 
+        /* COB Payload */
+
+        /* COB */
+        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobranca(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca) => await ExecutaChamadaAsync(()
+            => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+
+        /* PIX */
         public async Task<Models.Pix.ConsultaResponse> ConsultarPIXAsync(Models.Pix.ConsultaRequest consulta)
-        {
-            await this.VeiricaAtualizaCredenciaisAsync();
-            var response = await clientApi.GetAsync<Models.Pix.ConsultaResponse>("/pix/api/v2/pix", consulta.ToKVP());
-            response.EnsureSuccessStatusCode();
-            return response.Data;
-        }
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.ConsultaResponse>("/pix/api/v2/pix", consulta.ToKVP()));
         public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
-        {
-            await this.VeiricaAtualizaCredenciaisAsync();
-            var response = await clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}");
-            response.EnsureSuccessStatusCode();
-            return response.Data;
-        }
+             => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
+
 
     }
 }
