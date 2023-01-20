@@ -1,6 +1,7 @@
 # APIs Sicoob
 Repositório para comunicação via API com o banco Sicoob
 
+## PIX
 ~~~C#
 // Cria configuração
 var cfg = new ConfiguracaoPIX()
