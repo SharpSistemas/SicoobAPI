@@ -22,7 +22,13 @@ namespace Sicoob.PIX.Models.Pix
 
         public override string ToString()
         {
-            return $"{horario:g} {valor:C2} {nomePagador}";
+            string dev = "";
+            if(devolucoes != null && devolucoes.Length > 0)
+            {
+                dev = $" [Dev:{dev.Length}]";
+            }
+
+            return $"{horario:g} {valor:C2} {nomePagador}{dev}";
         }
 
         public class Devolucao

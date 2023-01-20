@@ -31,6 +31,5 @@ namespace Sicoob.PIX.Models.Cobranca
         public string chave { get; set; }
         public string solicitacaoPagador { get; set; }
         public NomeValor[] infoAdicionais { get; set; }
-
     }
 }
