@@ -23,7 +23,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Sicoob.PIX.Lib\Sicoob.PIX.Lib.csproj" />
-		<ProjectReference Include="..\Sicoob.Shared\Sicoob.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

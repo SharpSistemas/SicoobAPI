@@ -9,7 +9,7 @@ namespace Sicoob.PIX.UnitTest.ExtensionsTests
         [Fact]
         public void Extensions_ToVKP_PixConsulta()
         {
-            var cons = new PIX.Lib.Models.Pix.ConsultaRequest()
+            var cons = new Lib.Models.Pix.ConsultaRequest()
             {
                 inicio = new System.DateTime(2020, 01, 01, 0, 0, 0, System.DateTimeKind.Utc),
                 fim = new System.DateTime(2021, 12, 31, 0, 0, 0, System.DateTimeKind.Utc),
