@@ -28,6 +28,12 @@ namespace PIX.Sicoob.Lib
             clientAuth = new ClientInfo(config.UrlAutenticacao, handler);
             clientApi = new ClientInfo(config.UrlApi, handler);
 
+            await atualizaCredenciaisAsync();
+
+            clientApi.SetHeader("x-sicoob-clientid", config.ClientId);
+        }
+        private async Task atualizaCredenciaisAsync()
+        {
             var response = await clientAuth.FormUrlEncodedPostAsync<Models.Acesso.TokenResponse>("token", new
             {
                 client_id = config.ClientId,
@@ -38,8 +44,9 @@ namespace PIX.Sicoob.Lib
 
             clientApi.SetAuthorizationBearer(response.Data.access_token);
             ExpiresAtUTC = DateTime.UtcNow.AddSeconds(response.Data.expires_in);
-            clientApi.SetHeader("x-sicoob-clientid", config.ClientId);
         }
+        public async Task AtualizarCredenciaisAsync()
+            => await atualizaCredenciaisAsync();
 
         public async Task<Models.Pix.ConsultaResponse> ConsultarPIX(Models.Pix.ConsultaRequest consulta)
         {
