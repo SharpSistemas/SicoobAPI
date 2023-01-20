@@ -1,5 +1,5 @@
-# Pix-Sicoob
-Repositório para PIX no Sicoob
+# APIs Sicoob
+Repositório para comunicação via API com o banco Sicoob
 
 ~~~C#
 // Cria configuração
