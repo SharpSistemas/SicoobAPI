@@ -1,5 +1,4 @@
-﻿using Sicoob.PIX.Models.Pix;
-using Sicoob.Shared.Models.Geral;
+﻿using Sicoob.Shared.Models.Geral;
 using System;
 
 namespace Sicoob.PIX.Models.Cobranca
@@ -18,6 +17,6 @@ namespace Sicoob.PIX.Models.Cobranca
     public class ConsultaResponse
     {
         public ResponseParametros parametros { get; set; }
-        public CobrancaCompleta[] pix { get; set; }
+        public CobrancaCompleta[] cobs { get; set; }
     }
 }

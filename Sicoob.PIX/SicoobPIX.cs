@@ -70,8 +70,8 @@ namespace Sicoob.PIX
         /// </summary>
         /// <param name="consulta">Dados da consulta</param>
         /// <returns>Lista de cobranças imediatas.</returns>
-        public async Task<Models.Pix.ConsultaResponse> ListarCobrancasAsync(Models.Cobranca.ConsultaRequest consulta)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.ConsultaResponse>("/pix/api/v2/cob", consulta.ToKVP()));
+        public async Task<Models.Cobranca.ConsultaResponse> ListarCobrancasAsync(Models.Cobranca.ConsultaRequest consulta)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Cobranca.ConsultaResponse>("/pix/api/v2/cob", consulta.ToKVP()));
 
 
         /* PIX */
