@@ -1,17 +1,17 @@
-﻿using Simple.API;
+﻿using Sicoob.Shared;
+using Sicoob.Shared.Models.Acesso;
+using Simple.API;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Sicoob.Shared;
-using Sicoob.Shared.Models.Acesso;
 
 namespace Sicoob.PIX
 {
     public sealed class SicoobPIX : Shared.Sicoob
     {
         private ClientInfo clientApi;
-        public Models.ConfiguracaoPIX ConfigApi { get; }
+        public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
 
-        public SicoobPIX(Models.ConfiguracaoPIX configApi)
+        public SicoobPIX(Shared.Models.ConfiguracaoAPI configApi)
             : base(configApi)
         {
             ConfigApi = configApi;

@@ -9,20 +9,20 @@ namespace Sicoob.Shared
     {
         public static KeyValuePair<string, string>[] ToKVP<T>(this T p) where T : class
             => toKVP(p).ToArray();
-        private static IEnumerable<KeyValuePair<string, string>> toKVP(object p, string prepend = null)
+        private static IEnumerable<KeyValuePair<string, string>> toKVP(object p, string? prepend = null)
         {
             var type = p.GetType();
 
             foreach (var prop in type.GetProperties())
             {
-                var value = prop.GetValue(p);
+                object? value = prop.GetValue(p);
                 if (value == null) continue;
 
                 string key;
                 if (prepend == null) key = prop.Name;
                 else key = prepend + prop.Name;
 
-                string sValue;
+                string? sValue;
                 if (prop.PropertyType.IsPrimitive)
                 {
 
@@ -67,6 +67,7 @@ namespace Sicoob.Shared
                     throw new NotImplementedException();
                 }
 
+                if (sValue == null) continue;
                 yield return new KeyValuePair<string, string>(
                     key: key,
                     value: sValue

@@ -8,6 +8,7 @@ namespace Sicoob.Shared
     public abstract class Sicoob
     {
         private readonly Models.Configuracao config;
+        private readonly HttpClientHandler httpHandler;
         private ClientInfo clientAuth;
 
         public DateTime ExpiresAtUTC { get; private set; }
@@ -17,18 +18,17 @@ namespace Sicoob.Shared
         public Sicoob(Models.Configuracao config)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
+
+            var x509 = new System.Security.Cryptography.X509Certificates.X509Certificate2(config.UrlCertificadoPFX, config.CertificadoSenha);
+            httpHandler = new HttpClientHandler();
+            httpHandler.ClientCertificates.Add(x509);
+
+            clientAuth = new ClientInfo(config.UrlAutenticacao, httpHandler);
         }
 
         public async Task SetupAsync()
         {
-            var handler = new HttpClientHandler();
-
-            var x509 = new System.Security.Cryptography.X509Certificates.X509Certificate2(config.UrlCertificadoPFX, config.CertificadoSenha);
-            handler.ClientCertificates.Add(x509);
-
-            clientAuth = new ClientInfo(config.UrlAutenticacao, handler);
-            setupClients(handler);
-
+            setupClients(httpHandler);
             await atualizaCredenciaisAsync();
         }
         protected abstract void setupClients(HttpClientHandler handler);

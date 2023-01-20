@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Sicoob.PIX;
-using Sicoob.PIX.Models;
+using Sicoob.Shared.Models;
 using System.IO;
 
 // carrega do disco
-var cfg = JsonConvert.DeserializeObject<ConfiguracaoPIX>(File.ReadAllText("config.json"));
+var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("config.json"));
 
 // salva no disco
 //File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg));

@@ -4,14 +4,19 @@ namespace Sicoob.Shared.Models
 {
     public class Configuracao
     {
-        public string ClientId { get; set; }
+        public string? ClientId { get; set; }
 
         public string UrlAutenticacao { get; set; } = "https://auth.sicoob.com.br/auth/realms/cooperado/protocol/openid-connect/";
-        public string UrlCertificadoPFX { get; set; }
-        public string CertificadoSenha { get; set; }
+        public string? UrlCertificadoPFX { get; set; }
+        public string? CertificadoSenha { get; set; }
         public AuthorizationScope Scope { get; set; } = new AuthorizationScope();
 
     }
+    public class ConfiguracaoAPI : Configuracao
+    {
+        public string UrlApi { get; set; } = "https://api.sicoob.com.br/";
+    }
+
     public class AuthorizationScope
     {
         /*

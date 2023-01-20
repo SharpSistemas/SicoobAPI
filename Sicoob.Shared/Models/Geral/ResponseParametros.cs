@@ -6,7 +6,7 @@ namespace Sicoob.Shared.Models.Geral
     {
         public DateTime inicio { get; set; }
         public DateTime fim { get; set; }
-        public Paginacao paginacao { get; set; }
+        public Paginacao? paginacao { get; set; }
 
         public class Paginacao
         {
