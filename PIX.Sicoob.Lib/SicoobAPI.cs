@@ -3,7 +3,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace PIX.Sicoob.Lib
+namespace Sicoob.PIX.Lib
 {
     public class SicoobAPI
     {

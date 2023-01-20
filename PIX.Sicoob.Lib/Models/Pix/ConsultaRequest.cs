@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PIX.Sicoob.Lib.Models.Pix
+namespace Sicoob.PIX.Lib.Models.Pix
 {
     public class ConsultaRequest
     {

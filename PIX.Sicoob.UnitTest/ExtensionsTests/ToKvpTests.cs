@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
-using PIX.Sicoob.Lib;
+using Sicoob.PIX.Lib;
 using System.Linq;
 
-namespace PIX.Sicoob.UnitTest.ExtensionsTests
+namespace Sicoob.PIX.UnitTest.ExtensionsTests
 {
     public class ToKvpTests
     {

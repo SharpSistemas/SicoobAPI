@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace PIX.Sicoob.Lib
+namespace Sicoob.PIX.Lib
 {
     public static class ClassToKVP
     {

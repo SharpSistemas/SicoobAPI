@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PIX.Sicoob.Lib.Models
+namespace Sicoob.PIX.Lib.Models
 {
     public class ConfiguracaoAPI
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace PIX.Sicoob.Lib
+namespace Sicoob.PIX.Lib
 {
     public static class ToRFC
     {

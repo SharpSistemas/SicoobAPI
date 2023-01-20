@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PIX.Sicoob.Lib.Models.Cobranca
+namespace Sicoob.PIX.Lib.Models.Cobranca
 {
     internal class CobrancaVencResponse
     {
