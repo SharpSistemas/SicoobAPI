@@ -1,12 +1,11 @@
-﻿using Sicoob.Shared;
+﻿using NUnit.Framework;
 using System.Linq;
-using Xunit;
 
-namespace Sicoob.PIX.UnitTest.ExtensionsTests
+namespace Sicoob.Shared.UnitTest.ExtensionsTests
 {
     public class ToKvpTests
     {
-        [Fact]
+        [Test]
         public void Extensions_ToVKP_PixConsulta()
         {
             var cons = new PIX.Lib.Models.Pix.ConsultaRequest()
@@ -16,7 +15,7 @@ namespace Sicoob.PIX.UnitTest.ExtensionsTests
 
                 cnpj = "17189722000139",
 
-                paginacao = new Shared.Models.Geral.RequestPaginacao()
+                paginacao = new Models.Geral.RequestPaginacao()
                 {
                     paginaAtual = 0,
                     itensPorPagina = 200,
@@ -28,7 +27,7 @@ namespace Sicoob.PIX.UnitTest.ExtensionsTests
 
             var expected = "inicio=2020-01-01T00:00:00.000+00:00;fim=2021-12-31T00:00:00.000+00:00;cnpj=17189722000139;paginacao.paginaAtual=0;paginacao.itensPorPagina=200";
 
-            Assert.Equal(str, expected);
+            Assert.That(str, Is.EqualTo(expected));
         }
     }
 }
