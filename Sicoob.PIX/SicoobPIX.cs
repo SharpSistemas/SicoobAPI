@@ -32,6 +32,10 @@ namespace Sicoob.PIX
         /* COB */
         public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobranca(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca) => await ExecutaChamadaAsync(()
             => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        public async Task<Models.Cobranca.RevisarCobrancaResponse> RevisarCobranca(string transactionId, Models.Cobranca.RevisarCobrancaRequest cobranca)
+        {
+            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<Models.Cobranca.RevisarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        }
 
         /* PIX */
         public async Task<Models.Pix.ConsultaResponse> ConsultarPIXAsync(Models.Pix.ConsultaRequest consulta)
