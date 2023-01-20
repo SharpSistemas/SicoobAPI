@@ -19,82 +19,55 @@ namespace Sicoob.Shared.Models
 
     public class AuthorizationScope
     {
-        /*
-        cob.write: Permissão para alteração de cobranças imediatas
-
-        cob.read: Permissão para consulta de cobranças imediatas
-
-        cobv.write: Permissão para alteração de cobranças com vencimento
-
-        cobv.read: Permissão para consulta de cobranças com vencimento
-
-        lotecobv.write: Permissão para alteração de lotes de cobranças com vencimento
-
-        lotecobv.read: Permissão para consulta de lotes de cobranças com vencimento
-        */
-
         /// <summary>
-        /// Permissão para alteração de cobranças imediatas
+        /// cob.write: Permissão para alteração de cobranças imediatas
         /// </summary>
         public bool COB_WRITE { get; set; }
         /// <summary>
-        /// Permissão para consulta de cobranças imediatas
+        /// cob.read: Permissão para consulta de cobranças imediatas
         /// </summary>
         public bool COB_READ { get; set; }
         /// <summary>
-        /// Permissão para alteração de cobranças com vencimento
+        /// cobv.write: Permissão para alteração de cobranças com vencimento
         /// </summary>
         public bool COBV_WRITE { get; set; }
         /// <summary>
-        /// Permissão para consulta de cobranças com vencimento
+        /// cobv.read: Permissão para consulta de cobranças com vencimento
         /// </summary>
         public bool COBV_READ { get; set; }
         /// <summary>
-        /// Permissão para alteração de lotes de cobranças com vencimento
+        /// lotecobv.write: Permissão para alteração de lotes de cobranças com vencimento
         /// </summary>
         public bool LOTE_COBV_WRITE { get; set; }
         /// <summary>
-        /// Permissão para consulta de lotes de cobranças com vencimento
+        /// lotecobv.read: Permissão para consulta de lotes de cobranças com vencimento
         /// </summary>
         public bool LOTE_COBV_READ { get; set; }
 
-        /*
-        pix.write: Permissão para alteração de Pix
-
-        pix.read: Permissão para consulta de Pix
-
-        webhook.read: Permissão para consulta do webhook
-
-        webhook.write: Permissão para alteração do webhook
-
-        payloadlocation.write: Permissão para alteração de payloads
-
-        payloadlocation.read: Permissão para consulta de payloads
-        */
         /// <summary>
-        /// Permissão para alteração de Pix
+        /// pix.write: Permissão para alteração de Pix
         /// </summary>
         public bool PIX_WRITE { get; set; }
         /// <summary>
-        /// Permissão para consulta de Pix
+        /// pix.read: Permissão para consulta de Pix
         /// </summary>
         public bool PIX_READ { get; set; }
 
         /// <summary>
-        /// Permissão para alteração do webhook
+        /// webhook.read: Permissão para alteração do webhook
         /// </summary>
         public bool WEBHOOK_WRITE { get; set; }
         /// <summary>
-        /// Permissão para consulta do webhook
+        /// webhook.write: Permissão para consulta do webhook
         /// </summary>
         public bool WEBHOOK_READ { get; set; }
 
         /// <summary>
-        /// Permissão para alteração de payloads
+        /// payloadlocation.write: Permissão para alteração de payloads
         /// </summary>
         public bool PAYLOAD_LOCATION_WRITE { get; set; }
         /// <summary>
-        /// Permissão para consulta de payloads
+        /// payloadlocation.read: Permissão para consulta de payloads
         /// </summary>
         public bool PAYLOAD_LOCATION_READ { get; set; }
 
