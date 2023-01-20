@@ -30,15 +30,26 @@ namespace Sicoob.PIX
         /* COB Payload */
 
         /* COB */
-        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobranca(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca) => await ExecutaChamadaAsync(()
+        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca) => await ExecutaChamadaAsync(()
             => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
-        public async Task<Models.Cobranca.RevisarCobrancaResponse> RevisarCobranca(string transactionId, Models.Cobranca.RevisarCobrancaRequest cobranca)
+        public async Task<Models.Cobranca.RevisarCobrancaResponse> RevisarCobrancaAsync(string transactionId, Models.Cobranca.RevisarCobrancaRequest cobranca)
+            => await ExecutaChamadaAsync(() => clientApi.PatchAsync<Models.Cobranca.RevisarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+
+        public async Task<Models.Cobranca.CobrancaCompleta> ConsultarCobrancaAsync(string transactionId, int? revisao)
         {
-            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<Models.Cobranca.RevisarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+            string url = $"/pix/api/v2/cob/{transactionId}";
+            if (revisao.HasValue) url += $"?revisao={revisao.Value}";
+
+            return await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Cobranca.CobrancaCompleta>(url));
         }
 
+
+        public async Task<Models.Pix.ConsultaResponse> ListarCobrancasAsync(Models.Cobranca.ConsultaRequest consulta)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.ConsultaResponse>("/pix/api/v2/cob", consulta.ToKVP()));
+
+
         /* PIX */
-        public async Task<Models.Pix.ConsultaResponse> ConsultarPIXAsync(Models.Pix.ConsultaRequest consulta)
+        public async Task<Models.Pix.ConsultaResponse> ListarPIXAsync(Models.Pix.ConsultaRequest consulta)
             => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.ConsultaResponse>("/pix/api/v2/pix", consulta.ToKVP()));
         public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
              => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));

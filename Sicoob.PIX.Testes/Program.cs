@@ -12,7 +12,7 @@ var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("confi
 var sicoob = new SicoobPIX(cfg);
 await sicoob.SetupAsync();
 
-var pixPeriodo = await sicoob.ConsultarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
+var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
 {
     inicio = new System.DateTime(2023, 01, 01),
     fim = new System.DateTime(2023, 01, 21),
