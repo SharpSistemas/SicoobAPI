@@ -11,6 +11,8 @@ namespace Sicoob.Shared
         private ClientInfo clientAuth;
 
         public DateTime ExpiresAtUTC { get; private set; }
+        public TimeSpan ExpiresIn => ExpiresAtUTC - DateTime.UtcNow;
+        public bool Expired => ExpiresIn.TotalSeconds < 0;
 
         public Sicoob(Models.Configuracao config)
         {
@@ -49,5 +51,9 @@ namespace Sicoob.Shared
         public async Task AtualizarCredenciaisAsync()
             => await atualizaCredenciaisAsync();
 
+        protected async Task VeiricaAtualizaCredenciaisAsync()
+        {
+            if (ExpiresIn.TotalSeconds < 5) await atualizaCredenciaisAsync();
+        }
     }
 }
