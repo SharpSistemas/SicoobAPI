@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PIX.Sicoob.Lib\Sicoob.PIX.Lib.csproj" />
+    <ProjectReference Include="..\Sicoob.PIX.Lib\Sicoob.PIX.Lib.csproj" />
   </ItemGroup>
 
 </Project>
