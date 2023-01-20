@@ -1,15 +1,18 @@
 # APIs Sicoob
 Repositório para comunicação via API com o banco Sicoob
 
+Link da documentação oficial: https://developers.sicoob.com.br
+
 ## PIX
+Exemplo de uso
 ~~~C#
 // Cria configuração
-var cfg = new ConfiguracaoPIX()
+var cfg = new ConfiguracaoAPI()
 {
-    ClientId  = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
-    Scope = new Sicoob.Shared.Models.AuthorizationScope()
+    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+    Scope = new AuthorizationScope()
     {
-         PIX_READ = true,
+        PIX_READ = true,
     },
     CertificadoSenha = "SenhaCertificado",
     UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
@@ -17,13 +20,12 @@ var cfg = new ConfiguracaoPIX()
 // cria objeto
 var sicoob = new SicoobPIX(cfg);
 // faz logon
-await sicoob.SetupAsync(); 
+await sicoob.SetupAsync();
 // executa consultas
-var pixPeriodo = await sicoob.ConsultarPIXAsync(new Sicoob.PIX.Lib.Models.Pix.ConsultaRequest()
+var pixPeriodo = await sicoob.ConsultarPIXAsync(new ConsultaRequest()
 {
     inicio = new System.DateTime(2020, 01, 01),
     fim = new System.DateTime(2020, 01, 31),
 });
-
 ~~~
 
