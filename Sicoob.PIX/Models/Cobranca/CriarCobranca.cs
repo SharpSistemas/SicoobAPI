@@ -7,6 +7,7 @@ namespace Sicoob.PIX.Models.Cobranca
     {
         public CalendarioRequest calendario { get; set; }
         public NomeCpfCnpj devedor { get; set; }
+        public LocRequest loc { get; set; }
         public Valor valor { get; set; }
         public string chave { get; set; }
         public string solicitacaoPagador { get; set; }
@@ -26,6 +27,7 @@ namespace Sicoob.PIX.Models.Cobranca
         /// </summary>
         public string status { get; set; }
         public Valor valor { get; set; }
+        public string brcode { get; set; }
         public string chave { get; set; }
         public string solicitacaoPagador { get; set; }
         public NomeValor[] infoAdicionais { get; set; }
