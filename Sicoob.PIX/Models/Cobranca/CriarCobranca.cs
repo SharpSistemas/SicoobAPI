@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Sicoob.Shared.Models.Geral;
+using System;
 
 namespace Sicoob.PIX.Models.Cobranca
 {
@@ -51,5 +52,16 @@ namespace Sicoob.PIX.Models.Cobranca
         public string chave { get; set; }
         public string solicitacaoPagador { get; set; }
         public NomeValor[] infoAdicionais { get; set; }
+
+
+        public CobrancaCompleta.ListaStatus ObterStatus()
+        {
+            if (!Enum.TryParse(status, out CobrancaCompleta.ListaStatus result))
+            {
+                result = CobrancaCompleta.ListaStatus.DESCONHECIDO;
+            }
+
+            return result;
+        }
     }
 }
