@@ -136,6 +136,7 @@ namespace Sicoob.PIX
         /// <returns>Lista de cobranças imediatas.</returns>
         public async Task<Models.Cobranca.ConsultaResponse> ListarCobrancasAsync(Models.Cobranca.ConsultaRequest consulta)
             => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Cobranca.ConsultaResponse>("/pix/api/v2/cob", consulta.ToKVP()));
+
         /// <summary>
         /// Endpoint para gerar a imagem qrcode de uma cobrança através de um determinado txid.
         /// </summary>
@@ -173,20 +174,29 @@ namespace Sicoob.PIX
         public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
              => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
 
+        /* Webhook */
+        public async Task CriarWebHook(string chave, string url)
+        {
+            await ExecutaChamadaAsync(() => clientApi.PutAsync($"/pix/api/v2/webhook/{chave}", new { webhookUrl = url }));
+        }
+        public async Task<string> ConsultarWebHooks()
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/pix/api/v2/webhook"));
+
+
         private static void validaTxID(string transactionId)
         {
             if (string.IsNullOrEmpty(transactionId))
             {
                 throw new ArgumentException($"'{nameof(transactionId)}' cannot be null or empty.", nameof(transactionId));
             }
-            
+
             // Mitiga ataque de negação de serviço no regex (processamento muito longo)
-            if(transactionId.Length > 100)
+            if (transactionId.Length > 100)
             {
                 throw new ArgumentException($"'{nameof(transactionId)}' comprimento inválido.", nameof(transactionId));
             }
             // CHeca Regex
-            if(!rxTxid.IsMatch(transactionId))
+            if (!rxTxid.IsMatch(transactionId))
             {
                 throw new ArgumentException($"'{nameof(transactionId)}' Não é valido na restrição \"{rxTxidPattern}\"", nameof(transactionId));
             }
