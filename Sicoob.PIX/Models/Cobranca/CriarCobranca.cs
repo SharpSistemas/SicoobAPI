@@ -17,7 +17,7 @@ namespace Sicoob.PIX.Models.Cobranca
 
         public NomeValor[] infoAdicionais { get; set; }
 
-        public static CriarCobrancaRequest Padrao(string chave, decimal valor, int expiracaoSegundos = 3600)
+        public static CriarCobrancaRequest Padrao(string chave, decimal valor, int expiracaoSegundos = 3600, string? solicitacaoPagador = null)
         {
             return new CriarCobrancaRequest()
             {
@@ -30,7 +30,8 @@ namespace Sicoob.PIX.Models.Cobranca
                 calendario = new CalendarioRequest()
                 {
                     expiracao = expiracaoSegundos,
-                }
+                },
+                solicitacaoPagador = solicitacaoPagador,
             };
         }
     }
