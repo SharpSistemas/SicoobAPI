@@ -13,6 +13,7 @@ var cfg = new ConfiguracaoAPI()
     Scope = new AuthorizationScope()
     {
         PIX_READ = true,
+        COB_READ = true,
     },
     CertificadoSenha = "SenhaCertificado",
     UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
