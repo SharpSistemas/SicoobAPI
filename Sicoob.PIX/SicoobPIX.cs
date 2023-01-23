@@ -180,7 +180,9 @@ namespace Sicoob.PIX
             await ExecutaChamadaAsync(() => clientApi.PutAsync($"/pix/api/v2/webhook/{chave}", new { webhookUrl = url }));
         }
         public async Task<string> ConsultarWebHooks()
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/pix/api/v2/webhook"));
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>("/pix/api/v2/webhook"));
+        public async Task<string> ConsultarWebHook(string chave)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/pix/api/v2/webhook/{chave}"));
 
 
         private static void validaTxID(string transactionId)
