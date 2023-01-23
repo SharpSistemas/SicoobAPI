@@ -22,6 +22,7 @@ namespace Sicoob.PIX
         protected override void setupClients(HttpClientHandler handler)
         {
             clientApi = new ClientInfo(ConfigApi.UrlApi, handler);
+            clientApi.SetHeader("x-sicoob-clientid", ConfigApi.ClientId);
 
 #if DEBUG
             enableDebug(clientApi);
