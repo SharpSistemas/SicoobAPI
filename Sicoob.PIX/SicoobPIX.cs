@@ -12,6 +12,17 @@ namespace Sicoob.PIX
 {
     public sealed class SicoobPIX : Shared.Sicoob
     {
+        // Documentações
+        // > APIs tipo "Swagger":
+        //   https://developers.sicoob.com.br/#!/apis
+        // > APIs no POSTMAN:
+        //   https://documenter.getpostman.com/view/20565799/UzBnrmod#239d9f68-d646-4209-994a-cd564b6d6d1a
+        // Auxiliares
+        // > Parseia BR Code para debugar:
+        //   https://openpix.com.br/qrcode/scanner/
+        // > Gera QR para teste:
+        //   https://webqr.com/create.html
+
         private ClientInfo clientApi;
         public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
 
