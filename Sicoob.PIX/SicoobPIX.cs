@@ -43,7 +43,16 @@ namespace Sicoob.PIX
         }
         private void ClientApi_BeforeSend(object sender, HttpRequestMessage e)
         {
-            debugLog(">>", $"[{e.Method}] {e.RequestUri}");
+            string content = "";
+            if(e.Content != null)
+            {
+                if(e.Content is StringContent strCnt)
+                {
+                    content = strCnt.ReadAsStringAsync().Result;
+                }
+            }
+
+            debugLog(">>", $"[{e.Method}] {e.RequestUri} {content}");
         }
         private void debugLog(string direciton, string content)
         {
