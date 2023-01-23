@@ -4,6 +4,8 @@ using Simple.API;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Sicoob.PIX
@@ -12,6 +14,9 @@ namespace Sicoob.PIX
     {
         private ClientInfo clientApi;
         public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
+
+        private static readonly string rxTxidPattern = "^[a-zA-Z0-9]{26,35}$";
+        private static readonly Regex rxTxid = new Regex(rxTxidPattern, RegexOptions.Compiled);
 
         public SicoobPIX(Shared.Models.ConfiguracaoAPI configApi)
             : base(configApi)
@@ -44,9 +49,9 @@ namespace Sicoob.PIX
         private void ClientApi_BeforeSend(object sender, HttpRequestMessage e)
         {
             string content = "";
-            if(e.Content != null)
+            if (e.Content != null)
             {
-                if(e.Content is StringContent strCnt)
+                if (e.Content is StringContent strCnt)
                 {
                     content = strCnt.ReadAsStringAsync().Result;
                 }
@@ -65,8 +70,6 @@ namespace Sicoob.PIX
             clientApi.SetAuthorizationBearer(token.access_token);
         }
 
-        /* COB Payload */
-
         /* COB */
 
         /// <summary>
@@ -76,7 +79,11 @@ namespace Sicoob.PIX
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
         public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca)
-            => await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        {
+            validaTxID(transactionId);
+            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        }
+
         /// <summary>
         /// Endpoint para criar uma cobrança imediata, neste caso, o txid deve ser definido pelo PSP.
         /// </summary>
@@ -91,15 +98,21 @@ namespace Sicoob.PIX
         /// <param name="cobranca">Dados para geração da cobrança</param>
         /// <returns>Cobrança imediata revisada. A revisão deve ser incrementada em 1.</returns>
         public async Task<Models.Cobranca.RevisarCobrancaResponse> RevisarCobrancaAsync(string transactionId, Models.Cobranca.RevisarCobrancaRequest cobranca)
-            => await ExecutaChamadaAsync(() => clientApi.PatchAsync<Models.Cobranca.RevisarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        {
+            validaTxID(transactionId);
+            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<Models.Cobranca.RevisarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        }
+
         /// <summary>
         /// Endpoint para consultar uma cobrança através de um determinado txid.
         /// </summary>
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
         /// <param name="revisao">Revisao a ser consultada</param>
         /// <returns>Dados da cobrança imediata</returns>
-        public async Task<Models.Cobranca.CobrancaCompleta> ConsultarCobrancaAsync(string transactionId, int? revisao)
+        public async Task<Models.Cobranca.CobrancaCompleta> ConsultarCobrancaAsync(string transactionId, int? revisao = null)
         {
+            validaTxID(transactionId);
+
             string url = $"/pix/api/v2/cob/{transactionId}";
             if (revisao.HasValue) url += $"?revisao={revisao.Value}";
 
@@ -119,8 +132,9 @@ namespace Sicoob.PIX
         /// <param name="revisao">Revisao a ser consultada</param>
         /// <param name="largura">Largura da imagem a ser exibida</param>
         /// <returns>Bytes da imagem codificada em PNG</returns>
-        public async Task<byte[]> ConsultarImagemCobrancaAsync(string transactionId, int? revisao, int? largura)
+        public async Task<byte[]> ConsultarImagemCobrancaAsync(string transactionId, int? revisao = null, int? largura = null)
         {
+            validaTxID(transactionId);
             string url = $"/pix/api/v2/cob/{transactionId}/imagem";
 
             return await ExecutaChamadaAsync(() => clientApi.GetAsync<byte[]>(url, new { revisao, largura }.ToKVP()));
@@ -147,6 +161,25 @@ namespace Sicoob.PIX
         public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
              => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
 
+        private static void validaTxID(string transactionId)
+        {
+            if (string.IsNullOrEmpty(transactionId))
+            {
+                throw new ArgumentException($"'{nameof(transactionId)}' cannot be null or empty.", nameof(transactionId));
+            }
+            
+            // Mitiga ataque de negação de serviço no regex (processamento muito longo)
+            if(transactionId.Length > 100)
+            {
+                throw new ArgumentException($"'{nameof(transactionId)}' comprimento inválido.", nameof(transactionId));
+            }
+            // CHeca Regex
+            if(!rxTxid.IsMatch(transactionId))
+            {
+                throw new ArgumentException($"'{nameof(transactionId)}' Não é valido na restrição \"{rxTxidPattern}\"", nameof(transactionId));
+            }
+
+        }
 
     }
 }
