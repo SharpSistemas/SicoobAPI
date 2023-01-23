@@ -1,6 +1,8 @@
 ﻿using Sicoob.Shared;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
+using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -20,7 +22,34 @@ namespace Sicoob.PIX
         protected override void setupClients(HttpClientHandler handler)
         {
             clientApi = new ClientInfo(ConfigApi.UrlApi, handler);
+
+#if DEBUG
+            enableDebug(clientApi);
+#endif
+
         }
+
+#if DEBUG
+        private void enableDebug(ClientInfo clientApi)
+        {
+            clientApi.BeforeSend += ClientApi_BeforeSend;
+            clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
+            debugLog("", "SETUP START");
+        }
+        private void ClientApi_ResponseDataReceived(object sender, ClientInfo.ResponseReceived e)
+        {
+            debugLog("<<", $"[{e.StatusCode}] RECV: {e.Content}");
+        }
+        private void ClientApi_BeforeSend(object sender, HttpRequestMessage e)
+        {
+            debugLog(">>", $"[{e.Method}] {e.RequestUri}");
+        }
+        private void debugLog(string direciton, string content)
+        {
+            File.AppendAllText("debug.log", $"{DateTime.Now:G} {direciton} {content}\r\n");
+        }
+#endif
+
         protected override void atualizaClients(TokenResponse token)
         {
             clientApi.SetAuthorizationBearer(token.access_token);
@@ -36,15 +65,15 @@ namespace Sicoob.PIX
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix</param>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca) => await ExecutaChamadaAsync(()
-            => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca)
+            => await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
         /// <summary>
         /// Endpoint para criar uma cobrança imediata, neste caso, o txid deve ser definido pelo PSP.
         /// </summary>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(Models.Cobranca.CriarCobrancaRequest cobranca) => await ExecutaChamadaAsync(()
-            => clientApi.PostAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob", cobranca));
+        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(Models.Cobranca.CriarCobrancaRequest cobranca)
+            => await ExecutaChamadaAsync(() => clientApi.PostAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob", cobranca));
         /// <summary>
         /// Endpoint para revisar uma cobrança através de um determinado txid.
         /// </summary>
