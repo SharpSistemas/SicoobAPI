@@ -66,5 +66,11 @@ namespace Sicoob.Shared
             response.EnsureSuccessStatusCode();
             return response.Data;
         }
+        protected async Task ExecutaChamadaAsync(Func<Task<Response>> func)
+        {
+            await VeiricaAtualizaCredenciaisAsync();
+            Response response = await func();
+            response.EnsureSuccessStatusCode();
+        }
     }
 }
