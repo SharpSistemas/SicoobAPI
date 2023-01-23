@@ -1,8 +1,9 @@
-﻿using Sicoob.Shared.Models.Geral;
-using System;
+﻿using Newtonsoft.Json;
+using Sicoob.Shared.Models.Geral;
 
 namespace Sicoob.PIX.Models.Cobranca
 {
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class CriarCobrancaRequest
     {
         public CalendarioRequest calendario { get; set; }
@@ -10,8 +11,27 @@ namespace Sicoob.PIX.Models.Cobranca
         public LocRequest loc { get; set; }
         public Valor valor { get; set; }
         public string chave { get; set; }
-        public string solicitacaoPagador { get; set; }
+
+        public string? solicitacaoPagador { get; set; }
+
         public NomeValor[] infoAdicionais { get; set; }
+
+        public static CriarCobrancaRequest Padrao(string chave, decimal valor, int expiracaoSegundos = 3600)
+        {
+            return new CriarCobrancaRequest()
+            {
+                chave = chave,
+                valor = new Valor()
+                {
+                    original = valor,
+                    modalidadeAlteracao = 0 // não pode mudar
+                },
+                calendario = new CalendarioRequest()
+                {
+                    expiracao = expiracaoSegundos,
+                }
+            };
+        }
     }
 
     public class CriarCobrancaResponse
