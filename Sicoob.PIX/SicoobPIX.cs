@@ -57,6 +57,7 @@ namespace Sicoob.PIX
         /// Endpoint para consultar uma cobrança através de um determinado txid.
         /// </summary>
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
+        /// <param name="revisao">Revisao a ser consultada</param>
         /// <returns>Dados da cobrança imediata</returns>
         public async Task<Models.Cobranca.CobrancaCompleta> ConsultarCobrancaAsync(string transactionId, int? revisao)
         {
@@ -72,7 +73,23 @@ namespace Sicoob.PIX
         /// <returns>Lista de cobranças imediatas.</returns>
         public async Task<Models.Cobranca.ConsultaResponse> ListarCobrancasAsync(Models.Cobranca.ConsultaRequest consulta)
             => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Cobranca.ConsultaResponse>("/pix/api/v2/cob", consulta.ToKVP()));
+        /// <summary>
+        /// Endpoint para gerar a imagem qrcode de uma cobrança através de um determinado txid.
+        /// </summary>
+        /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
+        /// <param name="revisao">Revisao a ser consultada</param>
+        /// <param name="largura">Largura da imagem a ser exibida</param>
+        /// <returns>Bytes da imagem codificada em PNG</returns>
+        public async Task<byte[]> ConsultarImagemCobrancaAsync(string transactionId, int? revisao, int? largura)
+        {
+            string url = $"/pix/api/v2/cob/{transactionId}/imagem";
 
+            return await ExecutaChamadaAsync(() => clientApi.GetAsync<byte[]>(url, new { revisao, largura }.ToKVP()));
+        }
+
+        /* COBV */
+
+        /* COBV-Lote */
 
         /* PIX */
 
