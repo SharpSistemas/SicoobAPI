@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Sicoob.PIX.Models.Cobranca
 {
@@ -33,7 +34,16 @@ namespace Sicoob.PIX.Models.Cobranca
 
     public class Valor
     {
+        [JsonIgnore]
         public decimal original { get; set; }
+
+        [JsonProperty(PropertyName = "original")]
+        public string valor_para_serializacao
+        {
+            get { return original.ToString(System.Globalization.CultureInfo.InvariantCulture); }
+            set { original = decimal.Parse(value, System.Globalization.CultureInfo.InvariantCulture); }
+        }
+
         public int modalidadeAlteracao { get; set; }
     }
 
