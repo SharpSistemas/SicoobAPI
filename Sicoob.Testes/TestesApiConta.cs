@@ -24,8 +24,9 @@ public static class TestesApiConta
         var cCorrente = new SicoobContaCorrente(cfg);
         await cCorrente.SetupAsync();
 
-        var extrato = await cCorrente.ObterExtratoAsync(1, 2020, "00000");
-        var saldo = await cCorrente.ObterSaldoAsync("00000");
+        var saldo = await cCorrente.ObterSaldoAsync();
+        var extrato = await cCorrente.ObterExtratoAsync(12, 2022);
+        extrato = extrato;
     }
     public static async Task Run_ContaPoupanca()
     {
@@ -38,12 +39,14 @@ public static class TestesApiConta
         //    CertificadoSenha = "SenhaCertificado",
         //    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
         //};
-        //File.WriteAllText("config_CP.json", JsonConvert.SerializeObject(cfg));
+        cfg.Scope.RemoverTodos().CPOUPANCA_Setar(true);
+        File.WriteAllText("config_CP.json", JsonConvert.SerializeObject(cfg));
 
-        var cCorrente = new SicoobContaPoupanca(cfg);
-        await cCorrente.SetupAsync();
+        var cPoupanca = new SicoobContaPoupanca(cfg);
+        await cPoupanca.SetupAsync();
 
-        var extrato = await cCorrente.ObterExtratoAsync(1, 2020, "00000");
-        var saldo = await cCorrente.ObterSaldoAsync("00000");
+        var lista = await cPoupanca.ListarContasAsync();
+        var extrato = await cPoupanca.ObterExtratoAsync(1, 2020, "00000");
+        var saldo = await cPoupanca.ObterSaldoAsync("00000");
     }
 }
