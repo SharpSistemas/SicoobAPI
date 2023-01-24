@@ -1,6 +1,7 @@
 ﻿using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Sicoob.Conta
 {
@@ -31,6 +32,11 @@ namespace Sicoob.Conta
         {
             clientApi.SetAuthorizationBearer(token.access_token);
         }
+
+        public async Task<string> ObterSaldoAsync(string contaPoupanca)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/poupanca/v1/contas/{contaPoupanca}/saldo"));
+        public async Task<string> ObterExtratoAsync(int mes, int ano, string contaPoupanca)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/poupanca/v1/contas/{contaPoupanca}/extrato/{mes}/{ano}"));
 
     }
 }
