@@ -10,14 +10,11 @@ Exemplo de uso
 var cfg = new ConfiguracaoAPI()
 {
     ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
-    Scope = new AuthorizationScope()
-    {
-        PIX_READ = true,
-        COB_READ = true,
-    },
+    Scope = AuthorizationScope.ReadOnly(),
     CertificadoSenha = "SenhaCertificado",
     UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
 };
+
 // cria objeto
 var sicoob = new SicoobPIX(cfg);
 // Configura acesso das APIs
