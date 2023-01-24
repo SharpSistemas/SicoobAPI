@@ -1,3 +1,4 @@
+
 # APIs Sicoob
 Repositório para comunicação via API com o banco Sicoob
 
@@ -18,19 +19,20 @@ O Sicoob possui APIs para:
 * PIX
 * Cobrança Bancária (Boleto)
 * Conta Corrente
-* Poupança
+* Conta Poupança
 
-API PIX:
+Badges:
 
 [![.NET](https://github.com/SharpSistemas/SicoobAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SharpSistemas/SicoobAPI)
+
+API PIX:
 [![NuGet](https://buildstats.info/nuget/Sicoob.PIX)](https://www.nuget.org/packages/Sicoob.PIX)
 
-API Cobrança: Em Breve
+API Cobrança: 
+[![NuGet](https://buildstats.info/nuget/Sicoob.Cobranca)](https://www.nuget.org/packages/Sicoob.Cobranca)
 
-API Conta Corrente: Em Breve
-
-API Conta Poupança: Em Breve
-
+API Conta Corrente e Poupança: 
+[![NuGet](https://buildstats.info/nuget/Sicoob.Conta)](https://www.nuget.org/packages/Sicoob.Conta)
 
 A documentação do Sicoob é falha, imcompleta e em alguns tópicos é completamente ausente.
 O Gerente não tem acesso à documentação, o WhatsApp das APIs manda solicitar via e-mail, e o e-mails não são respondidos.
