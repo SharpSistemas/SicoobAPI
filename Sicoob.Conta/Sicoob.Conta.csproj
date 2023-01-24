@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<Nullable>warnings</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Version>0.0.1-alpha</Version>
+		<Authors>RafaelEstevam.Net</Authors>
+		<Company>SHARP SISTEMAS LTDA</Company>
+		<Product>Sicoob Conta for C#</Product>
+		<Description>C# implementation for Bank Account with SICOOB</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/SharpSistemas/SicoobAPI</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/SharpSistemas/SicoobAPI</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Simple API client</PackageTags>
+		<PackageReleaseNotes>
+			See examples and documentation on the GitHub page
+			https://github.com/SharpSistemas/SicoobAPI
+		</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Simple.API" Version="1.6.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Sicoob.Shared\Sicoob.Shared.csproj" />
+	</ItemGroup>
+</Project>
