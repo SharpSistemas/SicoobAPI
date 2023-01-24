@@ -19,62 +19,92 @@ namespace Sicoob.Shared.Models
 
     public class AuthorizationScope
     {
+        /* API PIX */
         /// <summary>
-        /// cob.write: Permissão para alteração de cobranças imediatas
+        /// [API PIX] cob.write: Permissão para alteração de cobranças imediatas
         /// </summary>
         public bool COB_WRITE { get; set; }
         /// <summary>
-        /// cob.read: Permissão para consulta de cobranças imediatas
+        /// [API PIX] cob.read: Permissão para consulta de cobranças imediatas
         /// </summary>
         public bool COB_READ { get; set; }
         /// <summary>
-        /// cobv.write: Permissão para alteração de cobranças com vencimento
+        /// [API PIX] cobv.write: Permissão para alteração de cobranças com vencimento
         /// </summary>
         public bool COBV_WRITE { get; set; }
         /// <summary>
-        /// cobv.read: Permissão para consulta de cobranças com vencimento
+        /// [API PIX] cobv.read: Permissão para consulta de cobranças com vencimento
         /// </summary>
         public bool COBV_READ { get; set; }
         /// <summary>
-        /// lotecobv.write: Permissão para alteração de lotes de cobranças com vencimento
+        /// [API PIX] lotecobv.write: Permissão para alteração de lotes de cobranças com vencimento
         /// </summary>
         public bool LOTE_COBV_WRITE { get; set; }
         /// <summary>
-        /// lotecobv.read: Permissão para consulta de lotes de cobranças com vencimento
+        /// [API PIX] lotecobv.read: Permissão para consulta de lotes de cobranças com vencimento
         /// </summary>
         public bool LOTE_COBV_READ { get; set; }
 
         /// <summary>
-        /// pix.write: Permissão para alteração de Pix
+        /// [API PIX] pix.write: Permissão para alteração de Pix
         /// </summary>
         public bool PIX_WRITE { get; set; }
         /// <summary>
-        /// pix.read: Permissão para consulta de Pix
+        /// [API PIX] pix.read: Permissão para consulta de Pix
         /// </summary>
         public bool PIX_READ { get; set; }
 
         /// <summary>
-        /// webhook.read: Permissão para alteração do webhook
+        /// [API PIX] webhook.read: Permissão para alteração do webhook
         /// </summary>
         public bool WEBHOOK_WRITE { get; set; }
         /// <summary>
-        /// webhook.write: Permissão para consulta do webhook
+        /// [API PIX] webhook.write: Permissão para consulta do webhook
         /// </summary>
         public bool WEBHOOK_READ { get; set; }
 
         /// <summary>
-        /// payloadlocation.write: Permissão para alteração de payloads
+        /// [API PIX] payloadlocation.write: Permissão para alteração de payloads
         /// </summary>
         public bool PAYLOAD_LOCATION_WRITE { get; set; }
         /// <summary>
-        /// payloadlocation.read: Permissão para consulta de payloads
+        /// [API PIX] payloadlocation.read: Permissão para consulta de payloads
         /// </summary>
         public bool PAYLOAD_LOCATION_READ { get; set; }
+
+        /* API Conta Corrente */
+        /// <summary>
+        /// [API Conta Corrente] openid: Escopo de acesso para Logon para Conta Corrente
+        /// </summary>
+        public bool OPENID { get; set; }
+        /// <summary>
+        /// [API Conta Corrente] cco_extrato: Acessa dados do Extrato
+        /// </summary>
+        public bool CCO_EXTRATO { get; set; }
+        /// <summary>
+        /// [API Conta Corrente] cco_saldo: Acessa dados do Saldo
+        /// </summary>
+        public bool CCO_SALDO { get; set; }
+
+        /* API Poupança */
+        /// <summary>
+        /// [API Conta Poupança] poupanca_contas: Acessa dados das Contas
+        /// </summary>
+        public bool POUPANCA_CONTAS { get; set; }
+        /// <summary>
+        /// [API Conta Poupança] poupanca_extrato: Acessa dados do Extrato
+        /// </summary>
+        public bool POUPANCA_EXTRATO { get; set; }
+        /// <summary>
+        /// [API Conta Poupança] poupanca_saldo: Acessa dados do Saldo
+        /// </summary>
+        public bool POUPANCA_SALDO { get; set; }
 
         public string[] ToScope()
         {
             List<string> lst = new List<string>();
 
+            /* API PIX */
             if (COB_WRITE) lst.Add("cob.write");
             if (COB_READ) lst.Add("cob.read");
 
@@ -93,6 +123,16 @@ namespace Sicoob.Shared.Models
             if (PAYLOAD_LOCATION_WRITE) lst.Add("payloadlocation.write");
             if (PAYLOAD_LOCATION_READ) lst.Add("payloadlocation.read");
 
+            /* API Conta Corrente */
+            if (OPENID) lst.Add("openid");
+            if (CCO_EXTRATO) lst.Add("cco_extrato");
+            if (CCO_SALDO) lst.Add("cco_saldo");
+
+            /* API Poupança */
+            if (POUPANCA_CONTAS) lst.Add("poupanca_contas");
+            if (POUPANCA_EXTRATO) lst.Add("poupanca_extrato");
+            if (POUPANCA_SALDO) lst.Add("poupanca_saldo");
+
             return lst.ToArray();
         }
         public string ToScopeString()
@@ -100,44 +140,44 @@ namespace Sicoob.Shared.Models
             return string.Join(' ', ToScope());
         }
 
-        public AuthorizationScope SetarPIX(bool valor)
+        public AuthorizationScope PIX_SetarPIX(bool valor)
         {
             PIX_READ = valor;
             PIX_WRITE = valor;
             return this;
         }
-        public AuthorizationScope SetarCOB(bool valor)
+        public AuthorizationScope PIX_SetarCOB(bool valor)
         {
             COB_READ = valor;
             COB_WRITE = valor;
             return this;
         }
-        public AuthorizationScope SetarCOBV(bool valor)
+        public AuthorizationScope PIX_SetarCOBV(bool valor)
         {
             COBV_READ = valor;
             COBV_WRITE = valor;
             return this;
         }
-        public AuthorizationScope SetarLote(bool valor)
+        public AuthorizationScope PIX_SetarLote(bool valor)
         {
             LOTE_COBV_READ = valor;
             LOTE_COBV_WRITE = valor;
             return this;
         }
-        public AuthorizationScope SetarWebhook(bool valor)
+        public AuthorizationScope PIX_SetarWebhook(bool valor)
         {
             WEBHOOK_READ = valor;
             WEBHOOK_WRITE = valor;
             return this;
         }
-        public AuthorizationScope SetarPayload(bool valor)
+        public AuthorizationScope PIX_SetarPayload(bool valor)
         {
             PAYLOAD_LOCATION_READ = valor;
             PAYLOAD_LOCATION_WRITE = valor;
             return this;
         }
-
-        public AuthorizationScope Setar_Write(bool valor)
+                                  
+        public AuthorizationScope PIX_Setar_Write(bool valor)
         {
             COB_WRITE = valor;
             COBV_WRITE = valor;
@@ -148,7 +188,7 @@ namespace Sicoob.Shared.Models
             PAYLOAD_LOCATION_WRITE = valor;
             return this;
         }
-        public AuthorizationScope Setar_Read(bool valor)
+        public AuthorizationScope PIX_Setar_Read(bool valor)
         {
             COB_READ = valor;
             COBV_READ = valor;
@@ -157,27 +197,47 @@ namespace Sicoob.Shared.Models
             WEBHOOK_READ = valor;
             PAYLOAD_LOCATION_READ = valor;
             return this;
+        }
+
+        public AuthorizationScope CCORRENTE_Setar(bool valor)
+        {
+            OPENID = valor;
+            CCO_EXTRATO = valor;
+            CCO_SALDO = valor;
+            return this;
+        }
+        public AuthorizationScope CPOUPANCA_Setar(bool valor)
+        {
+            POUPANCA_CONTAS = valor;
+            POUPANCA_EXTRATO = valor;
+            POUPANCA_SALDO = valor;
+            return this;
+        }
+
+        public AuthorizationScope RemoverTodos()
+        {
+            return setarTodosComo(false);
+        }
+
+        public static AuthorizationScope PIX_ReadOnly()
+        {
+            return new AuthorizationScope().setarTodosComo(false).PIX_Setar_Read(true);
         }
 
         public static AuthorizationScope Nenhum()
         {
-            return setarTodosComo(false);
+            return new AuthorizationScope().setarTodosComo(false);
         }
         public static AuthorizationScope Todos()
         {
-            return setarTodosComo(true);
-        }
-        public static AuthorizationScope ReadOnly()
-        {
-            return setarTodosComo(false).Setar_Read(true);
+            return new AuthorizationScope().setarTodosComo(true);
         }
 
         /// <summary>
         /// Seta todos independente de novas propriedades serem criadas
         /// </summary>
-        private static AuthorizationScope setarTodosComo(bool valor)
+        private AuthorizationScope setarTodosComo(bool valor)
         {
-            var obj = new AuthorizationScope();
             var t = typeof(AuthorizationScope);
             foreach (var p in t.GetProperties())
             {
@@ -185,9 +245,9 @@ namespace Sicoob.Shared.Models
                 if (!p.CanWrite) continue;
                 if (p.PropertyType != typeof(bool)) continue;
 
-                p.SetValue(obj, valor);
+                p.SetValue(this, valor);
             }
-            return obj;
+            return this;
         }
 
     }
