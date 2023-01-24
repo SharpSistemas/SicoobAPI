@@ -10,8 +10,8 @@ Para isso é necessário ter os dados bancarios da conta a ser automatizada e de
 Cada conta bancária a ser automatizada deve ter um cadastro como Aplicaitvo
 
 É necessário ter o certificado em dois formatos: 
-* PFX (padrão quando um certificado A1 é adiquirido) com a senha e;
-* PEM (apenas a chave pública)
+* *.PFX (padrão quando um certificado A1 é adiquirido) com a senha e;
+* *.CER (apenas a chave pública em formato Base-64)
 
 Durante o cadastro será informado os dados da conta bancária sendo automatizada e o certificado no formato PEM. Será gerado um `ClientId`.
 
