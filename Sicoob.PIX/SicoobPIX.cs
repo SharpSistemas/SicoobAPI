@@ -176,14 +176,31 @@ namespace Sicoob.PIX
              => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
 
         /* Webhook */
+        /// <summary>
+        /// Endpoint para configuração do serviço de notificações acerca de Pix recebidos. 
+        /// Somente Pix associados a um txid serão notificados.
+        /// </summary>
+        /// <param name="chave">Chave a ser associada</param>
+        /// <param name="url">Url a ser chamada com POST. Será concatenado `/pix` ao final.</param>
         public async Task CriarWebHook(string chave, string url)
         {
             await ExecutaChamadaAsync(() => clientApi.PutAsync($"/pix/api/v2/webhook/{chave}", new { webhookUrl = url }));
         }
+        /// <summary>
+        /// Endpoint para consultar Webhooks cadastrados
+        /// </summary>
         public async Task<WebhookListResponse> ConsultarWebHooks()
             => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookListResponse>("/pix/api/v2/webhook"));
+        /// <summary>
+        /// Endpoint para recuperação de informações sobre o Webhook Pix.
+        /// </summary>
         public async Task<WebhookResponse> ConsultarWebHook(string chave)
             => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookResponse>($"/pix/api/v2/webhook/{chave}"));
+        /// <summary>
+        /// Endpoint para cancelamento do webhook. Não é a única forma pela qual um webhook pode ser removido.
+        /// </summary>
+        public async Task CancelarWebHook(string chave)
+            => await ExecutaChamadaAsync(() => clientApi.DeleteAsync($"/pix/api/v2/webhook/{chave}"));
 
         private static void validaTxID(string transactionId)
         {
