@@ -7,10 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Folder Include="Models\Webhook\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Simple.API" Version="1.6.1" />
 	</ItemGroup>
 
