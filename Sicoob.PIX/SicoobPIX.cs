@@ -1,4 +1,5 @@
-﻿using Sicoob.Shared;
+﻿using Sicoob.PIX.Models.Webhook;
+using Sicoob.Shared;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System;
@@ -179,11 +180,10 @@ namespace Sicoob.PIX
         {
             await ExecutaChamadaAsync(() => clientApi.PutAsync($"/pix/api/v2/webhook/{chave}", new { webhookUrl = url }));
         }
-        public async Task<string> ConsultarWebHooks()
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>("/pix/api/v2/webhook"));
-        public async Task<string> ConsultarWebHook(string chave)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/pix/api/v2/webhook/{chave}"));
-
+        public async Task<WebhookListResponse> ConsultarWebHooks()
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookListResponse>("/pix/api/v2/webhook"));
+        public async Task<WebhookResponse> ConsultarWebHook(string chave)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookResponse>($"/pix/api/v2/webhook/{chave}"));
 
         private static void validaTxID(string transactionId)
         {
