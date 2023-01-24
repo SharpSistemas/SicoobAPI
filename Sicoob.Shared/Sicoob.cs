@@ -30,7 +30,7 @@ namespace Sicoob.Shared
         {
             clientApi.BeforeSend += ClientApi_BeforeSend;
             clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
-            debugLog("[START]", clientApi.BaseUri.ToString());
+            debugLog("[SETUP]", clientApi.BaseUri.ToString());
         }
         private void ClientApi_ResponseDataReceived(object sender, ClientInfo.ResponseReceived e)
         {
