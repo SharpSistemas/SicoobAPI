@@ -1,13 +1,30 @@
-﻿using Sicoob.PIX;
+﻿using Newtonsoft.Json;
+using Sicoob.PIX;
+using Sicoob.Shared.Models;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Sicoob.Testes;
 
 public static class TestesApiPIX
 {
-    public static async Task Run(Shared.Models.ConfiguracaoAPI? cfg)
+    public static async Task Run()
     {
+        // carrega do disco
+        var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("config_PIX.json"));
+        // salva no disco
+        //File.WriteAllText("config_PIX.json", JsonConvert.SerializeObject(cfg));
+
+        //var cfg = new ConfiguracaoAPI()
+        //{
+        //    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+        //    Scope = AuthorizationScope.ReadOnly(),
+        //    CertificadoSenha = "SenhaCertificado",
+        //    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
+        //};
+
+
         // Cria Objeto
         var sicoob = new SicoobPIX(cfg);
         // Configura acesso das APIs
