@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sicoob.Cobranca\Sicoob.Cobranca.csproj" />
+    <ProjectReference Include="..\Sicoob.Conta\Sicoob.Conta.csproj" />
     <ProjectReference Include="..\Sicoob.PIX\Sicoob.PIX.csproj" />
   </ItemGroup>
 

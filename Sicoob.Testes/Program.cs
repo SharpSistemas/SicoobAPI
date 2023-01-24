@@ -17,5 +17,6 @@ var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("confi
 //    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
 //};
 
-await TestesApiPIX.Run(cfg);
+//await TestesApiPIX.Run(cfg);
+await TestesApiConta.Run(cfg);
 

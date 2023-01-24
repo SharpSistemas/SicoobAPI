@@ -1,6 +1,7 @@
 ﻿using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Sicoob.Conta
 {
@@ -31,6 +32,9 @@ namespace Sicoob.Conta
         {
             clientApi.SetAuthorizationBearer(token.access_token);
         }
+
+        public async Task<string> ObterSaldoAsync() 
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>("/conta-corrente/v2/saldo"));
 
     }
 }
