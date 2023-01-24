@@ -26,6 +26,10 @@ namespace Sicoob.Conta
         {
             clientApi = new ClientInfo(ConfigApi.UrlApi, handler);
             clientApi.SetHeader("x-sicoob-clientid", ConfigApi.ClientId);
+
+#if DEBUG
+            enableDebug(clientApi);
+#endif
         }
 
         protected override void atualizaClients(TokenResponse token)

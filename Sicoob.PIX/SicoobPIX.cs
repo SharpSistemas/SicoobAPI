@@ -47,36 +47,6 @@ namespace Sicoob.PIX
 
         }
 
-#if DEBUG
-        private void enableDebug(ClientInfo clientApi)
-        {
-            clientApi.BeforeSend += ClientApi_BeforeSend;
-            clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
-            debugLog("", "SETUP START");
-        }
-        private void ClientApi_ResponseDataReceived(object sender, ClientInfo.ResponseReceived e)
-        {
-            debugLog("<<", $"[{e.StatusCode}] RECV: {e.Content}");
-        }
-        private void ClientApi_BeforeSend(object sender, HttpRequestMessage e)
-        {
-            string content = "";
-            if (e.Content != null)
-            {
-                if (e.Content is StringContent strCnt)
-                {
-                    content = strCnt.ReadAsStringAsync().Result;
-                }
-            }
-
-            debugLog(">>", $"[{e.Method}] {e.RequestUri} {content}");
-        }
-        private void debugLog(string direciton, string content)
-        {
-            File.AppendAllText("debug.log", $"{DateTime.Now:G} {direciton} {content}\r\n");
-        }
-#endif
-
         protected override void atualizaClients(TokenResponse token)
         {
             clientApi.SetAuthorizationBearer(token.access_token);

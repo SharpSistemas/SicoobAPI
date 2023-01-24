@@ -26,6 +26,35 @@ namespace Sicoob.Shared
             clientAuth = new ClientInfo(config.UrlAutenticacao, httpHandler);
         }
 
+        protected void enableDebug(ClientInfo clientApi)
+        {
+            clientApi.BeforeSend += ClientApi_BeforeSend;
+            clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
+            debugLog("[START]", clientApi.BaseUri.ToString());
+        }
+        private void ClientApi_ResponseDataReceived(object sender, ClientInfo.ResponseReceived e)
+        {
+            debugLog("<<", $"[{e.StatusCode}] RECV: {e.Content}");
+        }
+        private void ClientApi_BeforeSend(object sender, HttpRequestMessage e)
+        {
+            string content = "";
+            if (e.Content != null)
+            {
+                if (e.Content is StringContent strCnt)
+                {
+                    content = strCnt.ReadAsStringAsync().Result;
+                }
+            }
+
+            debugLog(">>", $"[{e.Method}] {e.RequestUri} {content}");
+        }
+        private void debugLog(string direciton, string content)
+        {
+            System.IO.File.AppendAllText("debug.log", $"{DateTime.Now:G} {direciton} {content}\r\n");
+        }
+
+
         public async Task SetupAsync()
         {
             setupClients(httpHandler);
