@@ -99,5 +99,96 @@ namespace Sicoob.Shared.Models
         {
             return string.Join(' ', ToScope());
         }
+
+        public AuthorizationScope SetarPIX(bool valor)
+        {
+            PIX_READ = valor;
+            PIX_WRITE = valor;
+            return this;
+        }
+        public AuthorizationScope SetarCOB(bool valor)
+        {
+            COB_READ = valor;
+            COB_WRITE = valor;
+            return this;
+        }
+        public AuthorizationScope SetarCOBV(bool valor)
+        {
+            COBV_READ = valor;
+            COBV_WRITE = valor;
+            return this;
+        }
+        public AuthorizationScope SetarLote(bool valor)
+        {
+            LOTE_COBV_READ = valor;
+            LOTE_COBV_WRITE = valor;
+            return this;
+        }
+        public AuthorizationScope SetarWebhook(bool valor)
+        {
+            WEBHOOK_READ = valor;
+            WEBHOOK_WRITE = valor;
+            return this;
+        }
+        public AuthorizationScope SetarPayload(bool valor)
+        {
+            PAYLOAD_LOCATION_READ = valor;
+            PAYLOAD_LOCATION_WRITE = valor;
+            return this;
+        }
+
+        public AuthorizationScope Setar_Write(bool valor)
+        {
+            COB_WRITE = valor;
+            COBV_WRITE = valor;
+            LOTE_COBV_WRITE = valor;
+
+            PIX_WRITE = valor;
+            WEBHOOK_WRITE = valor;
+            PAYLOAD_LOCATION_WRITE = valor;
+            return this;
+        }
+        public AuthorizationScope Setar_Read(bool valor)
+        {
+            COB_READ = valor;
+            COBV_READ = valor;
+            LOTE_COBV_READ = valor;
+            PIX_READ = valor;
+            WEBHOOK_READ = valor;
+            PAYLOAD_LOCATION_READ = valor;
+            return this;
+        }
+
+        public static AuthorizationScope Nenhum()
+        {
+            return setarTodosComo(false);
+        }
+        public static AuthorizationScope Todos()
+        {
+            return setarTodosComo(true);
+        }
+        public static AuthorizationScope ReadOnly()
+        {
+            return setarTodosComo(false).Setar_Read(true);
+        }
+
+        /// <summary>
+        /// Seta todos independente de novas propriedades serem criadas
+        /// </summary>
+        private static AuthorizationScope setarTodosComo(bool valor)
+        {
+            var obj = new AuthorizationScope();
+            var t = typeof(AuthorizationScope);
+            foreach (var p in t.GetProperties())
+            {
+                if (!p.CanRead) continue;
+                if (!p.CanWrite) continue;
+                if (p.PropertyType != typeof(bool)) continue;
+
+                p.SetValue(obj, valor);
+            }
+            return obj;
+        }
+
     }
 }
