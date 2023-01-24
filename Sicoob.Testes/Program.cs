@@ -10,6 +10,14 @@ var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("confi
 // salva no disco
 //File.WriteAllText("config.json", JsonConvert.SerializeObject(cfg));
 
+//var cfg = new ConfiguracaoAPI()
+//{
+//    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+//    Scope = AuthorizationScope.ReadOnly(),
+//    CertificadoSenha = "SenhaCertificado",
+//    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
+//};
+
 var sicoob = new SicoobPIX(cfg);
 // Configura acesso das APIs
 await sicoob.SetupAsync();
@@ -22,11 +30,13 @@ await sicoob.SetupAsync();
 //  * sicoob.Expired
 
 /* COB */
+
 var cobs = await sicoob.ListarCobrancasAsync(new Sicoob.PIX.Models.Cobranca.ConsultaRequest
 {
     inicio = DateTime.UtcNow.Date.AddDays(-1),
     fim = DateTime.UtcNow.AddDays(1).Date,
 });
+
 
 /* PIX */
 var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
