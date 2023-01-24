@@ -1,4 +1,5 @@
-﻿using Sicoob.Shared.Models.Acesso;
+﻿using Sicoob.Conta.Models;
+using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -31,16 +32,34 @@ namespace Sicoob.Conta
             enableDebug(clientApi);
 #endif
         }
-
         protected override void atualizaClients(TokenResponse token)
         {
-            clientApi.SetAuthorizationBearer(token.access_token);
+            clientApi.SetAuthorizationBearer(token.id_token);
         }
 
-        public async Task<string> ObterSaldoAsync(string numeroContaCorrente)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>("/conta-corrente/v2/saldo", new { numeroContaCorrente }));
-        public async Task<string> ObterExtratoAsync(int mes, int ano, string numeroContaCorrente)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/conta-corrente/v2/extrato/{mes}/{ano}", new { numeroContaCorrente }));
+        /// <summary>
+        /// O recurso de Saldo retorna o valor disponível atual e o limite de crédito (cheque especial) de uma conta corrente.
+        /// </summary>
+        public async Task<ResultadoResponse<SaldoResponse>> ObterSaldoAsync()
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<ResultadoResponse<SaldoResponse>>("/conta-corrente/v2/saldo"));
+        /// <summary>
+        /// O recurso de Saldo retorna o valor disponível atual e o limite de crédito (cheque especial) de uma conta corrente.
+        /// </summary>
+        public async Task<ResultadoResponse<SaldoResponse>> ObterSaldoAsync(string numeroContaCorrente)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<ResultadoResponse<SaldoResponse>>("/conta-corrente/v2/saldo", new { numeroContaCorrente }));
+        
+        /// <summary>
+        /// O recurso de Extrato retorna todas as transações ocorridas em uma conta corrente no devido mês e ano.
+        /// Há um limite de 3 meses
+        /// </summary>
+        public async Task<ResultadoResponse<ExtratoResponse>> ObterExtratoAsync(int mes, int ano)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<ResultadoResponse<ExtratoResponse>>($"/conta-corrente/v2/extrato/{mes}/{ano}"));
+        /// <summary>
+        /// O recurso de Extrato retorna todas as transações ocorridas em uma conta corrente no devido mês e ano.
+        /// Há um limite de 3 meses
+        /// </summary>
+        public async Task<ResultadoResponse<ExtratoResponse>> ObterExtratoAsync(int mes, int ano, string numeroContaCorrente)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<ResultadoResponse<ExtratoResponse>>($"/conta-corrente/v2/extrato/{mes}/{ano}", new { numeroContaCorrente }));
 
     }
 }
