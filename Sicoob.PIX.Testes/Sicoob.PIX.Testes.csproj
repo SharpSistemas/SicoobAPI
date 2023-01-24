@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Simple.API" Version="1.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sicoob.PIX\Sicoob.PIX.csproj" />
   </ItemGroup>
 
