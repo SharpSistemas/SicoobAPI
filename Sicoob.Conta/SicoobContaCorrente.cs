@@ -37,8 +37,10 @@ namespace Sicoob.Conta
             clientApi.SetAuthorizationBearer(token.access_token);
         }
 
-        public async Task<string> ObterSaldoAsync() 
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>("/conta-corrente/v2/saldo"));
+        public async Task<string> ObterSaldoAsync(string numeroContaCorrente)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>("/conta-corrente/v2/saldo", new { numeroContaCorrente }));
+        public async Task<string> ObterExtratoAsync(int mes, int ano, string numeroContaCorrente)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<string>($"/conta-corrente/v2/extrato/{mes}/{ano}", new { numeroContaCorrente }));
 
     }
 }
