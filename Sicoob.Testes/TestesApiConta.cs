@@ -26,7 +26,6 @@ public static class TestesApiConta
 
         var saldo = await cCorrente.ObterSaldoAsync();
         var extrato = await cCorrente.ObterExtratoAsync(12, 2022);
-        extrato = extrato;
     }
     public static async Task Run_ContaPoupanca()
     {
@@ -39,8 +38,7 @@ public static class TestesApiConta
         //    CertificadoSenha = "SenhaCertificado",
         //    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
         //};
-        cfg.Scope.RemoverTodos().CPOUPANCA_Setar(true);
-        File.WriteAllText("config_CP.json", JsonConvert.SerializeObject(cfg));
+        //File.WriteAllText("config_CP.json", JsonConvert.SerializeObject(cfg));
 
         var cPoupanca = new SicoobContaPoupanca(cfg);
         await cPoupanca.SetupAsync();
