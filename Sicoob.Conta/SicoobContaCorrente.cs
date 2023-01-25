@@ -1,4 +1,9 @@
-﻿using Sicoob.Conta.Models;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Sicoob.Conta.Models;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System.Net.Http;
