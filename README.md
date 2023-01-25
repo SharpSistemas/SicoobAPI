@@ -77,17 +77,33 @@ await sicoob.SetupAsync();
 //  * sicoob.ExpiresAtUTC
 //  * sicoob.Expired
 ~~~
+**Atenção:** Por segurança, o construtor da classe Sicoob (e todas suas derivações, como o SicoobPIX) apaga a propriedade `CertificadoSenha` do objeto de configuração
 
-Funções Cobrança
+Funções Cobrança para PIX-Imediato
 ~~~C#
+// Listar todas as cobranças num período
 var cobs = await sicoob.ListarCobrancasAsync(new Sicoob.PIX.Models.Cobranca.ConsultaRequest
 {
     inicio = DateTime.UtcNow.Date.AddDays(-1),
     fim = DateTime.UtcNow.AddDays(1).Date,
 });
+
+// Criar uma Cobrança para a chave: "12.345.678/0001-00", no valor de R$ 19,90, com limite de 1h para pagamento
+var transactionId = gerarNovaTxId(); // Controle interno (string), pode ser um guid (pattern: ^[a-zA-Z0-9]{26,35}$)
+var dadosCobranca = PIX.Models.Cobranca.CriarCobrancaRequest.Padrao(chave: "12345678000100", valor: 19.90M, expiracaoSegundos: 3600));
+var nova = await sicoob.CriarCobrancaAsync(transactionId, dadosCobranca);
+// Baixar QR Code
+var pngBytes = await sicoob.ConsultarImagemCobrancaAsync(transactionId);
+
+// Consultar cobrança
+var consulta = await sicoob.ConsultarCobrancaAsync(transactionId);
+
+// Função interna da empresa para gerar Ids de Transação
+string gerarNovaTxId()
+  => Guid.NewGuid().ToString();
 ~~~
 
-Funções PIX
+Funções de consulta de PIX Recebidos
 ~~~C#
 /* PIX */
 var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
@@ -96,8 +112,6 @@ var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaR
     fim = DateTime.UtcNow.AddDays(1).Date,
 });
 ~~~
-
-**Atenção:** O construtor da classe Sicoob (e todas suas derivações, como o SicoobPIX) apaga a propriedade `CertificadoSenha` do objeto de configuração
 
 ### Webhook
 
