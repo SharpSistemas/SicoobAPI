@@ -22,6 +22,10 @@ namespace Sicoob.Shared
             this.config = config ?? throw new ArgumentNullException(nameof(config));
 
             var x509 = new System.Security.Cryptography.X509Certificates.X509Certificate2(config.UrlCertificadoPFX, config.CertificadoSenha);
+            // Após abrir o PFX, não manter a senha na memória
+            // Não apenas setar em NULL, trocar a referência
+            config.CertificadoSenha = "*******";
+
             httpHandler = new HttpClientHandler();
             httpHandler.ClientCertificates.Add(x509);
 
@@ -55,7 +59,6 @@ namespace Sicoob.Shared
         {
             System.IO.File.AppendAllText("debug.log", $"{DateTime.Now:G} {direciton} {content}\r\n");
         }
-
 
         public async Task SetupAsync()
         {
