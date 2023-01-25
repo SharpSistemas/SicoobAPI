@@ -1,4 +1,9 @@
-﻿namespace Sicoob.Conta.Models
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+namespace Sicoob.Conta.Models
 {
     public class SaldoResponse
     {
