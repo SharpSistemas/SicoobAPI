@@ -11,7 +11,7 @@ namespace Sicoob.PIX.Models.Cobranca
     {
         public CalendarioRequest calendario { get; set; }
         public NomeCpfCnpj devedor { get; set; }
-        public LocRequest loc { get; set; } 
+        public LocRequest loc { get; set; }
         public string status { get; set; } // REMOVIDA_PELO_USUARIO_RECEBEDOR 
         public Valor valor { get; set; }
         public string chave { get; set; }

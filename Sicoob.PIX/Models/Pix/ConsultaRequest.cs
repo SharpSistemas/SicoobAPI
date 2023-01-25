@@ -18,7 +18,7 @@ namespace Sicoob.PIX.Models.Pix
         public string? cpf { get; set; }
         public string? cnpj { get; set; }
 
-        public RequestPaginacao? paginacao {get;set;}
+        public RequestPaginacao? paginacao { get; set; }
 
     }
 }

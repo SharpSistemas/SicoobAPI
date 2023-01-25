@@ -28,7 +28,7 @@ namespace Sicoob.PIX.Models.Pix
         public override string ToString()
         {
             string dev = "";
-            if(devolucoes != null && devolucoes.Length > 0)
+            if (devolucoes != null && devolucoes.Length > 0)
             {
                 dev = $" [Dev:{dev.Length}]";
             }

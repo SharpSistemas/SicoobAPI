@@ -11,8 +11,8 @@ namespace Sicoob.PIX.Models.Pix
     {
         public enum ListaStatus
         {
-            EM_PROCESSAMENTO, 
-            DEVOLVIDO, 
+            EM_PROCESSAMENTO,
+            DEVOLVIDO,
             NAO_REALIZADO,
 
             DESCONHECIDO,
@@ -25,7 +25,7 @@ namespace Sicoob.PIX.Models.Pix
         /// <summary>
         /// EM_PROCESSAMENTO, DEVOLVIDO, NAO_REALIZADO
         /// </summary>
-        public string status { get; set; } 
+        public string status { get; set; }
         public string motivo { get; set; }
 
         public ListaStatus ObterStatus()
