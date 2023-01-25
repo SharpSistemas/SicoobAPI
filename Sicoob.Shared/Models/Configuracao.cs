@@ -4,16 +4,33 @@ namespace Sicoob.Shared.Models
 {
     public class Configuracao
     {
-        public string? ClientId { get; set; }
-
+        /// <summary>
+        /// Url do serviço OpenId
+        /// </summary>
         public string UrlAutenticacao { get; set; } = "https://auth.sicoob.com.br/auth/realms/cooperado/protocol/openid-connect/";
-        public string? UrlCertificadoPFX { get; set; }
-        public string? CertificadoSenha { get; set; }
-        public AuthorizationScope Scope { get; set; } = new AuthorizationScope();
 
+        /// <summary>
+        /// Id do cliente gerado pelo Sicoob no momento do cadastro do Aplicativo
+        /// </summary>
+        public string? ClientId { get; set; }
+        /// <summary>
+        /// Caminho do certificado com chave pública
+        /// </summary>
+        public string? UrlCertificadoPFX { get; set; }
+        /// <summary>
+        /// Senha do arquivo PFX, será apagada no construtor da classe `Sicoob`
+        /// </summary>
+        public string? CertificadoSenha { get; set; }
+        /// <summary>
+        /// Scopo de autorização, depende do serviço a ser utilizado
+        /// </summary>
+        public AuthorizationScope Scope { get; set; } = new AuthorizationScope();
     }
     public class ConfiguracaoAPI : Configuracao
     {
+        /// <summary>
+        /// Url do serviço de API
+        /// </summary>
         public string UrlApi { get; set; } = "https://api.sicoob.com.br/";
     }
 
@@ -99,7 +116,10 @@ namespace Sicoob.Shared.Models
         /// [API Conta Poupança] poupanca_saldo: Acessa dados do Saldo
         /// </summary>
         public bool POUPANCA_SALDO { get; set; }
-
+        
+        /// <summary>
+        /// Gera a lista de Scope utilizado na geração do Token
+        /// </summary>
         public string[] ToScope()
         {
             List<string> lst = new List<string>();
@@ -135,6 +155,10 @@ namespace Sicoob.Shared.Models
 
             return lst.ToArray();
         }
+        /// <summary>
+        /// Gera string utilizada na geração do Token
+        /// </summary>
+        /// <returns></returns>
         public string ToScopeString()
         {
             return string.Join(' ', ToScope());
@@ -199,14 +223,14 @@ namespace Sicoob.Shared.Models
             return this;
         }
 
-        public AuthorizationScope CCORRENTE_Setar(bool valor)
+        public AuthorizationScope CCorrente_Setar(bool valor)
         {
             OPENID = valor;
             CCO_EXTRATO = valor;
             CCO_SALDO = valor;
             return this;
         }
-        public AuthorizationScope CPOUPANCA_Setar(bool valor)
+        public AuthorizationScope CPoupanca_Setar(bool valor)
         {
             POUPANCA_CONTAS = valor;
             POUPANCA_EXTRATO = valor;
@@ -217,20 +241,6 @@ namespace Sicoob.Shared.Models
         public AuthorizationScope RemoverTodos()
         {
             return setarTodosComo(false);
-        }
-
-        public static AuthorizationScope PIX_ReadOnly()
-        {
-            return new AuthorizationScope().setarTodosComo(false).PIX_Setar_Read(true);
-        }
-
-        public static AuthorizationScope Nenhum()
-        {
-            return new AuthorizationScope().setarTodosComo(false);
-        }
-        public static AuthorizationScope Todos()
-        {
-            return new AuthorizationScope().setarTodosComo(true);
         }
 
         /// <summary>
