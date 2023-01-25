@@ -14,8 +14,6 @@ namespace Sicoob.Cobranca
         // Documentações
         // > APIs tipo "Swagger":
         //   https://developers.sicoob.com.br/#!/apis
-        // > APIs no POSTMAN:
-        //   https://documenter.getpostman.com/view/20565799/UzBnrmod#239d9f68-d646-4209-994a-cd564b6d6d1a
 
         private ClientInfo clientApi;
         public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
