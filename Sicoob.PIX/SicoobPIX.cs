@@ -1,11 +1,8 @@
-﻿using Sicoob.PIX.Models.Webhook;
-using Sicoob.Shared;
+﻿using Sicoob.Shared;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System;
-using System.IO;
-using System.Net.Http;
-using System.Net.NetworkInformation;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -29,6 +26,8 @@ namespace Sicoob.PIX
 
         private static readonly string rxTxidPattern = "^[a-zA-Z0-9]{26,35}$";
         private static readonly Regex rxTxid = new Regex(rxTxidPattern, RegexOptions.Compiled);
+        private static readonly string rxIdDevolucaoPattern = "^[a-zA-Z0-9]{1,35}$";
+        private static readonly Regex rxIdDevolucao = new Regex(rxIdDevolucaoPattern, RegexOptions.Compiled);
 
         public SicoobPIX(Shared.Models.ConfiguracaoAPI configApi)
             : base(configApi)
@@ -36,7 +35,7 @@ namespace Sicoob.PIX
             ConfigApi = configApi;
         }
 
-        protected override void setupClients(HttpClientHandler handler)
+        protected override void setupClients(System.Net.Http.HttpClientHandler handler)
         {
             clientApi = new ClientInfo(ConfigApi.UrlApi, handler);
             clientApi.SetHeader("x-sicoob-clientid", ConfigApi.ClientId);
@@ -46,7 +45,6 @@ namespace Sicoob.PIX
 #endif
 
         }
-
         protected override void atualizaClients(TokenResponse token)
         {
             clientApi.SetAuthorizationBearer(token.access_token);
@@ -60,10 +58,10 @@ namespace Sicoob.PIX
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix</param>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca)
+        public async Task<Models.Cobranca.CobrancaCompleta> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca)
         {
             validaTxID(transactionId);
-            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Cobranca.CobrancaCompleta>($"/pix/api/v2/cob/{transactionId}", cobranca));
         }
 
         /// <summary>
@@ -71,8 +69,8 @@ namespace Sicoob.PIX
         /// </summary>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Models.Cobranca.CriarCobrancaResponse> CriarCobrancaAsync(Models.Cobranca.CriarCobrancaRequest cobranca)
-            => await ExecutaChamadaAsync(() => clientApi.PostAsync<Models.Cobranca.CriarCobrancaResponse>($"/pix/api/v2/cob", cobranca));
+        public async Task<Models.Cobranca.CobrancaCompleta> CriarCobrancaAsync(Models.Cobranca.CriarCobrancaRequest cobranca)
+            => await ExecutaChamadaAsync(() => clientApi.PostAsync<Models.Cobranca.CobrancaCompleta>($"/pix/api/v2/cob", cobranca));
         /// <summary>
         /// Endpoint para revisar uma cobrança através de um determinado txid.
         /// </summary>
@@ -144,6 +142,31 @@ namespace Sicoob.PIX
         /// <returns>Dados do Pix efetuado.</returns>
         public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
              => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
+        
+        /// <summary>
+        /// Endpoint para solicitar uma devolução através de um e2eid do Pix e do ID da devolução.
+        /// O motivo que será atribuído à PACS.004 será "Devolução solicitada pelo usuário recebedor do pagamento original" 
+        /// cuja sigla é "MD06" de acordo com a aba RTReason da PACS.004 que consta no Catálogo de Mensagens do Pix.
+        /// </summary>
+        /// <param name="endToEndId">Id fim a fim da transação.</param>
+        /// <param name="idDevolucao">Id gerado pelo cliente para representar unicamente uma devolução.</param>
+        /// <returns>Dados da devolução</returns>
+        public async Task<Models.Pix.DevolucaoResponse> SolicitarPixDevlucaoAsync(string endToEndId, string idDevolucao, decimal valor)
+        {
+            string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
+            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Pix.DevolucaoResponse>(url, new { valor = valor.ToString("N2", CultureInfo.InvariantCulture) }));
+        }
+        /// <summary>
+        /// Endpoint para consultar uma devolução através de um EndToEndID do Pix e do ID da devolução
+        /// </summary>
+        /// <param name="endToEndId">Id fim a fim da transação.</param>
+        /// <param name="idDevolucao">Id gerado pelo cliente para representar unicamente uma devolução.</param>
+        /// <returns>Dados da devolução</returns>
+        public async Task<Models.Pix.DevolucaoResponse> ConsultarPixDevlucaoAsync(string endToEndId, string idDevolucao)
+        {
+            string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
+            return await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.DevolucaoResponse>(url));
+        }
 
         /* Webhook */
         /// <summary>
@@ -159,19 +182,20 @@ namespace Sicoob.PIX
         /// <summary>
         /// Endpoint para consultar Webhooks cadastrados
         /// </summary>
-        public async Task<WebhookListResponse> ConsultarWebHooksAsync()
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookListResponse>("/pix/api/v2/webhook"));
+        public async Task<Models.Webhook.WebhookListResponse> ConsultarWebHooksAsync()
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Webhook.WebhookListResponse>("/pix/api/v2/webhook"));
         /// <summary>
         /// Endpoint para recuperação de informações sobre o Webhook Pix.
         /// </summary>
-        public async Task<WebhookResponse> ConsultarWebHookAsync(string chave)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookResponse>($"/pix/api/v2/webhook/{chave}"));
+        public async Task<Models.Webhook.WebhookResponse> ConsultarWebHookAsync(string chave)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Webhook.WebhookResponse>($"/pix/api/v2/webhook/{chave}"));
         /// <summary>
         /// Endpoint para cancelamento do webhook. Não é a única forma pela qual um webhook pode ser removido.
         /// </summary>
         public async Task CancelarWebHookAsync(string chave)
             => await ExecutaChamadaAsync(() => clientApi.DeleteAsync($"/pix/api/v2/webhook/{chave}"));
 
+        /* Validação de IDs */
         private static void validaTxID(string transactionId)
         {
             if (string.IsNullOrEmpty(transactionId))
@@ -184,13 +208,29 @@ namespace Sicoob.PIX
             {
                 throw new ArgumentException($"'{nameof(transactionId)}' comprimento inválido.", nameof(transactionId));
             }
-            // CHeca Regex
+            // Checa Regex
             if (!rxTxid.IsMatch(transactionId))
             {
                 throw new ArgumentException($"'{nameof(transactionId)}' Não é valido na restrição \"{rxTxidPattern}\"", nameof(transactionId));
             }
-
         }
+        private static void validaIDDevolucao(string idDevolucao)
+        {
+            if (string.IsNullOrEmpty(idDevolucao))
+            {
+                throw new ArgumentException($"'{nameof(idDevolucao)}' cannot be null or empty.", nameof(idDevolucao));
+            }
 
+            // Mitiga ataque de negação de serviço no regex (processamento muito longo)
+            if (idDevolucao.Length > 100)
+            {
+                throw new ArgumentException($"'{nameof(idDevolucao)}' comprimento inválido.", nameof(idDevolucao));
+            }
+            // Checa Regex
+            if (!rxIdDevolucao.IsMatch(idDevolucao))
+            {
+                throw new ArgumentException($"'{nameof(idDevolucao)}' Não é valido na restrição \"{rxIdDevolucaoPattern}\"", nameof(idDevolucao));
+            }
+        }
     }
 }
