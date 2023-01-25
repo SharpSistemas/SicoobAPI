@@ -1,4 +1,9 @@
-﻿using Sicoob.Shared;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Sicoob.Shared;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System;

@@ -1,4 +1,9 @@
-﻿using Sicoob.Shared.Models.Geral;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Sicoob.Shared.Models.Geral;
 using System;
 
 namespace Sicoob.PIX.Models.Webhook
