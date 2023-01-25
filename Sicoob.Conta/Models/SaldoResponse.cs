@@ -3,11 +3,10 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
-namespace Sicoob.Conta.Models
+namespace Sicoob.Conta.Models;
+
+public class SaldoResponse
 {
-    public class SaldoResponse
-    {
-        public decimal Saldo { get; set; }
-        public decimal SaldoLimite { get; set; }
-    }
+    public decimal Saldo { get; set; }
+    public decimal SaldoLimite { get; set; }
 }
