@@ -58,10 +58,10 @@ Criação do objeto API
 // Cria configuração
 var cfg = new ConfiguracaoAPI()
 {
-    ClientId = "00000000-0000-0000-0000-000000000000", // Id do "Aplicativo" cadastrado em https://developers.sicoob.com.br
-    Scope = AuthorizationScope.ReadOnly(),
-    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx",
-    CertificadoSenha = "SenhaCertificado",
+	ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+	Scope =  AuthorizationScope.PIX_SomenteLeitura(),
+	CertificadoSenha = "SenhaCertificado",
+	UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
 };
 
 // cria o objeto de comunicação com as APIs de PIX
@@ -96,6 +96,8 @@ var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaR
     fim = DateTime.UtcNow.AddDays(1).Date,
 });
 ~~~
+
+**Atenção:** O construtor da classe Sicoob (e todas suas derivações, como o SicoobPIX) apaga a propriedade `CertificadoSenha` do objeto de configuração
 
 ### Webhook
 
