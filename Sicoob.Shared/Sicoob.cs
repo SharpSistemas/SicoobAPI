@@ -1,6 +1,8 @@
 ﻿using Simple.API;
 using System;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Sicoob.Shared
@@ -30,7 +32,7 @@ namespace Sicoob.Shared
         {
             clientApi.BeforeSend += ClientApi_BeforeSend;
             clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
-            debugLog("[SETUP]", clientApi.BaseUri.ToString());
+            debugLog("[SETUP]", "STARTUP");
         }
         private void ClientApi_ResponseDataReceived(object sender, ClientInfo.ResponseReceived e)
         {
