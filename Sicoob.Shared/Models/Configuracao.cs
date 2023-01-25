@@ -260,5 +260,21 @@ namespace Sicoob.Shared.Models
             return this;
         }
 
+        public static AuthorizationScope PIX_SomenteLeitura()
+        {
+            return new AuthorizationScope().PIX_Setar_Read(true);
+        }
+        public static AuthorizationScope TodosPIX()
+        {
+            return new AuthorizationScope().PIX_Setar_Read(true).PIX_Setar_Write(true);
+        }
+        public static AuthorizationScope TodosContaCorrente()
+        {
+            return new AuthorizationScope().CCorrente_Setar(true);
+        }
+        public static AuthorizationScope TodosContaPoupanca()
+        {
+            return new AuthorizationScope().CPoupanca_Setar(true);
+        }
     }
 }
