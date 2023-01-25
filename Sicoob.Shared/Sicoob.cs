@@ -1,4 +1,9 @@
-﻿using Simple.API;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Simple.API;
 using System;
 using System.Linq;
 using System.Net.Http;
