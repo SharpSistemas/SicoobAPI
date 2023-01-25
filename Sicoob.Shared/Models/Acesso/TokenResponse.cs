@@ -1,4 +1,9 @@
-﻿namespace Sicoob.Shared.Models.Acesso
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+namespace Sicoob.Shared.Models.Acesso
 {
     public class TokenResponse
     { 

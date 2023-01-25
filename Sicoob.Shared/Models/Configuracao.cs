@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using System.Collections.Generic;
 
 namespace Sicoob.Shared.Models
 {
