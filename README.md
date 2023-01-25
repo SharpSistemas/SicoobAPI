@@ -58,10 +58,10 @@ Criação do objeto API
 // Cria configuração
 var cfg = new ConfiguracaoAPI()
 {
-   ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
-   Scope =  AuthorizationScope.PIX_SomenteLeitura(),
-   CertificadoSenha = "SenhaCertificado",
-   UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
+    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+    Scope =  AuthorizationScope.PIX_SomenteLeitura(),
+    CertificadoSenha = "SenhaCertificado",
+    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
 };
 
 // cria o objeto de comunicação com as APIs de PIX
