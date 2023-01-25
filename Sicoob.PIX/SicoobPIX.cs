@@ -131,6 +131,8 @@ namespace Sicoob.PIX
 
         /* COBV-Lote */
 
+        /* PayloadLocation */
+
         /* PIX */
 
         /// <summary>
