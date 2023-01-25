@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Newtonsoft.Json;
 using Sicoob.Conta;
 using Sicoob.Shared.Models;
 using System.IO;
