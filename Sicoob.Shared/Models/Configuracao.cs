@@ -166,7 +166,7 @@ namespace Sicoob.Shared.Models
         /// <returns></returns>
         public string ToScopeString()
         {
-            return string.Join(' ', ToScope());
+            return string.Join(" ", ToScope());
         }
 
         public AuthorizationScope PIX_SetarPIX(bool valor)
