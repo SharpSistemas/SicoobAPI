@@ -1,6 +1,10 @@
-﻿using Newtonsoft.Json;
+/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Newtonsoft.Json;
 using Sicoob.PIX;
-using Sicoob.Shared.Models;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,18 +16,9 @@ public static class TestesApiPIX
     public static async Task Run()
     {
         // carrega do disco
-        var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("config_PIX.json"));
+        var cfg = JsonConvert.DeserializeObject<Shared.Models.ConfiguracaoAPI>(File.ReadAllText("config_PIX.json"));
         // salva no disco
         //File.WriteAllText("config_PIX.json", JsonConvert.SerializeObject(cfg));
-
-        //var cfg = new ConfiguracaoAPI()
-        //{
-        //    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
-        //    Scope = AuthorizationScope.ReadOnly(),
-        //    CertificadoSenha = "SenhaCertificado",
-        //    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
-        //};
-
 
         // Cria Objeto
         var sicoob = new SicoobPIX(cfg);
@@ -39,7 +34,7 @@ public static class TestesApiPIX
 
         /* COB */
 
-        var cobs = await sicoob.ListarCobrancasAsync(new Sicoob.PIX.Models.Cobranca.ConsultaRequest
+        var cobs = await sicoob.ListarCobrancasAsync(new PIX.Models.Cobranca.ConsultaRequest
         {
             inicio = DateTime.UtcNow.Date.AddDays(-1),
             fim = DateTime.UtcNow.AddDays(1).Date,
@@ -47,7 +42,7 @@ public static class TestesApiPIX
 
 
         /* PIX */
-        var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
+        var pixPeriodo = await sicoob.ListarPIXAsync(new PIX.Models.Pix.ConsultaRequest()
         {
             inicio = DateTime.UtcNow.Date.AddDays(-1),
             fim = DateTime.UtcNow.AddDays(1).Date,
