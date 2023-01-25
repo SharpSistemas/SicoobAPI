@@ -3,41 +3,39 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+namespace Sicoob.PIX.Models.Cobranca;
+
 using Newtonsoft.Json;
 using Sicoob.Shared.Models.Geral;
-using System;
 
-namespace Sicoob.PIX.Models.Cobranca
+[JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+public class CriarCobrancaRequest
 {
-    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class CriarCobrancaRequest
+    public CalendarioRequest calendario { get; set; }
+    public NomeCpfCnpj devedor { get; set; }
+    public LocRequest loc { get; set; }
+    public Valor valor { get; set; }
+    public string chave { get; set; }
+
+    public string? solicitacaoPagador { get; set; }
+
+    public NomeValor[] infoAdicionais { get; set; }
+
+    public static CriarCobrancaRequest Padrao(string chave, decimal valor, int expiracaoSegundos = 3600, string? solicitacaoPagador = null)
     {
-        public CalendarioRequest calendario { get; set; }
-        public NomeCpfCnpj devedor { get; set; }
-        public LocRequest loc { get; set; }
-        public Valor valor { get; set; }
-        public string chave { get; set; }
-
-        public string? solicitacaoPagador { get; set; }
-
-        public NomeValor[] infoAdicionais { get; set; }
-
-        public static CriarCobrancaRequest Padrao(string chave, decimal valor, int expiracaoSegundos = 3600, string? solicitacaoPagador = null)
+        return new CriarCobrancaRequest()
         {
-            return new CriarCobrancaRequest()
+            chave = chave,
+            valor = new Valor()
             {
-                chave = chave,
-                valor = new Valor()
-                {
-                    original = valor,
-                    modalidadeAlteracao = 0 // não pode mudar
-                },
-                calendario = new CalendarioRequest()
-                {
-                    expiracao = expiracaoSegundos,
-                },
-                solicitacaoPagador = solicitacaoPagador,
-            };
-        }
+                original = valor,
+                modalidadeAlteracao = 0 // não pode mudar
+            },
+            calendario = new CalendarioRequest()
+            {
+                expiracao = expiracaoSegundos,
+            },
+            solicitacaoPagador = solicitacaoPagador,
+        };
     }
 }
