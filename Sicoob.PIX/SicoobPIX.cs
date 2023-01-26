@@ -34,8 +34,8 @@ namespace Sicoob.PIX
         private static readonly string rxIdDevolucaoPattern = "^[a-zA-Z0-9]{1,35}$";
         private static readonly Regex rxIdDevolucao = new Regex(rxIdDevolucaoPattern, RegexOptions.Compiled);
 
-        public SicoobPIX(Shared.Models.ConfiguracaoAPI configApi)
-            : base(configApi)
+        public SicoobPIX(Shared.Models.ConfiguracaoAPI configApi, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
+            : base(configApi, certificado)
         {
             ConfigApi = configApi;
         }
@@ -149,7 +149,7 @@ namespace Sicoob.PIX
         /// <returns>Dados do Pix efetuado.</returns>
         public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
              => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
-        
+
         /// <summary>
         /// Endpoint para solicitar uma devolução através de um e2eid do Pix e do ID da devolução.
         /// O motivo que será atribuído à PACS.004 será "Devolução solicitada pelo usuário recebedor do pagamento original" 

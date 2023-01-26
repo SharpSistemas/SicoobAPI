@@ -7,6 +7,7 @@ using Simple.API;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,17 +23,25 @@ namespace Sicoob.Shared
         public TimeSpan ExpiresIn => ExpiresAtUTC - DateTime.UtcNow;
         public bool Expired => ExpiresIn.TotalSeconds < 0;
 
-        public Sicoob(Models.Configuracao config)
+        public Sicoob(Models.Configuracao config, X509Certificate2? certificado = null)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
 
-            var x509 = new System.Security.Cryptography.X509Certificates.X509Certificate2(config.UrlCertificadoPFX, config.CertificadoSenha);
-            // Após abrir o PFX, não manter a senha na memória
-            // Não apenas setar em NULL, trocar a referência
-            config.CertificadoSenha = "*******";
+            if (certificado == null)
+            {
+                certificado = new X509Certificate2(config.UrlCertificadoPFX, config.CertificadoSenha);
+                // Após abrir o PFX, não manter a senha na memória
+                // Não apenas setar em NULL, trocar a referência
+                config.CertificadoSenha = "*******";
+            }
+            else
+            {
+                if (config.UrlCertificadoPFX != null) throw new ArgumentException("Não é possível informar o caminho do certificado pois o X509Certificate2 já foi informado");
+                if (config.CertificadoSenha != null) throw new ArgumentException("Não é possível informar a senha do certificado pois o X509Certificate2 já foi informado");
+            }
 
             httpHandler = new HttpClientHandler();
-            httpHandler.ClientCertificates.Add(x509);
+            httpHandler.ClientCertificates.Add(certificado);
 
             clientAuth = new ClientInfo(config.UrlAutenticacao, httpHandler);
         }
