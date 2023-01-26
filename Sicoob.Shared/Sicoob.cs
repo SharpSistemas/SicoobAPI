@@ -97,7 +97,7 @@ namespace Sicoob.Shared
             ExpiresAtUTC = DateTime.UtcNow.AddSeconds(response.Data.expires_in);
         }
 
-        protected async Task<bool> VeiricaAtualizaCredenciaisAsync()
+        protected async Task<bool> VerificaAtualizaCredenciaisAsync()
         {
             if (ExpiresIn.TotalSeconds >= 5)
             {
@@ -109,14 +109,14 @@ namespace Sicoob.Shared
         }
         protected async Task<T> ExecutaChamadaAsync<T>(Func<Task<Response<T>>> func)
         {
-            await VeiricaAtualizaCredenciaisAsync();
+            await VerificaAtualizaCredenciaisAsync();
             Response<T> response = await func();
             response.EnsureSuccessStatusCode();
             return response.Data;
         }
         protected async Task ExecutaChamadaAsync(Func<Task<Response>> func)
         {
-            await VeiricaAtualizaCredenciaisAsync();
+            await VerificaAtualizaCredenciaisAsync();
             Response response = await func();
             response.EnsureSuccessStatusCode();
         }
