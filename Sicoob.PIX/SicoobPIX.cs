@@ -118,7 +118,7 @@ namespace Sicoob.PIX
         /// <param name="revisao">Revisao a ser consultada</param>
         /// <param name="largura">Largura da imagem a ser exibida</param>
         /// <returns>Bytes da imagem codificada em PNG</returns>
-        [Obsolete("Parece não estar mais disponível")]
+        [Obsolete("Sicoob removeu o endpoint", true)]
         public async Task<byte[]> ConsultarImagemCobrancaAsync(string transactionId, int? revisao = null, int? largura = null)
         {
             validaTxID(transactionId);
