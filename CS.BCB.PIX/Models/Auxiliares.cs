@@ -43,6 +43,10 @@ namespace CS.BCB.PIX.Models
     }
     public class Valor
     {
+        // O valor precisa serializar como string
+        // Não funcionou fazer o mapeamento
+        // Estou deixando com duas propriedades por hora
+
         [JsonIgnore]
         public decimal original { get; set; }
 
