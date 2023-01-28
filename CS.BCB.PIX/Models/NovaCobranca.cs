@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿/**************************************\
+ * Biblioteca C# para APIs do SICOOB  *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Newtonsoft.Json;
 
 namespace CS.BCB.PIX.Models
 {
@@ -31,5 +36,10 @@ namespace CS.BCB.PIX.Models
                 solicitacaoPagador = solicitacaoPagador,
             };
         }
+    }
+    [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
+    public class RevisarCobranca : NovaCobranca
+    {
+        public string status { get; set; } // REMOVIDA_PELO_USUARIO_RECEBEDOR 
     }
 }

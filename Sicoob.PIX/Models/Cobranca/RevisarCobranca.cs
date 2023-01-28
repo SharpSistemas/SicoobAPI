@@ -7,6 +7,7 @@ namespace Sicoob.PIX.Models.Cobranca;
 
 using Sicoob.Shared.Models.Geral;
 
+// Duplicado com CS.BCB.PIX.Models.Cobranca
 public class RevisarCobrancaRequest
 {
     public CalendarioRequest calendario { get; set; }
@@ -18,7 +19,7 @@ public class RevisarCobrancaRequest
     public string solicitacaoPagador { get; set; }
     public NomeValor[] infoAdicionais { get; set; }
 }
-
+// Duplicado com CS.BCB.PIX.Models.Cobranca
 public class RevisarCobrancaResponse
 {
     public CalendarioResponse calendario { get; set; }
