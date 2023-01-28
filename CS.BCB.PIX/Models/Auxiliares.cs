@@ -19,22 +19,27 @@ namespace CS.BCB.PIX.Models
         public string? nome { get; set; }
         public string? valor { get; set; }
     }
-    public class Calendario
+    public class Calendario : CalendarioCriacao
     {
         public DateTime criacao { get; set; }
-
+    }
+    public class CalendarioCriacao
+    {
         /// <summary>
         /// Tempo de vida da cobrança, especificado em segundos a partir da data de criação
         /// </summary>
         public int expiracao { get; set; }
     }
-    public class DadosLoc
+    public class DadosLoc : DadosLocCriacao
     {
-        public int id { get; set; }
         public string location { get; set; }
         public string tipoCob { get; set; } // cob, cobv
         public DateTime criacao { get; set; }
         public string brcode { get; set; }
+    }
+    public class DadosLocCriacao
+    {
+        public int id { get; set; }
     }
     public class Valor
     {
