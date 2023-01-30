@@ -20,5 +20,10 @@ namespace CS.BCB.PIX.Contratos
         Task<PixDevolucao> SolicitarDevlucaoPixAsync(string endToEndId, string idDevolucao, decimal valor);
         Task<PixDevolucao> ConsultarDevlucaoPixAsync(string endToEndId, string idDevolucao);
 
+        /* WebHook */
+        Task CriarWebHookAsync(string chave, string url);
+        Task<ListagemWebhookAtivo> ConsultarWebHooksAsync();
+        Task<WebhookAtivo> ConsultarWebHookAsync(string chave);
+        Task CancelarWebHookAsync(string chave);
     }
 }
