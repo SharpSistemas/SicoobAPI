@@ -67,28 +67,28 @@ namespace Sicoob.PIX
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix</param>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Cobranca> CriarCobrancaAsync(string transactionId, NovaCobranca cobranca)
+        public async Task<CobrancaImediata> CriarCobrancaAsync(string transactionId, NovaCobrancaImediata cobranca)
         {
             validaTxID(transactionId);
-            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Cobranca>($"/pix/api/v2/cob/{transactionId}", cobranca));
+            return await ExecutaChamadaAsync(() => clientApi.PutAsync<CobrancaImediata>($"/pix/api/v2/cob/{transactionId}", cobranca));
         }
         /// <summary>
         /// Endpoint para criar uma cobrança imediata, neste caso, o txid deve ser definido pelo PSP.
         /// </summary>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Cobranca> CriarCobrancaAsync(NovaCobranca cobranca)
-            => await ExecutaChamadaAsync(() => clientApi.PostAsync<Cobranca>($"/pix/api/v2/cob", cobranca));
+        public async Task<CobrancaImediata> CriarCobrancaAsync(NovaCobrancaImediata cobranca)
+            => await ExecutaChamadaAsync(() => clientApi.PostAsync<CobrancaImediata>($"/pix/api/v2/cob", cobranca));
         /// <summary>
         /// Endpoint para revisar uma cobrança através de um determinado txid.
         /// </summary>
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
         /// <param name="cobranca">Dados para geração da cobrança</param>
         /// <returns>Cobrança imediata revisada. A revisão deve ser incrementada em 1.</returns>
-        public async Task<Cobranca> RevisarCobrancaAsync(string transactionId, RevisarCobranca cobranca)
+        public async Task<CobrancaImediata> RevisarCobrancaAsync(string transactionId, RevisarCobrancaImediata cobranca)
         {
             validaTxID(transactionId);
-            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<Cobranca>($"/pix/api/v2/cob/{transactionId}", cobranca));
+            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<CobrancaImediata>($"/pix/api/v2/cob/{transactionId}", cobranca));
         }
 
         /// <summary>
@@ -97,22 +97,22 @@ namespace Sicoob.PIX
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
         /// <param name="revisao">Revisao a ser consultada</param>
         /// <returns>Dados da cobrança imediata</returns>
-        public async Task<Cobranca> ConsultarCobrancaAsync(string transactionId, int? revisao = null)
+        public async Task<CobrancaImediata> ConsultarCobrancaAsync(string transactionId, int? revisao = null)
         {
             validaTxID(transactionId);
 
             string url = $"/pix/api/v2/cob/{transactionId}";
             if (revisao.HasValue) url += $"?revisao={revisao.Value}";
 
-            return await ExecutaChamadaAsync(() => clientApi.GetAsync<Cobranca>(url));
+            return await ExecutaChamadaAsync(() => clientApi.GetAsync<CobrancaImediata>(url));
         }
         /// <summary>
         /// Endpoint para consultar cobranças imediatas através de parâmetros como início, fim, cpf, cnpj e status.
         /// </summary>
         /// <param name="consulta">Dados da consulta</param>
         /// <returns>Lista de cobranças imediatas.</returns>
-        public async Task<ListagemCobrancaRecebida> ListarCobrancasAsync(ConsultarCobranca consulta)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<ListagemCobrancaRecebida>("/pix/api/v2/cob", consulta.ToKVP()));
+        public async Task<ListagemCobrancaImediata> ListarCobrancasAsync(ConsultarCobrancaImediata consulta)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<ListagemCobrancaImediata>("/pix/api/v2/cob", consulta.ToKVP()));
 
         /// <summary>
         /// Endpoint para gerar a imagem qrcode de uma cobrança através de um determinado txid.
@@ -241,6 +241,40 @@ namespace Sicoob.PIX
             {
                 throw new ArgumentException($"'{nameof(idDevolucao)}' Não é valido na restrição \"{rxIdDevolucaoPattern}\"", nameof(idDevolucao));
             }
+        }
+
+        /* Não implementados */
+        public Task<CobrancaVencimento> ConsultarCobrancaVencimentoAsync(string transactionId, int? revisao = null)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<CobrancaVencimento> CriarCobrancaVencimentoAsync(string transactionId, NovaCobrancaVencimento cobranca)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<ListagemCobrancaVencimento> ListarCobrancasVencimentoAsync(ConsultarCobrancaImediata consulta)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<CobrancaVencimento> RevisarCobrancaVencimentoAsync(string transactionId, RevisarCobrancaVencimento cobranca)
+        {
+            throw new NotImplementedException();
+        }
+        public Task CriarLoteCobrancaVencimentoAsync(string idLote, NovaCobrancaVencimentoLote lote)
+        {
+            throw new NotImplementedException();
+        }
+        public Task RevisarLoteCobrancaVencimentoAsync(string idLote, RevisarCobrancaVencimentoLote lote)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<ConsultarCobrancaVencimentoLote> ConsultarLoteCobrancaVencimentoAsync(string transactionId)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<ConsultaLotesCobranca> ListarLoteCobrancaVencimentoAsync(Consulta consulta)
+        {
+            throw new NotImplementedException();
         }
     }
 }
