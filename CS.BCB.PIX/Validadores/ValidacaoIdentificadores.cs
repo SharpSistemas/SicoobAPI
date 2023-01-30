@@ -16,10 +16,22 @@ namespace CS.BCB.PIX.Validadores
         /// Pattern usado na validação de TxId
         /// </summary>
         public const string ID_TRANSACAO_PATTERN = @"^[a-zA-Z0-9]{26,35}$";
+        public const string ID_TRANSACAO_E2E_PATTERN = @"^[a-zA-Z0-9]{32}$";
 
         private static readonly Regex rx_txId = new Regex(ID_TRANSACAO_PATTERN);
+        private static readonly Regex rx_e2e = new Regex(ID_TRANSACAO_E2E_PATTERN);
 
+        /// <summary>
+        /// Valida id de transação
+        /// </summary>
+        public static bool ValidaTransactionId(string id)
+            => isValid(id, rx_txId);
 
+        /// <summary>
+        /// Valida id de fim-a-fim
+        /// </summary>
+        public static bool ValidaIdE2E(string id)
+            => isValid(id, rx_e2e);
 
         // Regex tem uma vulnerabilidade que pode ser explorada
         //  para um DOS usando entradas muito longas
