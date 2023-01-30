@@ -1,4 +1,9 @@
-﻿using System;
+﻿/**************************************\
+ * Biblioteca C# para APIs do PIX     *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using System;
 
 namespace CS.BCB.PIX.Models
 {
@@ -27,22 +32,7 @@ namespace CS.BCB.PIX.Models
     {
         public string txid { get; set; }
         public string status { get; set; } // EM_PROCESSAMENTO, CRIADA, NEGADA
-        public ProblemaCobrancaVencimentoLote problema { get; set; }
+        public ErroRequisicao problema { get; set; }
         public DateTime criacao { get; set; }
-    }
-    public class ProblemaCobrancaVencimentoLote
-    {
-        public string Type { get; set; }
-        public string Title { get; set; }
-        public int Status { get; set; }
-        public string Detail { get; set; }
-        public string CorrelationId { get; set;}
-        public ViolacaoCobrancaLote[] Violacoes { get; set; }
-    }
-    public class ViolacaoCobrancaLote
-    {
-        public string Razao { get; set; }
-        public string Propriedade { get; set; }
-        public string Valor { get; set; }
     }
 }
