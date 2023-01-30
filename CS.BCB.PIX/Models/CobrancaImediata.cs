@@ -24,7 +24,7 @@ namespace CS.BCB.PIX.Models
             DESCONHECIDO,
         }
 
-        public Calendario calendario { get; set; }
+        public CalendarioImediata calendario { get; set; }
         public NomeCpfCnpj devedor { get; set; }
         public DadosLoc loc { get; set; }
         public Valor valor { get; set; }

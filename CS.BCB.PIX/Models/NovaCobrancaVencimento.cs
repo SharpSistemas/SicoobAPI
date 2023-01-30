@@ -1,19 +1,14 @@
-﻿/**************************************\
- * Biblioteca C# para APIs do PIX     *
- * Autor: Rafael Estevam              *
- *        gh/SharpSistemas/SicoobAPI  *
-\**************************************/
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace CS.BCB.PIX.Models
 {
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class NovaCobrancaImediata
+    public class NovaCobrancaVencimento
     {
-        public CalendarioImadiataCriacao calendario { get; set; }
-        public NomeCpfCnpj devedor { get; set; }
+        public CalendarioVencimentoCriacao calendario { get; set; }
+        public DadosDevedor devedor { get; set; }
         public DadosLocCriacao loc { get; set; }
-        public Valor valor { get; set; }
+        public ValorVencimento valor { get; set; }
         public string chave { get; set; }
 
         public string? solicitacaoPagador { get; set; }
@@ -38,7 +33,7 @@ namespace CS.BCB.PIX.Models
         }
     }
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class RevisarCobrancaImediata : NovaCobrancaImediata
+    public class RevisarCobrancaVencimento : NovaCobrancaVencimento
     {
         public string status { get; set; } = "REMOVIDA_PELO_USUARIO_RECEBEDOR"; // REMOVIDA_PELO_USUARIO_RECEBEDOR 
     }

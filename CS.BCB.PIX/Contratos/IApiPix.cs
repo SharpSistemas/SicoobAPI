@@ -16,10 +16,10 @@ namespace CS.BCB.PIX.Contratos
         Task<byte[]> ConsultarImagemCobrancaAsync(string transactionId, int? revisao = null, int? largura = null);
 
         /* Cobrança Vencimento */
-        Task<CobrancaImediata> ConsultarCobrancaVencimentoAsync(string transactionId, int? revisao = null);
-        Task<CobrancaImediata> CriarCobrancaVencimentoAsync(string transactionId, NovaCobrancaImediata cobranca);
-        Task<ListagemCobrancaImediata> ListarCobrancasVencimentoAsync(ConsultarCobrancaImediata consulta);
-        Task<CobrancaImediata> RevisarCobrancaVencimentoAsync(string transactionId, RevisarCobrancaImediata cobranca);
+        Task<CobrancaVencimento> ConsultarCobrancaVencimentoAsync(string transactionId, int? revisao = null);
+        Task<CobrancaVencimento> CriarCobrancaVencimentoAsync(string transactionId, NovaCobrancaVencimento cobranca);
+        Task<ListagemCobrancaVencimento> ListarCobrancasVencimentoAsync(ConsultarCobrancaImediata consulta);
+        Task<CobrancaVencimento> RevisarCobrancaVencimentoAsync(string transactionId, RevisarCobrancaVencimento cobranca);
 
         /* PIX */
         Task<ListagemPixRecebido> ListarPIXAsync(ConsultarPix consulta);

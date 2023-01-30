@@ -19,19 +19,29 @@ namespace CS.BCB.PIX.Models
         public string? nome { get; set; }
         public string? valor { get; set; }
     }
-    public class Calendario : CalendarioCriacao
+    public class CalendarioImediata : CalendarioImadiataCriacao
     {
         public DateTime criacao { get; set; }
     }
-    public class CalendarioCriacao
+    public class CalendarioImadiataCriacao
     {
         /// <summary>
         /// Tempo de vida da cobrança, especificado em segundos a partir da data de criação
         /// </summary>
         public int expiracao { get; set; }
     }
+    public class CalendarioVencimento : CalendarioVencimentoCriacao
+    {
+        public DateTime criacao { get; set; }
+    }
+    public class CalendarioVencimentoCriacao
+    {
+        public DateTime DataDeVencimento { get; set; }
+        public int ValidadeAposVencimento { get; set; }
+    }
     public class DadosLoc : DadosLocCriacao
     {
+        public int id { get; set; }
         public string location { get; set; }
         public string tipoCob { get; set; } // cob, cobv
         public DateTime criacao { get; set; }
@@ -63,6 +73,7 @@ namespace CS.BCB.PIX.Models
     {
         public ModalidadeValorPercentual Multa { get; set; }
         public ModalidadeValorPercentual Juros { get; set; }
+        public ModalidadeValorPercentual Abatimento { get; set; }
         public DescontoCobrancaVencimento Desconto { get; set; }
     }
     public class ModalidadeValorPercentual : ValorPercentual
