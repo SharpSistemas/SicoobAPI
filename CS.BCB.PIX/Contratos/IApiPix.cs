@@ -7,5 +7,11 @@ namespace CS.BCB.PIX.Contratos
     {
         Task SetupAsync();
 
+        /* PIX */
+        Task<ListagemPixRecebido> ListarPIXAsync(ConsultarPix consulta);
+        Task<PixRecebido> ConsultarPIXAsync(string endToEndId);
+        Task<PixDevolucao> SolicitarDevlucaoPixAsync(string endToEndId, string idDevolucao, decimal valor);
+        Task<PixDevolucao> ConsultarDevlucaoPixAsync(string endToEndId, string idDevolucao);
+
     }
 }
