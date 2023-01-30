@@ -59,6 +59,41 @@ namespace CS.BCB.PIX.Models
 
         public int modalidadeAlteracao { get; set; }
     }
+    public class ValorVencimento : Valor
+    {
+        public ModalidadeValorPercentual Multa { get; set; }
+        public ModalidadeValorPercentual Juros { get; set; }
+        public DescontoCobrancaVencimento Desconto { get; set; }
+    }
+    public class ModalidadeValorPercentual : ValorPercentual
+    {
+        public int modalidade { get; set; }
+    }
+    public class DescontoCobrancaVencimento
+    {
+        public DescontoDataFixa descontoDataFixa { get; set; }
+        public int modalidade { get; set; }
+    }
+    public class DescontoDataFixa : ValorPercentual
+    {
+        public DateTime data { get; set; }
+    }
+    public class ValorPercentual
+    {
+        // O valor precisa serializar como string
+        // Não funcionou fazer o mapeamento
+        // Estou deixando com duas propriedades por hora
+        [JsonIgnore]
+        public decimal valorPerc { get; set; }
+
+        [JsonProperty(PropertyName = "valorPerc")]
+        public string valor_para_serializacao
+        {
+            get { return valorPerc.ToString(System.Globalization.CultureInfo.InvariantCulture); }
+            set { valorPerc = decimal.Parse(value, System.Globalization.CultureInfo.InvariantCulture); }
+        }
+    }
+
     public class ResponseParametros
     {
         public DateTime inicio { get; set; }
