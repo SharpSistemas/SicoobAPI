@@ -7,6 +7,11 @@ using System;
 
 namespace CS.BCB.PIX.Models
 {
+    public class ListagemPixRecebido
+    {
+        public ResponseParametros parametros { get; set; }
+        public PixRecebido[] pix { get; set; }
+    }
     public class PixRecebido
     {
         public string endToEndId { get; set; }
