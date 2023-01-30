@@ -111,13 +111,33 @@ namespace Sicoob.Shared
         {
             await VerificaAtualizaCredenciaisAsync();
             Response<T> response = await func();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
+                {
+                    throw new CS.BCB.PIX.Excecoes.ErroRequisicaoException(err);
+                }
+            }
             response.EnsureSuccessStatusCode();
+
             return response.Data;
         }
         protected async Task ExecutaChamadaAsync(Func<Task<Response>> func)
         {
             await VerificaAtualizaCredenciaisAsync();
             Response response = await func();
+            
+            //response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode<CS.BCB.PIX.Models.ErroRequisicao>();
+
+            // Processa manualmente para não envelopar demais
+            if (response.IsSuccessStatusCode) return;
+            if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
+            {
+                throw new CS.BCB.PIX.Excecoes.ErroRequisicaoException(err);
+            }
+            // Se não era um ErroRequisição, usar o erro comum
             response.EnsureSuccessStatusCode();
         }
     }
