@@ -19,7 +19,15 @@
 			See examples and documentation on the GitHub page
 			https://github.com/SharpSistemas/SicoobAPI
 		</PackageReleaseNotes>
+		<PackageReadmeFile>README-BCB.PIX.md</PackageReadmeFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\README-BCB.PIX.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
