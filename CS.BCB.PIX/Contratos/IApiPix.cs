@@ -8,12 +8,19 @@ namespace CS.BCB.PIX.Contratos
         Task SetupAsync();
 
         /* Cobrança */
-        Task<Cobranca> ConsultarCobrancaAsync(string transactionId, int? revisao = null);
-        Task<Cobranca> CriarCobrancaAsync(string transactionId, NovaCobranca cobranca);
-        Task<Cobranca> CriarCobrancaAsync(NovaCobranca cobranca);
-        Task<ListagemCobrancaRecebida> ListarCobrancasAsync(ConsultarCobranca consulta);
-        Task<Cobranca> RevisarCobrancaAsync(string transactionId, RevisarCobranca cobranca);
+        Task<CobrancaImediata> ConsultarCobrancaAsync(string transactionId, int? revisao = null);
+        Task<CobrancaImediata> CriarCobrancaAsync(string transactionId, NovaCobrancaImediata cobranca);
+        Task<CobrancaImediata> CriarCobrancaAsync(NovaCobrancaImediata cobranca);
+        Task<ListagemCobrancaImediata> ListarCobrancasAsync(ConsultarCobrancaImediata consulta);
+        Task<CobrancaImediata> RevisarCobrancaAsync(string transactionId, RevisarCobrancaImediata cobranca);
         Task<byte[]> ConsultarImagemCobrancaAsync(string transactionId, int? revisao = null, int? largura = null);
+
+        /* Cobrança Vencimento */
+        Task<CobrancaImediata> ConsultarCobrancaVencimentoAsync(string transactionId, int? revisao = null);
+        Task<CobrancaImediata> CriarCobrancaVencimentoAsync(string transactionId, NovaCobrancaImediata cobranca);
+        Task<ListagemCobrancaImediata> ListarCobrancasVencimentoAsync(ConsultarCobrancaImediata consulta);
+        Task<CobrancaImediata> RevisarCobrancaVencimentoAsync(string transactionId, RevisarCobrancaImediata cobranca);
+
         /* PIX */
         Task<ListagemPixRecebido> ListarPIXAsync(ConsultarPix consulta);
         Task<PixRecebido> ConsultarPIXAsync(string endToEndId);

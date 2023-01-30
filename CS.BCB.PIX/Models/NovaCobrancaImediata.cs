@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace CS.BCB.PIX.Models
 {
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class NovaCobranca
+    public class NovaCobrancaImediata
     {
         public CalendarioCriacao calendario { get; set; }
         public NomeCpfCnpj devedor { get; set; }
@@ -19,9 +19,9 @@ namespace CS.BCB.PIX.Models
         public string? solicitacaoPagador { get; set; }
         public NomeValor[] infoAdicionais { get; set; }
 
-        public static NovaCobranca Padrao(string chave, decimal valor, int expiracaoSegundos = 3600, string? solicitacaoPagador = null)
+        public static NovaCobrancaImediata Padrao(string chave, decimal valor, int expiracaoSegundos = 3600, string? solicitacaoPagador = null)
         {
-            return new NovaCobranca()
+            return new NovaCobrancaImediata()
             {
                 chave = chave,
                 valor = new Valor()
@@ -38,7 +38,7 @@ namespace CS.BCB.PIX.Models
         }
     }
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
-    public class RevisarCobranca : NovaCobranca
+    public class RevisarCobrancaImediata : NovaCobrancaImediata
     {
         public string status { get; set; } = "REMOVIDA_PELO_USUARIO_RECEBEDOR"; // REMOVIDA_PELO_USUARIO_RECEBEDOR 
     }

@@ -7,12 +7,12 @@ using System;
 
 namespace CS.BCB.PIX.Models
 {
-    public class ListagemCobrancaRecebida
+    public class ListagemCobrancaImediata
     {
         public ResponseParametros parametros { get; set; }
-        public Cobranca[] cobs { get; set; }
+        public CobrancaImediata[] cobs { get; set; }
     }
-    public class Cobranca
+    public class CobrancaImediata
     {
         public enum ListaStatus
         {
