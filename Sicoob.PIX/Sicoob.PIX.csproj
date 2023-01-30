@@ -33,7 +33,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CS.BCB.PIX" Version="0.0.3" />
-		<PackageReference Include="Simple.API" Version="1.6.2" />
+		<PackageReference Include="Simple.API" Version="1.6.3" />
 	</ItemGroup>
 
 	<ItemGroup>

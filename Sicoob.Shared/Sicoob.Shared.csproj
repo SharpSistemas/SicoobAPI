@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Simple.API" Version="1.6.2" />
+		<PackageReference Include="Simple.API" Version="1.6.3" />
 	</ItemGroup>
 
 </Project>
