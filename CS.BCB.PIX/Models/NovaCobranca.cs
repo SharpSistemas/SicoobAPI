@@ -1,5 +1,5 @@
 ﻿/**************************************\
- * Biblioteca C# para APIs do SICOOB  *
+ * Biblioteca C# para APIs do PIX     *
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
