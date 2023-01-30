@@ -33,18 +33,17 @@ public static class TestesApiPIX
         //  * sicoob.Expired
 
         /* COB */
-
-        var cobs = await sicoob.ListarCobrancasAsync(new PIX.Models.Cobranca.ConsultaRequest
+        var cobs = await sicoob.ListarCobrancasAsync(new CS.BCB.PIX.Models.ConsultarCobranca()
         {
-            inicio = DateTime.UtcNow.Date.AddDays(-1),
+            inicio = DateTime.UtcNow.Date.AddDays(-7),
             fim = DateTime.UtcNow.AddDays(1).Date,
         });
 
 
         /* PIX */
-        var pixPeriodo = await sicoob.ListarPIXAsync(new PIX.Models.Pix.ConsultaRequest()
+        var pixPeriodo = await sicoob.ListarPIXAsync(new CS.BCB.PIX.Models.ConsultarPix()
         {
-            inicio = DateTime.UtcNow.Date.AddDays(-1),
+            inicio = DateTime.UtcNow.Date.AddDays(-7),
             fim = DateTime.UtcNow.AddDays(1).Date,
         });
         var ultimoPix = await sicoob.ConsultarPIXAsync(pixPeriodo.pix[^1].endToEndId);

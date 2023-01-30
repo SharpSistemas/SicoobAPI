@@ -66,10 +66,10 @@ namespace Sicoob.PIX
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix</param>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Models.Cobranca.CobrancaCompleta> CriarCobrancaAsync(string transactionId, Models.Cobranca.CriarCobrancaRequest cobranca)
+        public async Task<CS.BCB.PIX.Models.Cobranca> CriarCobrancaAsync(string transactionId, CS.BCB.PIX.Models.NovaCobranca cobranca)
         {
             validaTxID(transactionId);
-            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Cobranca.CobrancaCompleta>($"/pix/api/v2/cob/{transactionId}", cobranca));
+            return await ExecutaChamadaAsync(() => clientApi.PutAsync<CS.BCB.PIX.Models.Cobranca>($"/pix/api/v2/cob/{transactionId}", cobranca));
         }
 
         /// <summary>
@@ -77,18 +77,18 @@ namespace Sicoob.PIX
         /// </summary>
         /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
         /// <returns>Cobrança imediata criada</returns>
-        public async Task<Models.Cobranca.CobrancaCompleta> CriarCobrancaAsync(Models.Cobranca.CriarCobrancaRequest cobranca)
-            => await ExecutaChamadaAsync(() => clientApi.PostAsync<Models.Cobranca.CobrancaCompleta>($"/pix/api/v2/cob", cobranca));
+        public async Task<CS.BCB.PIX.Models.Cobranca> CriarCobrancaAsync(CS.BCB.PIX.Models.NovaCobranca cobranca)
+            => await ExecutaChamadaAsync(() => clientApi.PostAsync<CS.BCB.PIX.Models.Cobranca>($"/pix/api/v2/cob", cobranca));
         /// <summary>
         /// Endpoint para revisar uma cobrança através de um determinado txid.
         /// </summary>
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
         /// <param name="cobranca">Dados para geração da cobrança</param>
         /// <returns>Cobrança imediata revisada. A revisão deve ser incrementada em 1.</returns>
-        public async Task<Models.Cobranca.RevisarCobrancaResponse> RevisarCobrancaAsync(string transactionId, Models.Cobranca.RevisarCobrancaRequest cobranca)
+        public async Task<CS.BCB.PIX.Models.Cobranca> RevisarCobrancaAsync(string transactionId, CS.BCB.PIX.Models.RevisarCobranca cobranca)
         {
             validaTxID(transactionId);
-            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<Models.Cobranca.RevisarCobrancaResponse>($"/pix/api/v2/cob/{transactionId}", cobranca));
+            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<CS.BCB.PIX.Models.Cobranca>($"/pix/api/v2/cob/{transactionId}", cobranca));
         }
 
         /// <summary>
@@ -97,22 +97,22 @@ namespace Sicoob.PIX
         /// <param name="transactionId">String, deve ter de 27 a 36 caracteres. Identificador único da cobrança Pix.</param>
         /// <param name="revisao">Revisao a ser consultada</param>
         /// <returns>Dados da cobrança imediata</returns>
-        public async Task<Models.Cobranca.CobrancaCompleta> ConsultarCobrancaAsync(string transactionId, int? revisao = null)
+        public async Task<CS.BCB.PIX.Models.Cobranca> ConsultarCobrancaAsync(string transactionId, int? revisao = null)
         {
             validaTxID(transactionId);
 
             string url = $"/pix/api/v2/cob/{transactionId}";
             if (revisao.HasValue) url += $"?revisao={revisao.Value}";
 
-            return await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Cobranca.CobrancaCompleta>(url));
+            return await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.Cobranca>(url));
         }
         /// <summary>
         /// Endpoint para consultar cobranças imediatas através de parâmetros como início, fim, cpf, cnpj e status.
         /// </summary>
         /// <param name="consulta">Dados da consulta</param>
         /// <returns>Lista de cobranças imediatas.</returns>
-        public async Task<Models.Cobranca.ConsultaResponse> ListarCobrancasAsync(Models.Cobranca.ConsultaRequest consulta)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Cobranca.ConsultaResponse>("/pix/api/v2/cob", consulta.ToKVP()));
+        public async Task<CS.BCB.PIX.Models.ListagemCobrancaRecebida> ListarCobrancasAsync(CS.BCB.PIX.Models.ConsultarCobranca consulta)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.ListagemCobrancaRecebida>("/pix/api/v2/cob", consulta.ToKVP()));
 
         /// <summary>
         /// Endpoint para gerar a imagem qrcode de uma cobrança através de um determinado txid.
@@ -143,15 +143,15 @@ namespace Sicoob.PIX
         /// </summary>
         /// <param name="consulta">Dados da consulta</param>
         /// <returns>Lista dos Pix recebidos de acordo com o critério de busca.</returns>
-        public async Task<Models.Pix.ConsultaResponse> ListarPIXAsync(Models.Pix.ConsultaRequest consulta)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.ConsultaResponse>("/pix/api/v2/pix", consulta.ToKVP()));
+        public async Task<CS.BCB.PIX.Models.ListagemPixRecebido> ListarPIXAsync(CS.BCB.PIX.Models.ConsultarPix consulta)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.ListagemPixRecebido>("/pix/api/v2/pix", consulta.ToKVP()));
         /// <summary>
         /// Endpoint para consultar um Pix através de um e2eid.
         /// </summary>
         /// <param name="endToEndId">Id fim a fim da transação. Deve ter 32 caracteres.</param>
         /// <returns>Dados do Pix efetuado.</returns>
-        public async Task<Models.Pix.PixResponse> ConsultarPIXAsync(string endToEndId)
-             => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.PixResponse>($"/pix/api/v2/pix/{endToEndId}"));
+        public async Task<CS.BCB.PIX.Models.PixRecebido> ConsultarPIXAsync(string endToEndId)
+             => await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.PixRecebido>($"/pix/api/v2/pix/{endToEndId}"));
 
         /// <summary>
         /// Endpoint para solicitar uma devolução através de um e2eid do Pix e do ID da devolução.
@@ -160,11 +160,12 @@ namespace Sicoob.PIX
         /// </summary>
         /// <param name="endToEndId">Id fim a fim da transação.</param>
         /// <param name="idDevolucao">Id gerado pelo cliente para representar unicamente uma devolução.</param>
+        /// <param name="valor">Valor a ser devolvido</param>
         /// <returns>Dados da devolução</returns>
-        public async Task<Models.Pix.DevolucaoResponse> SolicitarPixDevlucaoAsync(string endToEndId, string idDevolucao, decimal valor)
+        public async Task<CS.BCB.PIX.Models.PixDevolucao> SolicitarPixDevlucaoAsync(string endToEndId, string idDevolucao, decimal valor)
         {
             string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
-            return await ExecutaChamadaAsync(() => clientApi.PutAsync<Models.Pix.DevolucaoResponse>(url, new { valor = valor.ToString("N2", CultureInfo.InvariantCulture) }));
+            return await ExecutaChamadaAsync(() => clientApi.PutAsync<CS.BCB.PIX.Models.PixDevolucao>(url, new { valor = valor.ToString("N2", CultureInfo.InvariantCulture) }));
         }
         /// <summary>
         /// Endpoint para consultar uma devolução através de um EndToEndID do Pix e do ID da devolução
@@ -172,10 +173,10 @@ namespace Sicoob.PIX
         /// <param name="endToEndId">Id fim a fim da transação.</param>
         /// <param name="idDevolucao">Id gerado pelo cliente para representar unicamente uma devolução.</param>
         /// <returns>Dados da devolução</returns>
-        public async Task<Models.Pix.DevolucaoResponse> ConsultarPixDevlucaoAsync(string endToEndId, string idDevolucao)
+        public async Task<CS.BCB.PIX.Models.PixDevolucao> ConsultarPixDevlucaoAsync(string endToEndId, string idDevolucao)
         {
             string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
-            return await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Pix.DevolucaoResponse>(url));
+            return await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.PixDevolucao>(url));
         }
 
         /* Webhook */
@@ -192,13 +193,13 @@ namespace Sicoob.PIX
         /// <summary>
         /// Endpoint para consultar Webhooks cadastrados
         /// </summary>
-        public async Task<Models.Webhook.WebhookListResponse> ConsultarWebHooksAsync()
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Webhook.WebhookListResponse>("/pix/api/v2/webhook"));
+        public async Task<CS.BCB.PIX.Models.ListagemWebhookAtivo> ConsultarWebHooksAsync()
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.ListagemWebhookAtivo>("/pix/api/v2/webhook"));
         /// <summary>
         /// Endpoint para recuperação de informações sobre o Webhook Pix.
         /// </summary>
-        public async Task<Models.Webhook.WebhookResponse> ConsultarWebHookAsync(string chave)
-            => await ExecutaChamadaAsync(() => clientApi.GetAsync<Models.Webhook.WebhookResponse>($"/pix/api/v2/webhook/{chave}"));
+        public async Task<CS.BCB.PIX.Models.WebhookAtivo> ConsultarWebHookAsync(string chave)
+            => await ExecutaChamadaAsync(() => clientApi.GetAsync<CS.BCB.PIX.Models.WebhookAtivo>($"/pix/api/v2/webhook/{chave}"));
         /// <summary>
         /// Endpoint para cancelamento do webhook. Não é a única forma pela qual um webhook pode ser removido.
         /// </summary>
