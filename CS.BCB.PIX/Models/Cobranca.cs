@@ -7,6 +7,11 @@ using System;
 
 namespace CS.BCB.PIX.Models
 {
+    public class ListagemCobrancaRecebida
+    {
+        public ResponseParametros parametros { get; set; }
+        public Cobranca[] cobs { get; set; }
+    }
     public class Cobranca
     {
         public enum ListaStatus

@@ -40,6 +40,6 @@ namespace CS.BCB.PIX.Models
     [JsonObject(ItemNullValueHandling = NullValueHandling.Ignore)]
     public class RevisarCobranca : NovaCobranca
     {
-        public string status { get; set; } // REMOVIDA_PELO_USUARIO_RECEBEDOR 
+        public string status { get; set; } = "REMOVIDA_PELO_USUARIO_RECEBEDOR"; // REMOVIDA_PELO_USUARIO_RECEBEDOR 
     }
 }

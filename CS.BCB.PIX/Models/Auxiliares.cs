@@ -73,4 +73,18 @@ namespace CS.BCB.PIX.Models
             public int quantidadeTotalDeItens { get; set; }
         }
     }
+    public class ConsultaPaginacao
+    {
+        public int paginaAtual { get; set; }
+        public int itensPorPagina { get; set; }
+    }
+    public class Consulta
+    {
+        public DateTime inicio { get; set; }
+        public DateTime fim { get; set; }
+        public string? cpf { get; set; }
+        public string? cnpj { get; set; }
+
+        public ConsultaPaginacao? paginacao { get; set; }
+    }
 }
