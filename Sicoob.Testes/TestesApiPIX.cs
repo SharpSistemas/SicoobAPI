@@ -33,7 +33,7 @@ public static class TestesApiPIX
         //  * sicoob.Expired
 
         /* COB */
-        var cobs = await sicoob.ListarCobrancasAsync(new CS.BCB.PIX.Models.ConsultarCobranca()
+        var cobs = await sicoob.ListarCobrancasAsync(new CS.BCB.PIX.Models.ConsultarCobrancaImediata()
         {
             inicio = DateTime.UtcNow.Date.AddDays(-7),
             fim = DateTime.UtcNow.AddDays(1).Date,
