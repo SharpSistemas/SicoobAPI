@@ -5,7 +5,7 @@
 		<LangVersion>10.0</LangVersion>
 		<Nullable>warnings</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Version>0.0.1</Version>
+		<Version>0.0.2</Version>
 		<Authors>RafaelEstevam.Net</Authors>
 		<Company>SHARP SISTEMAS LTDA</Company>
 		<Product>C# Models for PIX</Product>
