@@ -1,4 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿/**************************************\
+ * Biblioteca C# para APIs do PIX     *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using System.Text.RegularExpressions;
 
 namespace CS.BCB.PIX.Validadores
 {
