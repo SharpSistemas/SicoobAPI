@@ -124,12 +124,15 @@ namespace CS.BCB.PIX.Models
         public int paginaAtual { get; set; }
         public int itensPorPagina { get; set; }
     }
+    public class ConsultaCpfCnpj : Consulta
+    {
+        public string? cpf { get; set; }
+        public string? cnpj { get; set; }
+    }
     public class Consulta
     {
         public DateTime inicio { get; set; }
         public DateTime fim { get; set; }
-        public string? cpf { get; set; }
-        public string? cnpj { get; set; }
 
         public ConsultaPaginacao? paginacao { get; set; }
     }
