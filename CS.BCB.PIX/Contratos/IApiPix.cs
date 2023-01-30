@@ -21,6 +21,12 @@ namespace CS.BCB.PIX.Contratos
         Task<ListagemCobrancaVencimento> ListarCobrancasVencimentoAsync(ConsultarCobrancaImediata consulta);
         Task<CobrancaVencimento> RevisarCobrancaVencimentoAsync(string transactionId, RevisarCobrancaVencimento cobranca);
 
+        /* Lotes de Cobrança */
+        Task CriarLoteCobrancaVencimentoAsync(string idLote, NovaCobrancaVencimentoLote lote);
+        Task RevisarLoteCobrancaVencimentoAsync(string idLote, RevisarCobrancaVencimentoLote lote);
+        Task<ConsultarCobrancaVencimentoLote> ConsultarLoteCobrancaVencimentoAsync(string transactionId);
+        Task<ConsultaLotesCobranca> ListarLoteCobrancaVencimentoAsync(Consulta consulta);
+
         /* PIX */
         Task<ListagemPixRecebido> ListarPIXAsync(ConsultarPix consulta);
         Task<PixRecebido> ConsultarPIXAsync(string endToEndId);
