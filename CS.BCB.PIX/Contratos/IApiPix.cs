@@ -1,4 +1,9 @@
-﻿using CS.BCB.PIX.Models;
+﻿/**************************************\
+ * Biblioteca C# para APIs do PIX     *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using CS.BCB.PIX.Models;
 using System.Threading.Tasks;
 
 namespace CS.BCB.PIX.Contratos

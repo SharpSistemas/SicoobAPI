@@ -1,4 +1,9 @@
-﻿namespace CS.BCB.PIX.Models
+﻿/**************************************\
+ * Biblioteca C# para APIs do PIX     *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+namespace CS.BCB.PIX.Models
 {
     public class ListagemCobrancaVencimento
     {

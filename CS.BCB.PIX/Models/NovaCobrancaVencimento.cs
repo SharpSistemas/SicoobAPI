@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿/**************************************\
+ * Biblioteca C# para APIs do PIX     *
+ * Autor: Rafael Estevam              *
+ *        gh/SharpSistemas/SicoobAPI  *
+\**************************************/
+using Newtonsoft.Json;
 
 namespace CS.BCB.PIX.Models
 {
