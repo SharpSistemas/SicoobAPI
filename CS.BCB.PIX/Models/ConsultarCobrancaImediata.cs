@@ -7,7 +7,7 @@ using System;
 
 namespace CS.BCB.PIX.Models
 {
-    public class ConsultarCobrancaImediata : Consulta
+    public class ConsultarCobrancaImediata : ConsultaCpfCnpj
     {
         public bool? locationPresente { get; set; }
         public string? status { get; set; }

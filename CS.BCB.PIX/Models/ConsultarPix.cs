@@ -7,7 +7,7 @@ using System;
 
 namespace CS.BCB.PIX.Models
 {
-    public class ConsultarPix : Consulta
+    public class ConsultarPix : ConsultaCpfCnpj
     {
         public string? txid { get; set; }
         public bool? txIdPresente { get; set; }
