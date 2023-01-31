@@ -121,19 +121,39 @@ namespace CS.BCB.PIX.Models
     }
     public class ConsultaPaginacao
     {
+        /// <summary>
+        /// Página a trazida
+        /// </summary>
         public int paginaAtual { get; set; }
+        /// <summary>
+        /// Quantidade de produtos por página
+        /// </summary>
         public int itensPorPagina { get; set; }
     }
     public class ConsultaCpfCnpj : Consulta
     {
+        /// <summary>
+        /// Indica CPF para fazer a consulta
+        /// </summary>
         public string? cpf { get; set; }
+        /// <summary>
+        /// Indica CNPJ para fazer a consulta
+        /// </summary>
         public string? cnpj { get; set; }
     }
     public class Consulta
     {
+        /// <summary>
+        /// Data inicial da busca
+        /// </summary>
         public DateTime inicio { get; set; }
+        /// <summary>
+        /// Data final (inlusive) da busca
+        /// </summary>
         public DateTime fim { get; set; }
-
+        /// <summary>
+        /// Informação sobre paginação de resultados
+        /// </summary>
         public ConsultaPaginacao? paginacao { get; set; }
     }
 }
