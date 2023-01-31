@@ -28,39 +28,50 @@ namespace Sicoob.Shared
                 else key = prepend + prop.Name;
 
                 string? sValue;
-                if (prop.PropertyType.IsPrimitive)
-                {
 
-                    if (prop.PropertyType == typeof(decimal))
+                var propType = prop.PropertyType;
+                if (propType.IsGenericType && propType.GenericTypeArguments != null && propType.GenericTypeArguments.Length > 0)
+                {
+                    // Null já foi
+                    propType = propType.GenericTypeArguments[0];
+                }
+
+                if (propType.IsPrimitive)
+                {
+                    if (propType == typeof(decimal))
                     {
                         sValue = ((decimal)value).ToString(CultureInfo.InvariantCulture);
                     }
-                    else if (prop.PropertyType == typeof(float))
+                    else if (propType == typeof(float))
                     {
                         sValue = ((float)value).ToString(CultureInfo.InvariantCulture);
                     }
-                    else if (prop.PropertyType == typeof(double))
+                    else if (propType == typeof(double))
                     {
                         sValue = ((double)value).ToString(CultureInfo.InvariantCulture);
                     }
-                    else if (prop.PropertyType == typeof(int))
+                    else if (propType == typeof(int))
                     {
                         sValue = ((int)value).ToString();
+                    }
+                    else if (propType == typeof(bool))
+                    {
+                        sValue = ((bool)value) ? "true" : "false";
                     }
                     else
                     {
                         throw new NotImplementedException();
                     }
                 }
-                else if (prop.PropertyType == typeof(string))
+                else if (propType == typeof(string))
                 {
                     sValue = value?.ToString();
                 }
-                else if (prop.PropertyType == typeof(DateTime))
+                else if (propType == typeof(DateTime))
                 {
                     sValue = ((DateTime)value).ToRFC3339();
                 }
-                else if (prop.PropertyType.IsClass)
+                else if (propType.IsClass)
                 {
                     var objKP = toKVP(value, key + ".");
 
