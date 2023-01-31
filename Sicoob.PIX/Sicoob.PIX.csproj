@@ -5,7 +5,7 @@
 		<LangVersion>10.0</LangVersion>
 		<Nullable>warnings</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Version>0.9.7</Version>
+		<Version>0.9.7.1</Version>
 		<Authors>RafaelEstevam.Net</Authors>
 		<Company>SHARP SISTEMAS LTDA</Company>
 		<Product>Sicoob PIX for C#</Product>
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CS.BCB.PIX" Version="0.0.4" />
+		<PackageReference Include="CS.BCB.PIX" Version="0.0.5" />
 		<PackageReference Include="Simple.API" Version="1.6.3" />
 	</ItemGroup>
 
