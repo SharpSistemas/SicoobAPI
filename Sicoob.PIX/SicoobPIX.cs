@@ -10,7 +10,6 @@ using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Sicoob.PIX
@@ -33,11 +32,6 @@ namespace Sicoob.PIX
 
         private ClientInfo clientApi;
         public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
-
-        private static readonly string rxTxidPattern = "^[a-zA-Z0-9]{26,35}$";
-        private static readonly Regex rxTxid = new Regex(rxTxidPattern, RegexOptions.Compiled);
-        private static readonly string rxIdDevolucaoPattern = "^[a-zA-Z0-9]{1,35}$";
-        private static readonly Regex rxIdDevolucao = new Regex(rxIdDevolucaoPattern, RegexOptions.Compiled);
 
         public SicoobPIX(Shared.Models.ConfiguracaoAPI configApi, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
             : base(configApi, certificado)
@@ -163,6 +157,7 @@ namespace Sicoob.PIX
         /// <returns>Dados da devolução</returns>
         public async Task<PixDevolucao> SolicitarDevlucaoPixAsync(string endToEndId, string idDevolucao, decimal valor)
         {
+            validaIDDevolucao(idDevolucao);
             string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
             return await ExecutaChamadaAsync(() => clientApi.PutAsync<PixDevolucao>(url, new { valor = valor.ToString("N2", CultureInfo.InvariantCulture) }));
         }
@@ -212,16 +207,9 @@ namespace Sicoob.PIX
             {
                 throw new ArgumentException($"'{nameof(transactionId)}' cannot be null or empty.", nameof(transactionId));
             }
-
-            // Mitiga ataque de negação de serviço no regex (processamento muito longo)
-            if (transactionId.Length > 100)
+            if (!CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaTransactionId(transactionId))
             {
-                throw new ArgumentException($"'{nameof(transactionId)}' comprimento inválido.", nameof(transactionId));
-            }
-            // Checa Regex
-            if (!rxTxid.IsMatch(transactionId))
-            {
-                throw new ArgumentException($"'{nameof(transactionId)}' Não é valido na restrição \"{rxTxidPattern}\"", nameof(transactionId));
+                throw new ArgumentException($"'{nameof(transactionId)}' Não é valido na restrição", nameof(transactionId));
             }
         }
         private static void validaIDDevolucao(string idDevolucao)
@@ -231,15 +219,9 @@ namespace Sicoob.PIX
                 throw new ArgumentException($"'{nameof(idDevolucao)}' cannot be null or empty.", nameof(idDevolucao));
             }
 
-            // Mitiga ataque de negação de serviço no regex (processamento muito longo)
-            if (idDevolucao.Length > 100)
+            if (!CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaTransactionIdDevolucao(idDevolucao))
             {
-                throw new ArgumentException($"'{nameof(idDevolucao)}' comprimento inválido.", nameof(idDevolucao));
-            }
-            // Checa Regex
-            if (!rxIdDevolucao.IsMatch(idDevolucao))
-            {
-                throw new ArgumentException($"'{nameof(idDevolucao)}' Não é valido na restrição \"{rxIdDevolucaoPattern}\"", nameof(idDevolucao));
+                throw new ArgumentException($"'{nameof(idDevolucao)}' Não é valido na restrição", nameof(idDevolucao));
             }
         }
 
