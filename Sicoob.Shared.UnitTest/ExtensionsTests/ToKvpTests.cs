@@ -3,18 +3,19 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
-using Sicoob.Shared;
+using Sicoob.Shared.Models.Geral;
+using System;
 using System.Linq;
 using Xunit;
 
-namespace Sicoob.PIX.UnitTest.ExtensionsTests
+namespace Sicoob.Shared.UnitTest.ExtensionsTests
 {
     public class ToKvpTests
     {
         [Fact]
         public void Extensions_ToVKP_PixConsulta()
         {
-            var cons = new Models.Pix.ConsultaRequest()
+            var cons = new ConsultaRequest()
             {
                 inicio = new System.DateTime(2020, 01, 01, 0, 0, 0, System.DateTimeKind.Utc),
                 fim = new System.DateTime(2021, 12, 31, 0, 0, 0, System.DateTimeKind.Utc),
@@ -36,4 +37,19 @@ namespace Sicoob.PIX.UnitTest.ExtensionsTests
             Assert.Equal(str, expected);
         }
     }
+
+    public class ConsultaRequest
+    {
+        public DateTime inicio { get; set; }
+        public DateTime fim { get; set; }
+        public string? txid { get; set; }
+        public bool? txIdPresente { get; set; }
+        public bool? devolucaoPresente { get; set; }
+        public string? cpf { get; set; }
+        public string? cnpj { get; set; }
+
+        public RequestPaginacao? paginacao { get; set; }
+
+    }
+
 }
