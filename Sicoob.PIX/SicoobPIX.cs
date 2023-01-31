@@ -219,7 +219,7 @@ namespace Sicoob.PIX
                 throw new ArgumentException($"'{nameof(idDevolucao)}' cannot be null or empty.", nameof(idDevolucao));
             }
 
-            if (!CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaTransactionIdDevolucao(idDevolucao))
+            if (!CS.BCB.PIX.Validadores.ValidacaoIdentificadores.ValidaIdDevolucao(idDevolucao))
             {
                 throw new ArgumentException($"'{nameof(idDevolucao)}' Não é valido na restrição", nameof(idDevolucao));
             }
