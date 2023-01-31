@@ -82,7 +82,7 @@ await sicoob.SetupAsync();
 Funções Cobrança para PIX-Imediato
 ~~~C#
 // Listar todas as cobranças num período
-var cobs = await sicoob.ListarCobrancasAsync(new Sicoob.PIX.Models.Cobranca.ConsultaRequest
+var cobs = await sicoob.ListarCobrancasAsync(new ConsultarCobrancaImediata
 {
     inicio = DateTime.UtcNow.Date.AddDays(-1),
     fim = DateTime.UtcNow.AddDays(1).Date,
@@ -106,7 +106,7 @@ string gerarNovaTxId()
 Funções de consulta de PIX Recebidos
 ~~~C#
 /* PIX */
-var pixPeriodo = await sicoob.ListarPIXAsync(new Sicoob.PIX.Models.Pix.ConsultaRequest()
+var pixPeriodo = await sicoob.ListarPIXAsync(new ConsultarPix()
 {
     inicio = DateTime.UtcNow.Date.AddDays(-1),
     fim = DateTime.UtcNow.AddDays(1).Date,
