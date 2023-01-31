@@ -43,7 +43,7 @@ namespace CS.BCB.PIX.Validadores
         /// <summary>
         /// Valida id de transação de devolução
         /// </summary>
-        public static bool ValidaTransactionIdDevolucao(string id)
+        public static bool ValidaIdDevolucao(string id)
             => isValid(id, rx_txDev);
 
         /// <summary>
