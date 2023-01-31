@@ -32,7 +32,7 @@ namespace CS.BCB.PIX.Validadores
         private static readonly Regex rx_txId = new Regex(ID_TRANSACAO_PATTERN);
         private static readonly Regex rx_e2e = new Regex(ID_TRANSACAO_E2E_PATTERN);
         private static readonly Regex rx_txDev = new Regex(ID_TRANSACAO_DEVOLUCAO);
-        private static readonly Regex rx_retId = new Regex(ID_RETURN_IDENTIFICATION);
+        private static readonly Regex rx_rtrId = new Regex(ID_RETURN_IDENTIFICATION);
 
         /// <summary>
         /// Valida id de transação
@@ -53,10 +53,10 @@ namespace CS.BCB.PIX.Validadores
             => isValid(id, rx_e2e);
 
         /// <summary>
-        /// Valida Return Identification (PACS004)
+        /// Valida rtrId (Return Identification) que transita na PACS004
         /// </summary>
         public static bool ValidaIdRetorno(string id)
-            => isValid(id, rx_retId);
+            => isValid(id, rx_rtrId);
 
         private static bool isValid(string valor, Regex regex)
         {
