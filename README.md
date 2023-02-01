@@ -5,13 +5,13 @@ Repositório para comunicação via API com o banco Sicoob
 Link da documentação oficial: https://developers.sicoob.com.br
 
 Para comunicação com o Sicoob é necessário um "Cadastro de Aplicativo" em developers.sicoob.com.br. 
-Para isso é necessário ter os dados bancarios da conta a ser automatizada e de um certificado ICP-Brasil em arquivo.
+Para isso é necessário ter os dados bancarios da conta a ser automatizada e de seu respectivo certificado ICP-Brasil em arquivo.
 
-Cada conta bancária a ser automatizada deve ter um cadastro como Aplicaitvo
+Cada conta bancária a ser automatizada deve ter um cadastro como Aplicativo, entre em contato com sua agência e solicite auxílio.
 
 É necessário ter o certificado em dois formatos: 
-* *.PFX (padrão quando um certificado A1 é adiquirido) com a senha e;
-* *.CER (apenas a chave pública em formato Base-64)
+* *.PFX (padrão quando um certificado A1 é adiquirido) com a senha e - para comunicação;
+* *.CER (apenas a chave pública em formato Base-64) - para o cadastro
 
 Durante o cadastro será informado os dados da conta bancária sendo automatizada e o certificado no formato PEM. Será gerado um `ClientId`.
 
@@ -37,6 +37,8 @@ API Conta Corrente e Poupança:
 A documentação do Sicoob é falha, imcompleta e em alguns tópicos é completamente ausente.
 O Gerente não tem acesso à documentação, o WhatsApp das APIs manda solicitar via e-mail, e o e-mails não são respondidos.
 Farei o póssível para documentar aqui as funções não documentadas lá, porém sob o risco de errar alguma funcionalidade
+
+O Sicoob parece respeitar bem as definições Públicas Padrão do PIX, então usarei de base o repositório https://github.com/SharpSistemas/PIX-BCB
 
 ## Sicoob.PIX
 
