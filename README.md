@@ -1,10 +1,10 @@
 # [![.NET](https://github.com/SharpSistemas/SicoobAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SharpSistemas/SicoobAPI) APIs Sicoob 
 
 - [ APIs Sicoob](#-apis-sicoob)
-  - [Sicoob.PIX](#sicoobpix)
-    - [Exemplos de uso](#exemplos-de-uso)
-    - [Permissões](#permissões)
-    - [Webhook](#webhook)
+- [Sicoob.PIX](#sicoobpix)
+  - [Exemplos de uso](#exemplos-de-uso)
+  - [Permissões](#permissões)
+  - [Webhook](#webhook)
 
  
 O objetivo deste repositório para comunicação via API com o banco Sicoob.
@@ -44,7 +44,7 @@ Link da documentação oficial: https://developers.sicoob.com.br
 
 O Sicoob parece respeitar bem as definições Públicas Padrão do PIX, então usarei de base o repositório https://github.com/SharpSistemas/PIX-BCB
 
-## Sicoob.PIX
+# Sicoob.PIX
 
 APIs do Sicoob para funções PIX
 
@@ -56,7 +56,7 @@ Funcionalidades da API:
 * Criar, Consultar e revisar PayloadLocation de Pix (cria um acesso público para dados de uma cobrança)
 * Criar, consultar e cancelar Webhook
 
-### Exemplos de uso
+## Exemplos de uso
 
 Criação do objeto API
 
@@ -119,7 +119,7 @@ var pixPeriodo = await sicoob.ListarPIXAsync(new ConsultarPix()
 });
 ~~~
 
-### Permissões
+## Permissões
 
 A autenticação para o endpoint PIX do sicoob separa as diversas funções em diferentes escopos, cada um com a variante Read e Write:
 
@@ -134,7 +134,7 @@ Confira aqui a classe para configuração dos Scopes [AuthorizationScope](https:
 
 Veja detalhes em https://developers.sicoob.com.br/#!/documentacao?section=apis&item=pix
 
-### Webhook
+## Webhook
 
 A documentação do Webhook é um dos casos aonde só há informações parciais
 
