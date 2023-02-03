@@ -1,8 +1,13 @@
+# [![.NET](https://github.com/SharpSistemas/SicoobAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SharpSistemas/SicoobAPI) APIs Sicoob 
 
-# APIs Sicoob
-Repositório para comunicação via API com o banco Sicoob
+- [ APIs Sicoob](#-apis-sicoob)
+  - [Sicoob.PIX](#sicoobpix)
+    - [Exemplos de uso](#exemplos-de-uso)
+    - [Permissões](#permissões)
+    - [Webhook](#webhook)
 
-Link da documentação oficial: https://developers.sicoob.com.br
+ 
+O objetivo deste repositório para comunicação via API com o banco Sicoob.
 
 Para comunicação com o Sicoob é necessário um "Cadastro de Aplicativo" em developers.sicoob.com.br. 
 Para isso é necessário ter os dados bancarios da conta a ser automatizada e de seu respectivo certificado ICP-Brasil em arquivo.
@@ -21,9 +26,6 @@ O Sicoob possui APIs para:
 * Conta Corrente
 * Conta Poupança
 
-Badges:
-
-[![.NET](https://github.com/SharpSistemas/SicoobAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SharpSistemas/SicoobAPI)
 
 API PIX:
 [![NuGet](https://buildstats.info/nuget/Sicoob.PIX)](https://www.nuget.org/packages/Sicoob.PIX)
@@ -36,6 +38,9 @@ API Conta Corrente e Poupança:
 A documentação do Sicoob é falha, incompleta e em alguns tópicos é completamente ausente.
 O Gerente não tem acesso à documentação, o WhatsApp das APIs manda solicitar via e-mail, e o e-mails não são respondidos.
 Farei o póssível para documentar aqui as funções não documentadas lá, porém sob o risco de errar alguma funcionalidade
+
+
+Link da documentação oficial: https://developers.sicoob.com.br
 
 O Sicoob parece respeitar bem as definições Públicas Padrão do PIX, então usarei de base o repositório https://github.com/SharpSistemas/PIX-BCB
 
@@ -113,6 +118,21 @@ var pixPeriodo = await sicoob.ListarPIXAsync(new ConsultarPix()
     fim = DateTime.UtcNow.AddDays(1).Date,
 });
 ~~~
+
+### Permissões
+
+A autenticação para o endpoint PIX do sicoob separa as diversas funções em diferentes escopos, cada um com a variante Read e Write:
+
+* cob: permissões para endpoints de cobrança imediata
+* cobv: permissões para endpoints de cobrança com vencimento
+* lotecobv: permissões para endpoints de lotes cobrança com vencimento
+* pix: permissões para consulta e alteração de transações PIX (com ou sem cobrança)
+* webhook: permissões para endpoints de webhook
+* payloadlocation: permissões para endpoints de payloads
+
+Confira aqui a classe para configuração dos Scopes [AuthorizationScope](https://github.com/SharpSistemas/SicoobAPI/blob/main/Sicoob.Shared/Models/AuthorizationScope.cs)
+
+Veja detalhes em https://developers.sicoob.com.br/#!/documentacao?section=apis&item=pix
 
 ### Webhook
 
