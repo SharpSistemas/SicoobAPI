@@ -5,6 +5,11 @@
   - [Exemplos de uso](#exemplos-de-uso)
   - [Permissões](#permissões)
   - [Webhook](#webhook)
+- [Sicoob.Conta](#sicoobconta)
+  - [Exemplos de uso](#exemplos-de-uso-1)
+    - [Consulta de Saldo](#consulta-de-saldo)
+    - [Consulta de Extrato](#consulta-de-extrato)
+  - [Permissões](#permissões-1)
 
  
 O objetivo deste repositório para comunicação via API com o banco Sicoob.
@@ -84,6 +89,8 @@ await sicoob.SetupAsync();
 //  * sicoob.Expired
 ~~~
 **Atenção:** Por segurança, o construtor da classe Sicoob (e todas suas derivações, como o SicoobPIX) apaga a propriedade `CertificadoSenha` do objeto de configuração
+
+Nota: É possível inicializar a classe passando o certificado x509 diretamente no construtor ao invés de utilizar a configuração.
 
 Funções Cobrança para PIX-Imediato
 ~~~C#
@@ -203,4 +210,75 @@ Você será notificado na URL cadastrada do Webhook e poderá identificar pelos 
 Infelizmente não temos exemplos disponíveis, será necessário testar sua aplicação.
 ~~~
 Protocolo do Atendimento: [REMOVIDO]
+
+
+# Sicoob.Conta
+
+APIs do Sicoob para funções de Conta Bancária
+
+Funcionalidades da API:
+* Consultar Saldo e Extrato para Conta Corrente
+* Consultar Saldo e Extrato para Conta Poupança
+
+## Exemplos de uso
+
+Criação do objeto API
+
+~~~C#
+// Cria configuração
+var cfg = new ConfiguracaoAPI()
+{
+    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+    Scope =  AuthorizationScope.TodosContaCorrente(),
+    CertificadoSenha = "SenhaCertificado",
+    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
+};
+
+// cria o objeto de comunicação com as APIs de PIX
+var sicoob = new SicoobContaCorrente(cfg);
+// Inicializa o acesso das APIs
+await sicoob.SetupAsync();
+
+// A autenticação dura 300 segundos (5min) e é auto renovado pela biblioteca
+// Cada chamada verifica e, se necessário, atualiza o token
+// Chame AtualizarCredenciaisAsync() para renovar manualmente
+// É possível consultar dados da vigência do Token nas propriedades:
+//  * sicoob.ExpiresIn
+//  * sicoob.ExpiresAtUTC
+//  * sicoob.Expired
+~~~
+
+Repare que a única diferença na inicialização entre PIX e Conta é no Scope e no nome da classe
+
+### Consulta de Saldo
+~~~C#
+var saldo = await sicoob.ObterSaldoAsync();
+~~~
+
+### Consulta de Extrato
+~~~C#
+var extrato = await sicoob.ObterExtratoAsync(12, 2022);
+~~~
+O sicoob limita extrato aos últimos 3 meses
+
+
+## Permissões
+
+A autenticação para o endpoint de Conta do sicoob é diferente do PIX, seguem os escopos:
+
+* Conta Corrente:
+  * openid: Obrigatório
+  * cco_extrato: Permite consultar extrato
+  * cco_saldo: Permite consultar saldo
+* Poupança:
+  * poupanca_contas: Permite listar as contas
+  * poupanca_extrato: Permite consultar extrato
+  * poupanca_saldo: Permite consultar saldo
+
+Confira aqui a classe para configuração dos Scopes [AuthorizationScope](https://github.com/SharpSistemas/SicoobAPI/blob/main/Sicoob.Shared/Models/AuthorizationScope.cs)
+
+Veja detalhes em https://developers.sicoob.com.br/ navegue para: 
+* APIs -> Conta-Corrente
+* APIs -> Poupança
+
 
