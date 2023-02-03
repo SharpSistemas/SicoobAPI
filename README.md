@@ -28,8 +28,7 @@ Badges:
 API PIX:
 [![NuGet](https://buildstats.info/nuget/Sicoob.PIX)](https://www.nuget.org/packages/Sicoob.PIX)
 
-API Cobrança: 
-[![NuGet](https://buildstats.info/nuget/Sicoob.Cobranca)](https://www.nuget.org/packages/Sicoob.Cobranca)
+API Cobrança: [Em breve]
 
 API Conta Corrente e Poupança: 
 [![NuGet](https://buildstats.info/nuget/Sicoob.Conta)](https://www.nuget.org/packages/Sicoob.Conta)
