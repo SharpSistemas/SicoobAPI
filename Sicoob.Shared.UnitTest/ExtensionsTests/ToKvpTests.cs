@@ -12,6 +12,7 @@ namespace Sicoob.Shared.UnitTest.ExtensionsTests
 {
     public class ToKvpTests
     {
+        // Valida se serializou de acordo com o que o Sicoob quer receber
         [Fact]
         public void Extensions_ToVKP_PixConsulta()
         {
@@ -38,7 +39,7 @@ namespace Sicoob.Shared.UnitTest.ExtensionsTests
         }
     }
 
-    public class ConsultaRequest
+    internal class ConsultaRequest
     {
         public DateTime inicio { get; set; }
         public DateTime fim { get; set; }
