@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CS.BCB.PIX" Version="0.9.0" />
+		<PackageReference Include="CS.BCB.PIX" Version="0.9.1" />
 		<PackageReference Include="Simple.API" Version="1.6.3" />
 	</ItemGroup>
 
