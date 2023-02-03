@@ -33,7 +33,7 @@ API Cobrança: [Em breve]
 API Conta Corrente e Poupança: 
 [![NuGet](https://buildstats.info/nuget/Sicoob.Conta)](https://www.nuget.org/packages/Sicoob.Conta)
 
-A documentação do Sicoob é falha, imcompleta e em alguns tópicos é completamente ausente.
+A documentação do Sicoob é falha, incompleta e em alguns tópicos é completamente ausente.
 O Gerente não tem acesso à documentação, o WhatsApp das APIs manda solicitar via e-mail, e o e-mails não são respondidos.
 Farei o póssível para documentar aqui as funções não documentadas lá, porém sob o risco de errar alguma funcionalidade
 
