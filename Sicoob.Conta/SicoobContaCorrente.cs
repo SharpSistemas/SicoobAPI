@@ -20,8 +20,8 @@ namespace Sicoob.Conta
         private ClientInfo clientApi;
         public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
 
-        public SicoobContaCorrente(Shared.Models.ConfiguracaoAPI configApi)
-            : base(configApi)
+        public SicoobContaCorrente(Shared.Models.ConfiguracaoAPI configApi, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
+            : base(configApi, certificado)
         {
             ConfigApi = configApi;
         }
