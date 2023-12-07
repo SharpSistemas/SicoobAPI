@@ -3,22 +3,21 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+namespace Sicoob.Shared.Models.Geral;
+
 using System;
 
-namespace Sicoob.Shared.Models.Geral
+public class ResponseParametros
 {
-    public class ResponseParametros
-    {
-        public DateTime inicio { get; set; }
-        public DateTime fim { get; set; }
-        public Paginacao? paginacao { get; set; }
+    public DateTime inicio { get; set; }
+    public DateTime fim { get; set; }
+    public Paginacao? paginacao { get; set; }
 
-        public class Paginacao
-        {
-            public int paginaAtual { get; set; }
-            public int itensPorPagina { get; set; }
-            public int quantidadeDePaginas { get; set; }
-            public int quantidadeTotalDeItens { get; set; }
-        }
+    public class Paginacao
+    {
+        public int paginaAtual { get; set; }
+        public int itensPorPagina { get; set; }
+        public int quantidadeDePaginas { get; set; }
+        public int quantidadeTotalDeItens { get; set; }
     }
 }

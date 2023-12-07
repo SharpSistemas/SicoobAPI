@@ -3,13 +3,13 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+namespace Sicoob.Testes;
+
 using Newtonsoft.Json;
 using Sicoob.Conta;
 using Sicoob.Shared.Models;
 using System.IO;
 using System.Threading.Tasks;
-
-namespace Sicoob.Testes;
 
 public static class TestesApiConta
 {

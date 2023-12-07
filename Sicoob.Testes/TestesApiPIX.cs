@@ -3,13 +3,13 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+namespace Sicoob.Testes;
+
 using Newtonsoft.Json;
 using Sicoob.PIX;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
-namespace Sicoob.Testes;
 
 public static class TestesApiPIX
 {
@@ -32,21 +32,29 @@ public static class TestesApiPIX
         //  * sicoob.ExpiresAtUTC
         //  * sicoob.Expired
 
-        /* COB */
-        var cobs = await sicoob.ListarCobrancasAsync(new CS.BCB.PIX.Models.ConsultarCobrancaImediata()
-        {
-            inicio = DateTime.UtcNow.Date.AddDays(-7),
-            fim = DateTime.UtcNow.AddDays(1).Date,
-        });
+        //var allHooks = await sicoob.ConsultarWebHooksAsync();
+        //var chaveHooks = await sicoob.ConsultarWebHookAsync("17189722000139");
 
+        //var novo = await sicoob.CriarCobrancaAsync("TESTC001F1AA20230203T092900", CS.BCB.PIX.Models.NovaCobrancaImediata.Padrao("17189722000139", 1.90M));
+
+        /* COB */
+        //var cobs = await sicoob.ListarCobrancasAsync(new CS.BCB.PIX.Models.ConsultarCobrancaImediata()
+        //{
+        //    inicio = DateTime.UtcNow.Date.AddDays(-7),
+        //    fim = DateTime.UtcNow.AddDays(1).Date,
+        //});
 
         /* PIX */
-        var pixPeriodo = await sicoob.ListarPIXAsync(new CS.BCB.PIX.Models.ConsultarPix()
-        {
-            inicio = DateTime.UtcNow.Date.AddDays(-7),
-            fim = DateTime.UtcNow.AddDays(1).Date,
-        });
-        var ultimoPix = await sicoob.ConsultarPIXAsync(pixPeriodo.pix[^1].endToEndId);
+        //var pixPeriodo = await sicoob.ListarPIXAsync(new CS.BCB.PIX.Models.ConsultarPix()
+        //{
+        //    inicio = DateTime.UtcNow.Date.AddDays(-7),
+        //    fim = DateTime.UtcNow.AddDays(1).Date,
+        //    //paginacao = new CS.BCB.PIX.Models.ConsultaPaginacao()
+        //    //{
+        //    //    itensPorPagina = 50,
+        //    //}
+        //});
+        //var ultimoPix = await sicoob.ConsultarPIXAsync(pixPeriodo.pix[^1].endToEndId);
 
 
     }
