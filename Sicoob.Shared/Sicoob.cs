@@ -126,9 +126,6 @@ public abstract class Sicoob
         await VerificaAtualizaCredenciaisAsync();
         Response response = await func();
         
-        //response.EnsureSuccessStatusCode();
-        //response.EnsureSuccessStatusCode<CS.BCB.PIX.Models.ErroRequisicao>();
-
         // Processa manualmente para não envelopar demais
         if (response.IsSuccessStatusCode) return;
         if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
