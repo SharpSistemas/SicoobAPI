@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Simple.API" Version="1.6.3" />
+    <PackageReference Include="Simple.API" Version="1.7.1.2" />
   </ItemGroup>
 
   <ItemGroup>
