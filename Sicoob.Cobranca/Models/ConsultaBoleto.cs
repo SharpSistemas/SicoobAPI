@@ -15,7 +15,6 @@ public class ConsultaBoletosPagadorRequest
 {
     public string client_id { get; set; } = string.Empty;
     public string numeroContrato { get; set; } = string.Empty;
-    public string numeroCpfCnpj { get; set; } = string.Empty;
     /// <summary>
     /// 1: Em Aberto
     /// 2: Baixado
@@ -23,8 +22,8 @@ public class ConsultaBoletosPagadorRequest
     /// </summary>
     public int? codigoSituacao { get; set; } 
 
-    public DateTime? dataInicio { get; set; }
-    public DateTime? dataFim { get; set; }
+    public string? dataInicio { get; set; }
+    public string? dataFim { get; set; }
 }
 
 public class ConsultaBoletoResponse

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Classe para comunicação com as APIs de PIX do Sicoob
 /// </summary>
-public sealed class SicoobPIX : Shared.Sicoob, IApiPix
+public sealed class SicoobPIX : Sicoob, IApiPix
 {
     // Documentações
     // > APIs tipo "Swagger":
