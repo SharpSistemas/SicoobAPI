@@ -4,16 +4,15 @@ using System;
 
 public class ConsultaBoletoRequest
 {
-    public string client_id { get; set; } = string.Empty;
     public string numeroContrato { get; set; } = string.Empty;
     public int modalidade { get; set; } = 1; // Só tem a opção de `1`
     public int? nossoNumero { get; set; }
     public string? linhaDigitavel { get; set; }
     public string? codigoBarras { get; set; }
+    public bool? gerarPdf { get; set; }
 }
 public class ConsultaBoletosPagadorRequest
 {
-    public string client_id { get; set; } = string.Empty;
     public string numeroContrato { get; set; } = string.Empty;
     /// <summary>
     /// 1: Em Aberto
@@ -78,6 +77,7 @@ public class DadosBoleto
     public Listahistorico[]? listaHistorico { get; set; }
     public string? situacaoBoleto { get; set; }
     public Rateiocredito[]? rateioCreditos { get; set; }
+    public string? pdfBoleto { get; set; }
     public string? qrCode { get; set; }
 }
 

@@ -10,4 +10,5 @@ System.Console.WriteLine("Escolha o Teste");
 //await TestesApiPIX.Run();
 //await TestesApiConta.Run_ContaCorrente();
 //await TestesApiConta.Run_ContaPoupanca();
+await TestesApiCobranca.Run_Cobranca();
 

@@ -5,6 +5,7 @@
 \**************************************/
 namespace Sicoob.Cobranca;
 
+using CS.BCB.PIX.Models;
 using Sicoob.Cobranca.Models;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
@@ -54,7 +55,6 @@ public sealed class SicoobCobranca : Shared.Sicoob
     {
         var consulta = new ConsultaBoletoRequest()
         {
-            client_id = ConfigApi.ClientId ?? throw new ArgumentNullException($"{nameof(ConfigApi)}.{nameof(ConfigApi.ClientId)} must not be null"),
             modalidade = 1,
             numeroContrato = numeroContrato,
             nossoNumero = nossoNumero,
@@ -73,17 +73,36 @@ public sealed class SicoobCobranca : Shared.Sicoob
     /// <param name="dataVencimentoInicio">Data de Vencimento Inicial</param>
     /// <param name="dataVencimentoFim">Data de Vencimento Final</param>
     /// <returns>Boletos do Pagador</returns>
-    public async Task<ConsultaBoletosPagadorResponse> ConsultarBoletosPagador(string numeroCpfCnpj, string numeroContrato, int? codigoSituacao = null, DateTime? dataVencimentoInicio = null, DateTime? dataVencimentoFim = null)
+    public async Task<ConsultaBoletosPagadorResponse> ConsultarBoletosPagador(string numeroContrato, string numeroCpfCnpj,int? codigoSituacao = null, DateTime? dataVencimentoInicio = null, DateTime? dataVencimentoFim = null)
     {
         var consulta = new ConsultaBoletosPagadorRequest()
         {
-            client_id = ConfigApi.ClientId ?? throw new ArgumentNullException($"{nameof(ConfigApi)}.{nameof(ConfigApi.ClientId)} must not be null"),
             numeroContrato = numeroContrato,
             codigoSituacao = codigoSituacao,
             dataInicio = dataVencimentoInicio?.ToString("yyyy-MM-dd"),
             dataFim = dataVencimentoFim?.ToString("yyyy-MM-dd")
         };
         return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletosPagadorResponse>("/cobranca-bancaria/v2/boletos/pagadores/" + numeroCpfCnpj, consulta));
+    }
+
+    public async Task<ConsultaBoletoResponse?> ConsultarSegundaViaBoleto(string numeroContrato, int modalidade, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null, bool gerarPdf = false)
+    {
+        var consulta = new ConsultaBoletoRequest()
+        {
+            modalidade = modalidade,
+            numeroContrato = numeroContrato,
+            nossoNumero = nossoNumero,
+            linhaDigitavel = linhaDigitavel,
+            codigoBarras = codigoBarras,
+            gerarPdf = gerarPdf
+        };
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/boletos/segunda-via", consulta));
+    }
+
+    public async Task<IncluirBoletosResponse?> IncluirBoletos(IncluirBoletosRequest[] boletos)
+    {
+
+        return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>("/cobranca-bancaria/v2/boletos", boletos));
     }
 
 }
