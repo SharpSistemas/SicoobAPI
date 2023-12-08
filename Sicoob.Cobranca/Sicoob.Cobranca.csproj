@@ -3,9 +3,9 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>10.0</LangVersion>
-		<Nullable>warnings</Nullable>
+		<Nullable>enable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Version>0.0.2-alpha</Version>
+		<Version>0.0.3-alpha</Version>
 		<Authors>RafaelEstevam.Net</Authors>
 		<Company>SHARP SISTEMAS LTDA</Company>
 		<Product>Sicoob Cobrança for C#</Product>
