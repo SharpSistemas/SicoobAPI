@@ -5,6 +5,7 @@
 \**************************************/
 namespace Sicoob.Shared;
 
+using global::Sicoob.Shared.Models.Geral;
 using Simple.API;
 using System;
 using System.Net.Http;
@@ -113,9 +114,9 @@ public abstract class Sicoob
 
         if (!response.IsSuccessStatusCode)
         {
-            if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
+            if (response.TryParseErrorResponseData(out ErroRequisicao err))
             {
-                throw new CS.BCB.PIX.Excecoes.ErroRequisicaoException(err);
+                throw new ErroRequisicaoException(err);
             }
         }
         response.EnsureSuccessStatusCode();
@@ -126,12 +127,12 @@ public abstract class Sicoob
     {
         await VerificaAtualizaCredenciaisAsync();
         Response response = await func();
-        
+
         // Processa manualmente para não envelopar demais
         if (response.IsSuccessStatusCode) return;
-        if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
+        if (response.TryParseErrorResponseData(out ErroRequisicao err))
         {
-            throw new CS.BCB.PIX.Excecoes.ErroRequisicaoException(err);
+            throw new ErroRequisicaoException(err);
         }
         // Se não era um ErroRequisição, usar o erro comum
         response.EnsureSuccessStatusCode();

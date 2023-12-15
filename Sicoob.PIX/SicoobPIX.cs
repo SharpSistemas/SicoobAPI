@@ -64,7 +64,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     public async Task<CobrancaImediata> CriarCobrancaAsync(string transactionId, NovaCobrancaImediata cobranca)
     {
         validaTxID(transactionId);
-        return await ExecutaChamadaAsync(() => clientApi.PutAsync<CobrancaImediata>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        return await ExecutaChamadaAsyncPIX(() => clientApi.PutAsync<CobrancaImediata>($"/pix/api/v2/cob/{transactionId}", cobranca));
     }
     /// <summary>
     /// Endpoint para criar uma cobrança imediata, neste caso, o txid deve ser definido pelo PSP.
@@ -72,7 +72,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     /// <param name="cobranca">Dados para geração da cobrança imediata.</param>
     /// <returns>Cobrança imediata criada</returns>
     public async Task<CobrancaImediata> CriarCobrancaAsync(NovaCobrancaImediata cobranca)
-        => await ExecutaChamadaAsync(() => clientApi.PostAsync<CobrancaImediata>($"/pix/api/v2/cob", cobranca));
+        => await ExecutaChamadaAsyncPIX(() => clientApi.PostAsync<CobrancaImediata>($"/pix/api/v2/cob", cobranca));
     /// <summary>
     /// Endpoint para revisar uma cobrança através de um determinado txid.
     /// </summary>
@@ -82,7 +82,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     public async Task<CobrancaImediata> RevisarCobrancaAsync(string transactionId, RevisarCobrancaImediata cobranca)
     {
         validaTxID(transactionId);
-        return await ExecutaChamadaAsync(() => clientApi.PatchAsync<CobrancaImediata>($"/pix/api/v2/cob/{transactionId}", cobranca));
+        return await ExecutaChamadaAsyncPIX(() => clientApi.PatchAsync<CobrancaImediata>($"/pix/api/v2/cob/{transactionId}", cobranca));
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
         string url = $"/pix/api/v2/cob/{transactionId}";
         if (revisao.HasValue) url += $"?revisao={revisao.Value}";
 
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<CobrancaImediata>(url));
+        return await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<CobrancaImediata>(url));
     }
     /// <summary>
     /// Endpoint para consultar cobranças imediatas através de parâmetros como início, fim, cpf, cnpj e status.
@@ -106,7 +106,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     /// <param name="consulta">Dados da consulta</param>
     /// <returns>Lista de cobranças imediatas.</returns>
     public async Task<ListagemCobrancaImediata> ListarCobrancasAsync(ConsultarCobrancaImediata consulta)
-        => await ExecutaChamadaAsync(() => clientApi.GetAsync<ListagemCobrancaImediata>("/pix/api/v2/cob", consulta.ToKVP()));
+        => await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<ListagemCobrancaImediata>("/pix/api/v2/cob", consulta.ToKVP()));
 
     /// <summary>
     /// Endpoint para gerar a imagem qrcode de uma cobrança através de um determinado txid.
@@ -121,7 +121,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
         validaTxID(transactionId);
         string url = $"/pix/api/v2/cob/{transactionId}/imagem";
 
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<byte[]>(url, new { revisao, largura }.ToKVP()));
+        return await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<byte[]>(url, new { revisao, largura }.ToKVP()));
     }
 
     /* COBV */
@@ -137,14 +137,14 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     /// <param name="consulta">Dados da consulta</param>
     /// <returns>Lista dos Pix recebidos de acordo com o critério de busca.</returns>
     public async Task<ListagemPixRecebido> ListarPIXAsync(ConsultarPix consulta)
-        => await ExecutaChamadaAsync(() => clientApi.GetAsync<ListagemPixRecebido>("/pix/api/v2/pix", consulta.ToKVP()));
+        => await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<ListagemPixRecebido>("/pix/api/v2/pix", consulta.ToKVP()));
     /// <summary>
     /// Endpoint para consultar um Pix através de um e2eid.
     /// </summary>
     /// <param name="endToEndId">Id fim a fim da transação. Deve ter 32 caracteres.</param>
     /// <returns>Dados do Pix efetuado.</returns>
     public async Task<PixRecebido> ConsultarPIXAsync(string endToEndId)
-         => await ExecutaChamadaAsync(() => clientApi.GetAsync<PixRecebido>($"/pix/api/v2/pix/{endToEndId}"));
+         => await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<PixRecebido>($"/pix/api/v2/pix/{endToEndId}"));
 
     /// <summary>
     /// Endpoint para solicitar uma devolução através de um e2eid do Pix e do ID da devolução.
@@ -159,7 +159,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     {
         validaIDDevolucao(idDevolucao);
         string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
-        return await ExecutaChamadaAsync(() => clientApi.PutAsync<PixDevolucao>(url, new { valor = valor.ToString("N2", CultureInfo.InvariantCulture) }));
+        return await ExecutaChamadaAsyncPIX(() => clientApi.PutAsync<PixDevolucao>(url, new { valor = valor.ToString("N2", CultureInfo.InvariantCulture) }));
     }
     /// <summary>
     /// Endpoint para consultar uma devolução através de um EndToEndID do Pix e do ID da devolução
@@ -170,7 +170,7 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     public async Task<PixDevolucao> ConsultarDevlucaoPixAsync(string endToEndId, string idDevolucao)
     {
         string url = $"/pix/api/v2/pix/{endToEndId}/devolucao/{idDevolucao}";
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<PixDevolucao>(url));
+        return await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<PixDevolucao>(url));
     }
 
     /* Webhook */
@@ -182,23 +182,23 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     /// <param name="url">Url a ser chamada com POST. Será concatenado `/pix` ao final.</param>
     public async Task CriarWebHookAsync(string chave, string url)
     {
-        await ExecutaChamadaAsync(() => clientApi.PutAsync($"/pix/api/v2/webhook/{chave}", new { webhookUrl = url }));
+        await ExecutaChamadaAsyncPIX(() => clientApi.PutAsync($"/pix/api/v2/webhook/{chave}", new { webhookUrl = url }));
     }
     /// <summary>
     /// Endpoint para consultar Webhooks cadastrados
     /// </summary>
     public async Task<ListagemWebhookAtivo> ConsultarWebHooksAsync()
-        => await ExecutaChamadaAsync(() => clientApi.GetAsync<ListagemWebhookAtivo>("/pix/api/v2/webhook"));
+        => await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<ListagemWebhookAtivo>("/pix/api/v2/webhook"));
     /// <summary>
     /// Endpoint para recuperação de informações sobre o Webhook Pix.
     /// </summary>
     public async Task<WebhookAtivo> ConsultarWebHookAsync(string chave)
-        => await ExecutaChamadaAsync(() => clientApi.GetAsync<WebhookAtivo>($"/pix/api/v2/webhook/{chave}"));
+        => await ExecutaChamadaAsyncPIX(() => clientApi.GetAsync<WebhookAtivo>($"/pix/api/v2/webhook/{chave}"));
     /// <summary>
     /// Endpoint para cancelamento do webhook. Não é a única forma pela qual um webhook pode ser removido.
     /// </summary>
     public async Task CancelarWebHookAsync(string chave)
-        => await ExecutaChamadaAsync(() => clientApi.DeleteAsync($"/pix/api/v2/webhook/{chave}"));
+        => await ExecutaChamadaAsyncPIX(() => clientApi.DeleteAsync($"/pix/api/v2/webhook/{chave}"));
 
     /* Validação de IDs */
     private static void validaTxID(string transactionId)
@@ -258,4 +258,38 @@ public sealed class SicoobPIX : Sicoob, IApiPix
     {
         throw new NotImplementedException();
     }
+
+
+    /* Helpers*/
+    private async Task<T> ExecutaChamadaAsyncPIX<T>(Func<Task<Response<T>>> func)
+    {
+        await VerificaAtualizaCredenciaisAsync();
+        Response<T> response = await func();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
+            {
+                throw new CS.BCB.PIX.Excecoes.ErroRequisicaoException(err);
+            }
+        }
+        response.EnsureSuccessStatusCode();
+
+        return response.Data;
+    }
+    private async Task ExecutaChamadaAsyncPIX(Func<Task<Response>> func)
+    {
+        await VerificaAtualizaCredenciaisAsync();
+        Response response = await func();
+
+        // Processa manualmente para não envelopar demais
+        if (response.IsSuccessStatusCode) return;
+        if (response.TryParseErrorResponseData(out CS.BCB.PIX.Models.ErroRequisicao err))
+        {
+            throw new CS.BCB.PIX.Excecoes.ErroRequisicaoException(err);
+        }
+        // Se não era um ErroRequisição, usar o erro comum
+        response.EnsureSuccessStatusCode();
+    }
+
 }

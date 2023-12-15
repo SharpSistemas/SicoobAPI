@@ -7,6 +7,7 @@ namespace Sicoob.Cobranca;
 
 using Sicoob.Cobranca.Models;
 using Sicoob.Shared.Models.Acesso;
+using Sicoob.Shared.Models.Geral;
 using Simple.API;
 using System;
 using System.Collections.Generic;
@@ -122,10 +123,21 @@ public sealed class SicoobCobranca : Shared.Sicoob
         var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", solicitacao));
         return retorno.resultado;
     }
-    public async Task<RetornoConsultaMovimentacoes> ConsultarSituacaoSolicitacao(int numeroContrato, int codigoSolicitacao)
+    public async Task<RetornoConsultaMovimentacoes?> ConsultarSituacaoSolicitacao(int numeroContrato, int codigoSolicitacao)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao }));
-        return retorno.resultado;
+        var result = await clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao });
+
+        if (result.IsSuccessStatusCode) return result.Data.resultado;
+
+        // "{\"mensagens\":[{\"mensagem\":\"Solicitação ainda em processamento.\",\"codigo\":\"5004\"}]}"
+        if (result.TryParseErrorResponseData(out ErroRequisicao err))
+        {
+            if (err.mensagens.Any(o => o.codigo == 5004)) return null;
+
+            throw new ErroRequisicaoException(err);
+        }
+        result.EnsureSuccessStatusCode(); // Erro comum
+        return null; // a linha de cima vai arremessar o erro padrão
     }
     internal async Task<RetornoArquivoMovimentacao> DownloadArquivoMovimentacao(int numeroContrato, int codigoSolicitacao, int idArquivo)
     {
