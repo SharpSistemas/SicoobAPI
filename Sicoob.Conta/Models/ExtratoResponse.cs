@@ -23,4 +23,6 @@ public class Transacao
     public string NumeroDocumento { get; set; }
     public string CpfCnpj { get; set; }
     public string DescInfComplementar { get; set; }
+
+    public override string ToString() => $"{Data:d} {Valor:C2} {Descricao}";
 }

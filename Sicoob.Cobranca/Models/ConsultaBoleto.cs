@@ -4,7 +4,7 @@ using System;
 
 public class ConsultaBoletoRequest
 {
-    public string numeroContrato { get; set; } = string.Empty;
+    public int numeroContrato { get; set; }
     public int modalidade { get; set; } = 1; // Só tem a opção de `1`
     public int? nossoNumero { get; set; }
     public string? linhaDigitavel { get; set; }
@@ -13,13 +13,13 @@ public class ConsultaBoletoRequest
 }
 public class ConsultaBoletosPagadorRequest
 {
-    public string numeroContrato { get; set; } = string.Empty;
+    public int numeroContrato { get; set; }
     /// <summary>
     /// 1: Em Aberto
     /// 2: Baixado
     /// 3: Liquidado
     /// </summary>
-    public int? codigoSituacao { get; set; } 
+    public int? codigoSituacao { get; set; }
 
     public string? dataInicio { get; set; }
     public string? dataFim { get; set; }

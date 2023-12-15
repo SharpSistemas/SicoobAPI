@@ -5,13 +5,11 @@
 \**************************************/
 namespace Sicoob.Cobranca;
 
-using CS.BCB.PIX.Models;
 using Sicoob.Cobranca.Models;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 /// <summary>
@@ -22,6 +20,8 @@ public sealed class SicoobCobranca : Shared.Sicoob
     // Documentações
     // > APIs tipo "Swagger":
     //   https://developers.sicoob.com.br/#!/apis
+    // > Link que o Suporte do Sicoob enviou
+    // https://documenter.getpostman.com/view/20565799/Uzs6yNhe#6447c293-f67b-44ba-b7be-41f5c3de978d
 
     private ClientInfo clientApi;
     public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
@@ -43,6 +43,8 @@ public sealed class SicoobCobranca : Shared.Sicoob
         clientApi.SetAuthorizationBearer(token.access_token);
     }
 
+    /* Boletos */
+
     /// <summary>
     /// Consulta boleto utilizando um dos três métodos de busca
     /// </summary>
@@ -51,7 +53,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     /// <param name="linhaDigitavel">Número da linha digitável do boleto com 47 posições. Caso seja informado, não é necessário informar o nosso número ou código de barras</param>
     /// <param name="codigoBarras">Número de código de barras do boleto com 44 posições.Caso seja informado, não é necessário informar o nosso número ou linha digitável</param>
     /// <returns>Boleto buscado</returns>
-    public async Task<ConsultaBoletoResponse?> ConsultarBoleto(string numeroContrato, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null)
+    public async Task<ConsultaBoletoResponse?> ConsultarBoleto(int numeroContrato, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null)
     {
         var consulta = new ConsultaBoletoRequest()
         {
@@ -73,7 +75,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     /// <param name="dataVencimentoInicio">Data de Vencimento Inicial</param>
     /// <param name="dataVencimentoFim">Data de Vencimento Final</param>
     /// <returns>Boletos do Pagador</returns>
-    public async Task<ConsultaBoletosPagadorResponse> ConsultarBoletosPagador(string numeroContrato, string numeroCpfCnpj,int? codigoSituacao = null, DateTime? dataVencimentoInicio = null, DateTime? dataVencimentoFim = null)
+    public async Task<ConsultaBoletosPagadorResponse> ConsultarBoletosPagador(int numeroContrato, string numeroCpfCnpj,int? codigoSituacao = null, DateTime? dataVencimentoInicio = null, DateTime? dataVencimentoFim = null)
     {
         var consulta = new ConsultaBoletosPagadorRequest()
         {
@@ -85,7 +87,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
         return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletosPagadorResponse>("/cobranca-bancaria/v2/boletos/pagadores/" + numeroCpfCnpj, consulta));
     }
 
-    public async Task<ConsultaBoletoResponse?> ConsultarSegundaViaBoleto(string numeroContrato, int modalidade, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null, bool gerarPdf = false)
+    public async Task<ConsultaBoletoResponse?> ConsultarSegundaViaBoleto(int numeroContrato, int modalidade, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null, bool gerarPdf = false)
     {
         var consulta = new ConsultaBoletoRequest()
         {
@@ -101,8 +103,24 @@ public sealed class SicoobCobranca : Shared.Sicoob
 
     public async Task<IncluirBoletosResponse?> IncluirBoletos(IncluirBoletosRequest[] boletos)
     {
-
         return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>("/cobranca-bancaria/v2/boletos", boletos));
+    }
+
+    /* Movimentação */
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira solicitacao)
+    {
+        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>("/boletos/solicitacoes/movimentacao", solicitacao));
+        return retorno.resultado;
+    }
+    public async Task<RetornoConsultaMovimentacoes> ConsultarSituacaoSolicitacao(int numeroContrato, int codigoSolicitacao)
+    {
+        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao }));
+        return retorno.resultado;
+    }
+    public async Task<RetornoArquivoMovimentacao> DownloadMovimentacao(int numeroContrato, int codigoSolicitacao, int idArquivo)
+    {
+        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>("/boletos/movimentacao-download", new { numeroContrato, codigoSolicitacao, idArquivo }));
+        return retorno.resultado;
     }
 
 }
