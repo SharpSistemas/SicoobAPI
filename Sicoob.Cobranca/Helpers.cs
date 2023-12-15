@@ -1,0 +1,25 @@
+﻿namespace Sicoob.Cobranca;
+
+using Sicoob.Cobranca.Models;
+using System;
+using System.Collections.Generic;
+using System.IO.Compression;
+using System.IO;
+
+public static class Helpers
+{
+    public static IEnumerable<MovimentacoesArquivo> ProcessarArquivoMovimentacao(string zipBase64)
+    {
+        var bytes = Convert.FromBase64String(zipBase64);
+        Stream data = new MemoryStream(bytes);
+
+        ZipArchive archive = new ZipArchive(data);
+        foreach (ZipArchiveEntry entry in archive.Entries)
+        {
+            using var sr = new StreamReader(entry.Open());
+            var registros = Newtonsoft.Json.JsonConvert.DeserializeObject<MovimentacoesArquivo[]>(sr.ReadToEnd());
+            if (registros == null) continue;
+            foreach (var r in registros) yield return r;
+        }
+    }
+}

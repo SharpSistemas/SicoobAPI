@@ -34,3 +34,32 @@ public class RetornoArquivoMovimentacao
     public string arquivo { get; set; }
     public string nomeArquivo { get; set; }
 }
+
+
+public class MovimentacoesArquivo
+{
+    public string siglaMovimento { get; set; }
+    public DateTime dataInicioMovimento { get; set; }
+    public DateTime dataFimMovimento { get; set; }
+    public int numeroCliente { get; set; }
+    public int numeroContrato { get; set; }
+    public int modalidade { get; set; }
+    public int numeroTitulo { get; set; }
+    public string seuNumero { get; set; }
+    public DateTime dataVencimentoTitulo { get; set; }
+    public decimal valorTitulo { get; set; }
+    public string codigoBarras { get; set; }
+    public int numeroContaCorrente { get; set; }
+    public decimal valorTarifaMovimento { get; set; }
+    public decimal valorAbatimento { get; set; }
+    public DateTime dataMovimentoLiquidacao { get; set; }
+    public DateTime dataLiquidacao { get; set; }
+    public DateTime dataPrevisaoCredito { get; set; }
+    public int numeroBancoRecebedor { get; set; }
+    public int numeroAgenciaRecebedora { get; set; }
+    public int idTipoOpFinanceira { get; set; }
+    public string tipoOpFinanceira { get; set; }
+    public decimal valorDesconto { get; set; }
+    public decimal valorMora { get; set; }
+    public decimal valorLiquido { get; set; }
+}

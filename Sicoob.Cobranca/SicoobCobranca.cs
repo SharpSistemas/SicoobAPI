@@ -9,6 +9,8 @@ using Sicoob.Cobranca.Models;
 using Sicoob.Shared.Models.Acesso;
 using Simple.API;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -63,7 +65,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
             linhaDigitavel = linhaDigitavel,
             codigoBarras = codigoBarras
         };
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/boletos", consulta));
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos", consulta));
     }
 
     /// <summary>
@@ -75,7 +77,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     /// <param name="dataVencimentoInicio">Data de Vencimento Inicial</param>
     /// <param name="dataVencimentoFim">Data de Vencimento Final</param>
     /// <returns>Boletos do Pagador</returns>
-    public async Task<ConsultaBoletosPagadorResponse> ConsultarBoletosPagador(int numeroContrato, string numeroCpfCnpj,int? codigoSituacao = null, DateTime? dataVencimentoInicio = null, DateTime? dataVencimentoFim = null)
+    public async Task<ConsultaBoletosPagadorResponse> ConsultarBoletosPagador(int numeroContrato, string numeroCpfCnpj, int? codigoSituacao = null, DateTime? dataVencimentoInicio = null, DateTime? dataVencimentoFim = null)
     {
         var consulta = new ConsultaBoletosPagadorRequest()
         {
@@ -84,7 +86,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
             dataInicio = dataVencimentoInicio?.ToString("yyyy-MM-dd"),
             dataFim = dataVencimentoFim?.ToString("yyyy-MM-dd")
         };
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletosPagadorResponse>("/cobranca-bancaria/v2/boletos/pagadores/" + numeroCpfCnpj, consulta));
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletosPagadorResponse>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos/pagadores/" + numeroCpfCnpj, consulta));
     }
 
     public async Task<ConsultaBoletoResponse?> ConsultarSegundaViaBoleto(int numeroContrato, int modalidade, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null, bool gerarPdf = false)
@@ -98,29 +100,47 @@ public sealed class SicoobCobranca : Shared.Sicoob
             codigoBarras = codigoBarras,
             gerarPdf = gerarPdf
         };
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/boletos/segunda-via", consulta));
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos/segunda-via", consulta));
     }
 
     public async Task<IncluirBoletosResponse?> IncluirBoletos(IncluirBoletosRequest[] boletos)
     {
-        return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>("/cobranca-bancaria/v2/boletos", boletos));
+        return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos", boletos));
     }
 
     /* Movimentação */
-    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira solicitacao)
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(int numeroContrato, int tipoMovimento, DateTime data)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>("/boletos/solicitacoes/movimentacao", solicitacao));
+        var di = data.Date;
+        var df = data.Date.AddDays(1).AddSeconds(-1);
+        return await SolicitarMovimentacao(numeroContrato, tipoMovimento, di, df);
+    }
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(int numeroContrato, int tipoMovimento, DateTime dataInicial, DateTime dataFinal)
+        => await SolicitarMovimentacao(new SolicitacaoMovimentacoesCarteira() { numeroContrato = numeroContrato, tipoMovimento = tipoMovimento, dataInicial = dataInicial, dataFinal = dataFinal });
+    private async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira solicitacao)
+    {
+        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", solicitacao));
         return retorno.resultado;
     }
     public async Task<RetornoConsultaMovimentacoes> ConsultarSituacaoSolicitacao(int numeroContrato, int codigoSolicitacao)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao }));
+        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao }));
         return retorno.resultado;
     }
-    public async Task<RetornoArquivoMovimentacao> DownloadMovimentacao(int numeroContrato, int codigoSolicitacao, int idArquivo)
+    internal async Task<RetornoArquivoMovimentacao> DownloadArquivoMovimentacao(int numeroContrato, int codigoSolicitacao, int idArquivo)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>("/boletos/movimentacao-download", new { numeroContrato, codigoSolicitacao, idArquivo }));
+        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>("/cobranca-bancaria/v2/boletos/movimentacao-download", new { numeroContrato, codigoSolicitacao, idArquivo }));
         return retorno.resultado;
     }
-
+    public async Task<MovimentacoesArquivo[]> BaixarMovimentacoes(int numeroContrato, int codigoSolicitacao, int[] arquivos)
+    {
+        var lst = new List<MovimentacoesArquivo>();
+        foreach (var idArquivo in arquivos)
+        {
+            var retorno = await DownloadArquivoMovimentacao(numeroContrato, codigoSolicitacao, idArquivo);
+            var registros = Helpers.ProcessarArquivoMovimentacao(retorno.arquivo);
+            lst.AddRange(registros);
+        }
+        return lst.ToArray();
+    }
 }
