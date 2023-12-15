@@ -37,7 +37,7 @@ public sealed class SicoobContaCorrente : Shared.Sicoob
     }
     protected override void atualizaClients(TokenResponse token)
     {
-        clientApi.SetAuthorizationBearer(token.id_token);
+        clientApi.SetAuthorizationBearer(token.access_token); // Deveria ser o id_token, mas dá erro de falta de scope
     }
 
     /// <summary>
