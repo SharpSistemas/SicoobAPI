@@ -46,6 +46,7 @@ public abstract class Sicoob
 
     protected void enableDebug(ClientInfo clientApi)
     {
+        clientApi.SetHeader("apim-debug", "true"); // debug de OPEN-ID
         clientApi.BeforeSend += ClientApi_BeforeSend;
         clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
         debugLog("[SETUP]", "STARTUP");
