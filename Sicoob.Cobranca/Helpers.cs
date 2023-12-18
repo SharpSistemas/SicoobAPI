@@ -11,7 +11,11 @@ public static class Helpers
     public static IEnumerable<MovimentacoesArquivo> ProcessarArquivoMovimentacao(string zipBase64)
     {
         var bytes = Convert.FromBase64String(zipBase64);
-        Stream data = new MemoryStream(bytes);
+        return ProcessarArquivoMovimentacao(bytes);
+    }
+    public static IEnumerable<MovimentacoesArquivo> ProcessarArquivoMovimentacao(byte[] bytesZip)
+    {
+        Stream data = new MemoryStream(bytesZip);
 
         ZipArchive archive = new ZipArchive(data);
         foreach (ZipArchiveEntry entry in archive.Entries)

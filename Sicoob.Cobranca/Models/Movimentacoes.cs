@@ -4,6 +4,16 @@ using System;
 
 public class SolicitacaoMovimentacoesCarteira
 {
+    public enum Tipo
+    {
+        Entrada = 1,
+        Prorrogacao = 2,
+        A_Vencer = 3,
+        Vencido = 4,
+        Liquidacao = 5,
+        Baixa = 6,
+    }
+
     public int numeroContrato { get; set; }
     /// <summary>
     /// 1. Entrada 2. Prorrogação 3. A Vencer 4. Vencido 5. Liquidação 6. Baixa
@@ -34,7 +44,13 @@ public class RetornoArquivoMovimentacao
     public string arquivo { get; set; }
     public string nomeArquivo { get; set; }
 }
-
+public class MovimentacoesArquivos
+{
+    public int codigoSolicitacao { get; set; }
+    public int idArquivo { get; set; }
+    public string nomeArquivo { get; set; }
+    public MovimentacoesArquivo[]? Movimentacoes { get; set; }
+}
 
 public class MovimentacoesArquivo
 {

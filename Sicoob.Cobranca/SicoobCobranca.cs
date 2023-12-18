@@ -11,6 +11,7 @@ using Sicoob.Shared.Models.Geral;
 using Simple.API;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
 
     private ClientInfo clientApi;
     public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
+    public string? PastaCopiaMovimentacoes { get; set; }
 
     public SicoobCobranca(Shared.Models.ConfiguracaoAPI configApi, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
        : base(configApi, certificado)
@@ -110,14 +112,14 @@ public sealed class SicoobCobranca : Shared.Sicoob
     }
 
     /* Movimentação */
-    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(int numeroContrato, int tipoMovimento, DateTime data)
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(int numeroContrato, SolicitacaoMovimentacoesCarteira.Tipo tipoMovimento, DateTime data)
     {
         var di = data.Date;
         var df = data.Date.AddDays(1).AddSeconds(-1);
         return await SolicitarMovimentacao(numeroContrato, tipoMovimento, di, df);
     }
-    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(int numeroContrato, int tipoMovimento, DateTime dataInicial, DateTime dataFinal)
-        => await SolicitarMovimentacao(new SolicitacaoMovimentacoesCarteira() { numeroContrato = numeroContrato, tipoMovimento = tipoMovimento, dataInicial = dataInicial, dataFinal = dataFinal });
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(int numeroContrato, SolicitacaoMovimentacoesCarteira.Tipo tipoMovimento, DateTime dataInicial, DateTime dataFinal)
+        => await SolicitarMovimentacao(new SolicitacaoMovimentacoesCarteira() { numeroContrato = numeroContrato, tipoMovimento = (int)tipoMovimento, dataInicial = dataInicial, dataFinal = dataFinal });
     private async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira solicitacao)
     {
         var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", solicitacao));
@@ -144,15 +146,36 @@ public sealed class SicoobCobranca : Shared.Sicoob
         var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>("/cobranca-bancaria/v2/boletos/movimentacao-download", new { numeroContrato, codigoSolicitacao, idArquivo }));
         return retorno.resultado;
     }
-    public async Task<MovimentacoesArquivo[]> BaixarMovimentacoes(int numeroContrato, int codigoSolicitacao, int[] arquivos)
+    public async Task<MovimentacoesArquivos[]> BaixarMovimentacoes(int numeroContrato, int codigoSolicitacao, int[] arquivos)
     {
-        var lst = new List<MovimentacoesArquivo>();
+        var lst = new List<MovimentacoesArquivos>();
         foreach (var idArquivo in arquivos)
         {
             var retorno = await DownloadArquivoMovimentacao(numeroContrato, codigoSolicitacao, idArquivo);
-            var registros = Helpers.ProcessarArquivoMovimentacao(retorno.arquivo);
-            lst.AddRange(registros);
+
+            var bytesZip = Convert.FromBase64String(retorno.arquivo);
+            salvarCopiaMovimentacao(bytesZip, retorno.nomeArquivo);
+
+            var registros = Helpers.ProcessarArquivoMovimentacao(bytesZip);
+            lst.Add(new MovimentacoesArquivos
+            {
+                codigoSolicitacao = codigoSolicitacao,
+                idArquivo = idArquivo,
+                nomeArquivo = retorno.nomeArquivo,
+                Movimentacoes = registros.ToArray(),
+            });
         }
         return lst.ToArray();
+    }
+
+    private void salvarCopiaMovimentacao(byte[] bytesZip, string nomeArquivo)
+    {
+        if (PastaCopiaMovimentacoes == null) return;
+        if (!Directory.Exists(PastaCopiaMovimentacoes)) Directory.CreateDirectory(PastaCopiaMovimentacoes);
+
+        var path = Path.Combine(PastaCopiaMovimentacoes, nomeArquivo);
+        if (File.Exists(path)) return;
+
+        File.WriteAllBytes(path, bytesZip);
     }
 }
