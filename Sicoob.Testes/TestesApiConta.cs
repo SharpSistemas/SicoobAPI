@@ -26,11 +26,11 @@ public static class TestesApiConta
         //};
         //File.WriteAllText("config_CC.json", JsonConvert.SerializeObject(cfg));
 
-        var cCorrente = new SicoobContaCorrente(cfg);
+        var cCorrente = new SicoobContaCorrente(cfg, 00000);
         await cCorrente.SetupAsync();
 
+        var extrato = await cCorrente.ObterExtratoAsync(12, 2023);
         var saldo = await cCorrente.ObterSaldoAsync();
-        var extrato = await cCorrente.ObterExtratoAsync(12, 2022);
     }
     public static async Task Run_ContaPoupanca()
     {
