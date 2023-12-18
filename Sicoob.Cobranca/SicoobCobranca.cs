@@ -27,8 +27,8 @@ public sealed class SicoobCobranca : Shared.Sicoob
     // > Link que o Suporte do Sicoob enviou
     // https://documenter.getpostman.com/view/20565799/Uzs6yNhe#6447c293-f67b-44ba-b7be-41f5c3de978d
 
+    private readonly int numeroContrato;
     private ClientInfo clientApi;
-    private int numeroContrato;
     public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
     public string? PastaCopiaMovimentacoes { get; set; }
 
@@ -129,6 +129,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     }
     public async Task<RetornoConsultaMovimentacoes?> ConsultarSituacaoSolicitacao(int codigoSolicitacao)
     {
+        await VerificaAtualizaCredenciaisAsync();
         var result = await clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao });
 
         if (result.IsSuccessStatusCode) return result.Data.resultado;
@@ -136,6 +137,8 @@ public sealed class SicoobCobranca : Shared.Sicoob
         // "{\"mensagens\":[{\"mensagem\":\"Solicitação ainda em processamento.\",\"codigo\":\"5004\"}]}"
         if (result.TryParseErrorResponseData(out ErroRequisicao err))
         {
+            if (err.mensagens == null) { }
+            
             if (err.mensagens.Any(o => o.codigo == 5004)) return null;
 
             throw new ErroRequisicaoException(err);
