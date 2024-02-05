@@ -78,17 +78,10 @@ public abstract class Sicoob
         System.IO.File.AppendAllText("debug.log", $"{DateTime.Now:G} {direciton} {content}\r\n");
     }
 
-    public async Task<TokenResponse?> SetupAsync(string? token = null, DateTime? expiresIn = null)
+    public async Task SetupAsync()
     {
         setupClients(httpHandler);
-
-        if (token is null)
-            expiresIn = null;
-
-        if (expiresIn is not null)
-            ExpiresAtUTC = expiresIn.Value.ToUniversalTime();
-
-        return await VerificaAtualizaCredenciaisAsync();
+        await atualizaCredenciaisAsync();
     }
     protected abstract void setupClients(HttpClientHandler handler);
     protected abstract void atualizaClients(Models.Acesso.TokenResponse token);
