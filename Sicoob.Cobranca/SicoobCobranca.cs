@@ -43,7 +43,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     protected override void setupClients(HttpClientHandler handler)
     {
         clientApi = new ClientInfo(ConfigApi.UrlApi, handler);
-        clientApi.SetHeader("x-sicoob-clientid", ConfigApi.ClientId);
+        clientApi.SetHeader("client_id", ConfigApi.ClientId);
     }
     protected override void atualizaClients(TokenResponse token)
     {
@@ -70,7 +70,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
             linhaDigitavel = linhaDigitavel,
             codigoBarras = codigoBarras
         };
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos", consulta));
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>(ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos", consulta));
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
             dataInicio = dataVencimentoInicio?.ToString("yyyy-MM-dd"),
             dataFim = dataVencimentoFim?.ToString("yyyy-MM-dd")
         };
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletosPagadorResponse>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos/pagadores/" + numeroCpfCnpj, consulta));
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletosPagadorResponse>(ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos/pagadores/" + numeroCpfCnpj, consulta));
     }
 
     public async Task<ConsultaBoletoResponse?> ConsultarSegundaViaBoleto(int modalidade, int? nossoNumero = null, string? linhaDigitavel = null, string? codigoBarras = null, bool gerarPdf = false)
@@ -105,12 +105,12 @@ public sealed class SicoobCobranca : Shared.Sicoob
             codigoBarras = codigoBarras,
             gerarPdf = gerarPdf
         };
-        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos/segunda-via", consulta));
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>(ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos/segunda-via", consulta));
     }
 
     public async Task<IncluirBoletosResponse?> IncluirBoletos(IncluirBoletosRequest[] boletos)
     {
-        return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>("/cobranca-bancaria/v2/cobranca-bancaria/v2/boletos", boletos));
+        return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>(ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos", boletos));
     }
 
     /* Movimentação */
@@ -124,13 +124,13 @@ public sealed class SicoobCobranca : Shared.Sicoob
         => await SolicitarMovimentacao(new SolicitacaoMovimentacoesCarteira() { numeroContrato = numeroContrato, tipoMovimento = (int)tipoMovimento, dataInicial = dataInicial, dataFinal = dataFinal });
     private async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira solicitacao)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", solicitacao));
+        var retorno = await ExecutaChamadaAsync(() => clientApi.PostAsync<ResponseMovimentacao<RetornoSolicitacaoMovimentacoesCarteira>>(ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", solicitacao));
         return retorno.resultado;
     }
     public async Task<RetornoConsultaMovimentacoes?> ConsultarSituacaoSolicitacao(int codigoSolicitacao)
     {
         await VerificaAtualizaCredenciaisAsync();
-        var result = await clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>("/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao });
+        var result = await clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>( ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos/solicitacoes/movimentacao", new { numeroContrato, codigoSolicitacao });
 
         if (result.IsSuccessStatusCode) return result.Data.resultado;
 
@@ -148,7 +148,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     }
     internal async Task<RetornoArquivoMovimentacao> DownloadArquivoMovimentacao(int codigoSolicitacao, int idArquivo)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>("/cobranca-bancaria/v2/boletos/movimentacao-download", new { numeroContrato, codigoSolicitacao, idArquivo }));
+        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>(ConfigApi.UrlApi + "/cobranca-bancaria/v2/boletos/movimentacao-download", new { numeroContrato, codigoSolicitacao, idArquivo }));
         return retorno.resultado;
     }
     public async Task<MovimentacoesArquivos[]> BaixarMovimentacoes(int codigoSolicitacao, int[] arquivos)

@@ -95,7 +95,7 @@ public class Mensagensinstrucao
 
 public class Listahistorico
 {
-    public DateTime dataHistorico { get; set; }
+    public DateTime? dataHistorico { get; set; }
     public string? tipoHistorico { get; set; }
     public string? descricaoHistorico { get; set; }
 }

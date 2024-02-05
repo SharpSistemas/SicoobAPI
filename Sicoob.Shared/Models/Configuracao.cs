@@ -16,6 +16,11 @@ public class Configuracao
     /// Id do cliente gerado pelo Sicoob no momento do cadastro do Aplicativo
     /// </summary>
     public string? ClientId { get; set; }
+    
+    /// <summary>
+    /// Teste de Comunicação com API  
+    /// </summary>
+    public bool SandBox { get; set; }
     /// <summary>
     /// Caminho do certificado com chave pública
     /// </summary>
