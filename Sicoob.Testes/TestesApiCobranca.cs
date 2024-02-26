@@ -28,42 +28,42 @@ public static class TestesApiCobranca
         var cobranca = new SicoobCobranca(cfg, NumeroContrato: 000);
         await cobranca.SetupAsync();
 
-        var boleto = await cobranca.IncluirBoletos(new []
+        /*var boleto = await cobranca.IncluirBoletos(new []
         {
             new IncluirBoletosRequest()
             {
                 numeroContrato= 25546454,
-                modalidade= 1,
+                modalidade= (int)Modalidade.SimplesComRegistro,
                 numeroContaCorrente= 0,
                 especieDocumento= "DM",
                 dataEmissao= new DateTime(2018,09, 20).ToUniversalTime(),
                 nossoNumero= 2588658,
                 seuNumero= "1235512",
                 identificacaoBoletoEmpresa= "4562",
-                identificacaoEmissaoBoleto= 1,
-                identificacaoDistribuicaoBoleto= 1,
+                identificacaoEmissaoBoleto= (int)IdentificacaoEmissaoBoleto.BancoEmite,
+                identificacaoDistribuicaoBoleto= (int)IdentificacaoDistribuicaoBoleto.BancoDistribui,
                 valor= 156.23m,
                 dataVencimento= new DateTime(2018,09, 20).ToUniversalTime(),
                 dataLimitePagamento= new DateTime(2018,09, 20).ToUniversalTime(),
                 valorAbatimento= 1,
-                tipoDesconto= 1,
+                tipoDesconto= (int)TipoDesconto.ValorFixoAteDataInformada,
                 dataPrimeiroDesconto= new DateTime(2018,09, 20).ToUniversalTime(),
                 valorPrimeiroDesconto= 1,
                 dataSegundoDesconto= new DateTime(2018,09, 20).ToUniversalTime(),
                 valorSegundoDesconto= 0,
                 dataTerceiroDesconto= new DateTime(2018,09, 20).ToUniversalTime(),
                 valorTerceiroDesconto= 0,
-                tipoMulta= 1,
+                tipoMulta= (int)TipoMulta.ValorFixo,
                 dataMulta= new DateTime(2018,09, 20).ToUniversalTime(),
                 valorMulta= 5,
-                tipoJurosMora= 1,
+                tipoJurosMora= (int)TipoJurosMora.ValorPorDia,
                 dataJurosMora= new DateTime(2018,09, 20).ToUniversalTime(),
                 valorJurosMora= 4,
                 numeroParcela= 1,
                 aceite= true,
-                codigoNegativacao= 2,
+                codigoNegativacao= (int)CodigoNegativacao.NegativarDiasUteis,
                 numeroDiasNegativacao= 60,
-                codigoProtesto= 1,
+                codigoProtesto= (int)CodigoProtesto.ProtestarDiasCorridos,
                 numeroDiasProtesto= 30,
                 pagador = new DadosPagador()
                 {
@@ -113,15 +113,15 @@ public static class TestesApiCobranca
                     }
                 },
                 gerarPdf = true,
-                codigoCadastrarPIX = 1
+                codigoCadastrarPIX = (int)CodigoCadastrarPIX.Padrao
             }   
-        });
-        
+        });*/
+        //var bol = await cobranca.ConsultarBoletosPagador("98765432185", dataVencimentoInicio: new DateTime(2024,01,01), dataVencimentoFim: new DateTime(2024,02,24) );
         //var boleto = await cobranca.ConsultarBoleto(nossoNumero: 0);
         //var consulta = await cobranca.ConsultarBoletosPagador(numeroCpfCnpj: "00000000000000");
         //var segVia = await cobranca.ConsultarSegundaViaBoleto(1, nossoNumero: 0, gerarPdf: true);
 
-        var p1 = await cobranca.SolicitarMovimentacao(Cobranca.Models.SolicitacaoMovimentacoesCarteira.Tipo.Liquidacao, new DateTime(2023, 12, 14));
+        var p1 = await cobranca.SolicitarMovimentacao(Cobranca.Models.SolicitacaoMovimentacoesCarteira.Tipo.Liquidacao, new DateTime(2024, 02, 20), new DateTime(2024, 02, 23));
         int codigo = p1.codigoSolicitacao;
 
         Cobranca.Models.RetornoConsultaMovimentacoes? p2 = null;

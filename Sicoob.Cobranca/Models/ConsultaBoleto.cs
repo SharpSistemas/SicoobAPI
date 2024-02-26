@@ -51,7 +51,7 @@ public class DadosBoleto
     public DateTime dataVencimento { get; set; }
     public DateTime dataLimitePagamento { get; set; }
     public decimal valorAbatimento { get; set; }
-    public int tipoDesconto { get; set; }
+    public string tipoDesconto { get; set; }
     public DateTime dataPrimeiroDesconto { get; set; }
     public decimal valorPrimeiroDesconto { get; set; }
     public DateTime dataSegundoDesconto { get; set; }
@@ -96,7 +96,7 @@ public class Mensagensinstrucao
 public class Listahistorico
 {
     public DateTime? dataHistorico { get; set; }
-    public string? tipoHistorico { get; set; }
+    public int? tipoHistorico { get; set; }
     public string? descricaoHistorico { get; set; }
 }
 

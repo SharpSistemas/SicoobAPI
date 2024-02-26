@@ -81,7 +81,12 @@ public abstract class Sicoob
     public async Task SetupAsync()
     {
         setupClients(httpHandler);
-        await atualizaCredenciaisAsync();
+        if (config.Token is null)
+            await atualizaCredenciaisAsync();
+        else
+        {
+            ExpiresAtUTC = config.Token.ExpiresAtUTC;
+        }
     }
     protected abstract void setupClients(HttpClientHandler handler);
     protected abstract void atualizaClients(Models.Acesso.TokenResponse token);
