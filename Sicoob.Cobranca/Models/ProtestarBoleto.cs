@@ -1,7 +1,10 @@
-﻿namespace Sicoob.Cobranca.Models;
+﻿using Newtonsoft.Json;
+
+namespace Sicoob.Cobranca.Models;
 
 public class ProtestarBoletoRequest: BoletoBase
 {
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
     public int? numeroContratoCobranca { get; set; }
 }
 
