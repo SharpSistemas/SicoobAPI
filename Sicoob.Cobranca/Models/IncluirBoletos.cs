@@ -11,6 +11,7 @@ public class IncluirBoletosRequest : BoletoBase
     
     [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataEmissao { get; set; }
+    public string seuNumero { get; set; }
     [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
     public string identificacaoBoletoEmpresa { get; set; }
     public int identificacaoEmissaoBoleto { get; set; }

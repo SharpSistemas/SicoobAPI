@@ -2,7 +2,7 @@
 
 public class BaixarBoletoRequest : BoletoBase
 {
-    
+    public string seuNumero { get; set; }
 }
 
 public class BaixarBoletoResponse
