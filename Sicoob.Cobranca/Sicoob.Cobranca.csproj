@@ -5,7 +5,7 @@
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>disable</ImplicitUsings>
-		<Version>0.0.3-alpha</Version>
+		<Version>0.0.4-alpha</Version>
 		<Authors>RafaelEstevam.Net</Authors>
 		<Company>SHARP SISTEMAS LTDA</Company>
 		<Product>Sicoob Cobrança for C#</Product>
