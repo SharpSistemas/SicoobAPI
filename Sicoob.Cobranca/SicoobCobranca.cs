@@ -139,6 +139,11 @@ public sealed class SicoobCobranca : Shared.Sicoob
     {
         return await ExecutaChamadaAsync(() => clientApi.PostAsync<ProtestarBoletoResponse?>(ConfigApi.UrlApi + "cobranca-bancaria/v2/boletos/protestos", boletos));
     }
+    
+     public async Task<AlterarDataVencimentoResponse?> AlerarDataVencimento(AlterarDataVencimentoRequest[] boletos)
+        {
+            return await ExecutaChamadaAsync(() => clientApi.PatchAsync<AlterarDataVencimentoResponse?>(ConfigApi.UrlApi + "cobranca-bancaria/v2/boletos/prorrogacoes/data-vencimento", boletos));
+        }
 
     /* Movimentação */
     public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira.Tipo tipoMovimento, DateTime data)

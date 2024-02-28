@@ -10,8 +10,8 @@ public class ProtestarBoletoRequest: BoletoBase
 
 public class ProtestarBoletoResponse
 {
-    public DadosBaixa[]? resultado { get; set; }
-    public ResultadoInfo? mensagens { get; set; }
+    public DadosProtestar[]? resultado { get; set; }
+    public ResultadoInfo[]? mensagens { get; set; }
 }
 public class DadosProtestar
 {
