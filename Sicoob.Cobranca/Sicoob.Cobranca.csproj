@@ -20,6 +20,7 @@
 			https://github.com/SharpSistemas/SicoobAPI
 		</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
