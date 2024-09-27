@@ -4,7 +4,8 @@
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
 
-using Sicoob.Cobranca.Models;
+using Sicoob.Cobranca.Models.Shared;
+using Sicoob.Cobranca.Models.v2;
 
 namespace Sicoob.Testes;
 
@@ -25,7 +26,7 @@ public static class TestesApiCobranca
         //cfg.Scope.Cobranca_Setar(true);
         //File.WriteAllText("config_Cob.json", JsonConvert.SerializeObject(cfg));
 
-        var cobranca = new SicoobCobranca(cfg, NumeroContrato: 000);
+        var cobranca = new SicoobCobrancaV2(cfg, NumeroContrato: 000);
         await cobranca.SetupAsync();
 
         /*var boleto = await cobranca.IncluirBoletos(new []
@@ -121,10 +122,10 @@ public static class TestesApiCobranca
         //var consulta = await cobranca.ConsultarBoletosPagador(numeroCpfCnpj: "00000000000000");
         //var segVia = await cobranca.ConsultarSegundaViaBoleto(1, nossoNumero: 0, gerarPdf: true);
 
-        var p1 = await cobranca.SolicitarMovimentacao(Cobranca.Models.SolicitacaoMovimentacoesCarteira.Tipo.Liquidacao, new DateTime(2024, 02, 20), new DateTime(2024, 02, 23));
+        var p1 = await cobranca.SolicitarMovimentacao(Tipo.Liquidacao, new DateTime(2024, 02, 20), new DateTime(2024, 02, 23));
         int codigo = p1.codigoSolicitacao;
 
-        Cobranca.Models.RetornoConsultaMovimentacoes? p2 = null;
+        RetornoConsultaMovimentacoes? p2 = null;
         while (p2 == null)
         {
             Console.WriteLine("Consultando ...");

@@ -1,4 +1,4 @@
-﻿namespace Sicoob.Cobranca.Models;
+﻿namespace Sicoob.Cobranca.Models.Shared;
 
 public class DadosPagador
 {

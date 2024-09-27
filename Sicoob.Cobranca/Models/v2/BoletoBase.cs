@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Sicoob.Cobranca.Models;
+namespace Sicoob.Cobranca.Models.v2;
 
 public abstract class BoletoBase
 {

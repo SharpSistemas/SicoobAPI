@@ -1,4 +1,4 @@
-﻿namespace Sicoob.Cobranca.Models;
+﻿namespace Sicoob.Cobranca.Models.v2;
 
 public class BaixarBoletoRequest : BoletoBase
 {

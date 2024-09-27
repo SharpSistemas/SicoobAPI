@@ -1,4 +1,4 @@
-﻿namespace Sicoob.Cobranca.Models;
+﻿namespace Sicoob.Cobranca.Models.Shared;
 
 
     public enum IdentificacaoEmissaoBoleto: int
@@ -82,3 +82,12 @@
         LiquidacaoBaixa = 6
     }
     
+    public enum Tipo
+    {
+        Entrada = 1,
+        Prorrogacao = 2,
+        A_Vencer = 3,
+        Vencido = 4,
+        Liquidacao = 5,
+        Baixa = 6,
+    }

@@ -4,11 +4,12 @@
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
 
+using Sicoob.Cobranca.Models.Shared;
+using Sicoob.Cobranca.Models.v2;
 using Sicoob.Shared.Models;
 
 namespace Sicoob.Cobranca;
 
-using Sicoob.Cobranca.Models;
 using Sicoob.Shared.Models.Acesso;
 using Sicoob.Shared.Models.Geral;
 using Simple.API;
@@ -22,7 +23,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Classe para comunicação com as APIs de Cobrança do Sicoob
 /// </summary>
-public sealed class SicoobCobranca : Shared.Sicoob
+public sealed class SicoobCobrancaV2 : Shared.Sicoob
 {
     // Documentações
     // > APIs tipo "Swagger":
@@ -37,7 +38,7 @@ public sealed class SicoobCobranca : Shared.Sicoob
     public delegate void UpdateToken(ConfiguracaoToken token);
     public event UpdateToken UpdateTokenEvent;
 
-    public SicoobCobranca(Shared.Models.ConfiguracaoAPI configApi, int NumeroContrato, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
+    public SicoobCobrancaV2(Shared.Models.ConfiguracaoAPI configApi, int NumeroContrato, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
        : base(configApi, certificado)
     {
         numeroContrato = NumeroContrato;
@@ -146,13 +147,13 @@ public sealed class SicoobCobranca : Shared.Sicoob
     }
 
     /* Movimentação */
-    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira.Tipo tipoMovimento, DateTime data)
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(Tipo tipoMovimento, DateTime data)
     {
         var di = data.Date;
         var df = data.Date.AddDays(1).AddSeconds(-1);
         return await SolicitarMovimentacao(tipoMovimento, di, df);
     }
-    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira.Tipo tipoMovimento, DateTime dataInicial, DateTime dataFinal)
+    public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(Tipo tipoMovimento, DateTime dataInicial, DateTime dataFinal)
         => await SolicitarMovimentacao(new SolicitacaoMovimentacoesCarteira() { numeroContrato = numeroContrato, tipoMovimento = (int)tipoMovimento, dataInicial = dataInicial, dataFinal = dataFinal });
     private async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(SolicitacaoMovimentacoesCarteira solicitacao)
     {

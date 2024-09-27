@@ -1,11 +1,11 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Sicoob.Cobranca.Models;
+namespace Sicoob.Cobranca.Models.v2;
 
 public class AlterarDataVencimentoRequest : BoletoBase
 {
-    [JsonConverter(typeof(CustomDateTimeConverter))]
+    [JsonConverter(typeof(CustomDateTimeWithZoneConverter))]
     public DateTime dataVencimento { get; set; }
 }
 
