@@ -2,10 +2,10 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>12.0</LangVersion>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 		<Authors>RafaelEstevam.Net</Authors>
 		<Company>SHARP SISTEMAS LTDA</Company>
 		<Product>Base library for Sicoob APIs for C#</Product>
