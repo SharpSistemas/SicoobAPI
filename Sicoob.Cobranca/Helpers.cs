@@ -1,11 +1,10 @@
-﻿using Sicoob.Cobranca.Models.v2;
-
-namespace Sicoob.Cobranca;
+﻿namespace Sicoob.Cobranca;
 
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
 using System.IO;
+using Sicoob.Cobranca.Models.Shared;
 
 public static class Helpers
 {

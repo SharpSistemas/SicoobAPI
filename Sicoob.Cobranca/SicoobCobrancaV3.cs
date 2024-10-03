@@ -3,19 +3,11 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
-
-using Sicoob.Cobranca.Models.Shared;
-using Sicoob.Cobranca.Models.v2;
-using Sicoob.Cobranca.Models.v3;
-using Sicoob.Shared.Models;
-using BaixarBoletoRequest = Sicoob.Cobranca.Models.v3.BaixarBoletoRequest;
-using ConsultaBoletoRequest = Sicoob.Cobranca.Models.v3.ConsultaBoletoRequest;
-using ConsultaBoletoResponse = Sicoob.Cobranca.Models.v3.ConsultaBoletoResponse;
-using ConsultaBoletosPagadorResponse = Sicoob.Cobranca.Models.v3.ConsultaBoletosPagadorResponse;
-using IncluirBoletosResponse = Sicoob.Cobranca.Models.v3.IncluirBoletosResponse;
-
 namespace Sicoob.Cobranca;
 
+using Sicoob.Cobranca.Models.Shared;
+using Sicoob.Cobranca.Models.v3;
+using Sicoob.Shared.Models;
 using Sicoob.Shared.Models.Acesso;
 using Sicoob.Shared.Models.Geral;
 using Simple.API;
@@ -39,7 +31,7 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
 
     private readonly int numeroContrato;
     private ClientInfo clientApi;
-    private Shared.Models.ConfiguracaoAPI ConfigApi { get; }
+    private ConfiguracaoAPI ConfigApi { get; }
     public string? PastaCopiaMovimentacoes { get; set; }
     public delegate void UpdateToken(ConfiguracaoToken token);
     public event UpdateToken? UpdateTokenEvent;

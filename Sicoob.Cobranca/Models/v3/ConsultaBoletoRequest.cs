@@ -1,8 +1,8 @@
-﻿using System;
+﻿namespace Sicoob.Cobranca.Models.v3;
+
+using System;
 using Sicoob.Cobranca.Models.Shared;
 using Sicoob.Cobranca.Models.v2;
-
-namespace Sicoob.Cobranca.Models.v3;
 
 public class ConsultaBoletoRequest
 {
