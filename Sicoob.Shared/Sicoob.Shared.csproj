@@ -19,7 +19,6 @@
 			See examples and documentation on the GitHub page
 			https://github.com/SharpSistemas/SicoobAPI
 		</PackageReleaseNotes>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
