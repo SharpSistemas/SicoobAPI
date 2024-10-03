@@ -1,19 +1,9 @@
-﻿namespace Sicoob.Cobranca.Models;
+﻿using System;
 
-using System;
+namespace Sicoob.Cobranca.Models.v2;
 
 public class SolicitacaoMovimentacoesCarteira
 {
-    public enum Tipo
-    {
-        Entrada = 1,
-        Prorrogacao = 2,
-        A_Vencer = 3,
-        Vencido = 4,
-        Liquidacao = 5,
-        Baixa = 6,
-    }
-
     public int numeroContrato { get; set; }
     /// <summary>
     /// 1. Entrada 2. Prorrogação 3. A Vencer 4. Vencido 5. Liquidação 6. Baixa
@@ -27,23 +17,7 @@ public class ResponseMovimentacao<T>
 {
     public T resultado { get; set; }
 }
-public class RetornoSolicitacaoMovimentacoesCarteira
-{
-    public string mensagem { get; set; }
-    public int codigoSolicitacao { get; set; }
-}
-public class RetornoConsultaMovimentacoes
-{
-    public string quantidadeTotalRegistros { get; set; }
-    public int quantidadeRegistrosArquivo { get; set; }
-    public int quantidadeArquivo { get; set; }
-    public int[] idArquivos { get; set; }
-}
-public class RetornoArquivoMovimentacao
-{
-    public string arquivo { get; set; }
-    public string nomeArquivo { get; set; }
-}
+
 public class MovimentacoesArquivos
 {
     public int codigoSolicitacao { get; set; }

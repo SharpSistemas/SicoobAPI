@@ -3,6 +3,9 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+
+using Sicoob.Shared.Models.Acesso;
+
 namespace Sicoob.Shared;
 
 using global::Sicoob.Shared.Models.Geral;
@@ -17,6 +20,7 @@ public abstract class Sicoob
     private readonly Models.Configuracao config;
     private readonly HttpClientHandler httpHandler;
     private ClientInfo clientAuth;
+    private const string SandBoxToken = "1301865f-c6bc-38f3-9f49-666dbcfc59c3";
 
     public DateTime ExpiresAtUTC { get; private set; }
     public TimeSpan ExpiresIn => ExpiresAtUTC - DateTime.UtcNow;
@@ -77,14 +81,19 @@ public abstract class Sicoob
     public async Task SetupAsync()
     {
         setupClients(httpHandler);
-        await atualizaCredenciaisAsync();
+        if (config.Token is null)
+            await atualizaCredenciaisAsync();
+        else
+        {
+            ExpiresAtUTC = config.Token.ExpiresAtUTC;
+        }
     }
     protected abstract void setupClients(HttpClientHandler handler);
     protected abstract void atualizaClients(Models.Acesso.TokenResponse token);
 
     public async Task AtualizarCredenciaisAsync()
         => await atualizaCredenciaisAsync();
-    private async Task atualizaCredenciaisAsync()
+    private async Task<TokenResponse> atualizaCredenciaisAsync()
     {
         var response = await clientAuth.FormUrlEncodedPostAsync<Models.Acesso.TokenResponse>("token", new
         {
@@ -92,20 +101,33 @@ public abstract class Sicoob
             grant_type = "client_credentials",
             scope = config.Scope.ToScopeString(),
         });
+
+        if (config.SandBox)
+        {
+            atualizaClients(new TokenResponse(){ access_token = SandBoxToken });
+            var data = DateTime.Now.AddHours(1);
+            var totalSeconds = Convert.ToInt32((DateTime.Now - data).TotalSeconds);
+            ExpiresAtUTC = DateTime.UtcNow.AddSeconds(totalSeconds);
+        
+            return new TokenResponse()
+            {
+                access_token = SandBoxToken,
+                expires_in = totalSeconds
+            };
+        }
+        
         response.EnsureSuccessStatusCode();
         atualizaClients(response.Data);
         ExpiresAtUTC = DateTime.UtcNow.AddSeconds(response.Data.expires_in);
+        return response.Data;
     }
 
-    protected async Task<bool> VerificaAtualizaCredenciaisAsync()
+    protected async Task<TokenResponse?> VerificaAtualizaCredenciaisAsync()
     {
         if (ExpiresIn.TotalSeconds >= 5)
-        {
-            return false;
-        }
+            return null;
 
-        await atualizaCredenciaisAsync();
-        return true;
+        return await atualizaCredenciaisAsync();
     }
     protected async Task<T> ExecutaChamadaAsync<T>(Func<Task<Response<T>>> func)
     {

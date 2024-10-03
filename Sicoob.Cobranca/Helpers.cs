@@ -1,6 +1,7 @@
-﻿namespace Sicoob.Cobranca;
+﻿using Sicoob.Cobranca.Models.v2;
 
-using Sicoob.Cobranca.Models;
+namespace Sicoob.Cobranca;
+
 using System;
 using System.Collections.Generic;
 using System.IO.Compression;
