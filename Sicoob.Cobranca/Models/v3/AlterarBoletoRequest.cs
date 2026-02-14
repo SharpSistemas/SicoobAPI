@@ -46,11 +46,22 @@ public class SeuNumero
 public class Desconto
 {
     public int tipoDesconto { get; set; }
+    
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataPrimeiroDesconto { get; set; }
+    
     public decimal valorPrimeiroDesconto { get; set; }
+    
+    [JsonConverter(typeof(CustomDateTimeConverter))]
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
     public DateTime? dataSegundoDesconto { get; set; }
+    
     public decimal? valorSegundoDesconto { get; set; }
+
+    [JsonConverter(typeof(CustomDateTimeConverter))]
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
     public DateTime? dataTerceiroDesconto { get; set; }
+
     public decimal? valorTerceiroDesconto { get; set; }
 }
 
@@ -62,6 +73,7 @@ public class Abatimento
 public class Multa
 {
     public int tipoMulta { get; set; }
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataMulta { get; set; }
     public decimal valorMulta { get; set; }
 }
@@ -69,6 +81,7 @@ public class Multa
 public class JurosMora
 {
     public int tipoJurosMora { get; set; }
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataJurosMora { get; set; }
     public decimal valorJurosMora { get; set; }
 }
@@ -103,11 +116,13 @@ public class Pix
 
 public class ProrrogacaoVencimento
 {
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataVencimento { get; set; }
 }
 
 public class ProrrogacaoLimitePagamento
 {
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataLimitePagamento { get; set; }
 }
 

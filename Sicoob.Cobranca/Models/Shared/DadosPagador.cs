@@ -9,5 +9,10 @@ public class DadosPagador
     public string cidade { get; set; }
     public string cep { get; set; }
     public string uf { get; set; }
-    public string[] email { get; set; }
+    public string email { get; set; }
+}
+
+public class DadosPagadorRequest : DadosPagador
+{
+    public long numeroCliente { get; set; }
 }

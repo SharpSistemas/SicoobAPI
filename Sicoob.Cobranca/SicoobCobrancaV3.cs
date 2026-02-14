@@ -127,6 +127,28 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
     {
         return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirBoletosResponse?>(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos", boleto));
     }
+
+    /// <summary>
+    /// Consulta de dados de faixas de nosso número disponíveis.
+    /// Serviço para consulta de dados de faixas de nosso número disponíveis.
+    /// Quando o campo validaDigitoVerificadorNossoNumero retornar o valor "0" a faixa "numeroInicial" e "numeroFinal" refere-se a numeração final (exemplo: 10 e 15 - utilização: 1-0 1-1 1-2 1-3 1-4 1-5).
+    /// Mas se o campo validaDigitoVerificadorNossoNumero retornar o valor "1" a faixa "numeroInicial" e "numeroFinal" deverá ser calculado o DV (exemplo: 10 e 15 - utilização: 10-4 11-8 12-0 13-1 14-7 15-9).
+    /// </summary>
+    /// <param name="quantidade"></param>
+    /// <param name="modalidade"></param>
+    /// <param name="numeroContratoCobranca"></param>
+    /// <returns></returns>
+    public async Task<ConsultaBoletoResponse?> ConsultarFaixasNossoNumeroDisponivel(int quantidade, int modalidade = (int)Modalidade.SimplesComRegistro, int? numeroContratoCobranca = null)
+    {
+        var consulta = new ConsultaFaixasNossoNumeroRequest()
+        {
+            codigoModalidade = modalidade,
+            numeroCliente = numeroContrato,
+            quantidade = quantidade,
+            numeroContratoCobranca = numeroContratoCobranca
+        };
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaBoletoResponse?>(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/faixas-nosso-numero", consulta));
+    }
     
     public async Task BaixarBoletos(int nossoNumero, int codigoModalidade)
     {
@@ -135,24 +157,66 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
             numeroCliente = numeroContrato,
             codigoModalidade = codigoModalidade
         };
-        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/baixar", baixa));
+        await ExecutaChamadaAsync(() => clientApi.PostAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/baixar", baixa));
+    }
+
+    public async Task AlterarBoleto(int nossoNumero, AlterarBoletoRequest boletos)
+    {
+        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/" + nossoNumero, boletos));
+    }
+
+    /* Pagador */
+    public async Task PagadorBoletos(DadosPagadorRequest dadosPagador)
+        => await ExecutaChamadaAsync(() => clientApi.PutAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/pagadores", dadosPagador));
+
+    /* Negativação */
+    public async Task NegativarBoletos(int nossoNumero, int codigoModalidade)
+    {
+        var protesto = new ProtestoRequest
+        {
+            numeroCliente = numeroContrato,
+            codigoModalidade = codigoModalidade,
+        };
+        await ExecutaChamadaAsync(() => clientApi.PostAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/negativacoes", protesto));
     }
     
+    public async Task CancelarNegativacaoBoletos(int nossoNumero, int codigoModalidade)
+    {
+        var protesto = new ProtestoRequest
+        {
+            numeroCliente = numeroContrato,
+            codigoModalidade = codigoModalidade,
+        };
+        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/negativacoes", protesto));
+    }
+
+    public async Task BaixarNegativacaoBoletos(int nossoNumero)
+     => await ExecutaChamadaAsync(() => clientApi.DeleteAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/negativacoes"));
+
+    /* Protesto */
     public async Task ProtestarBoletos(int nossoNumero, int codigoModalidade)
     {
         var protesto = new ProtestoRequest
         {
             numeroCliente = numeroContrato,
             codigoModalidade = codigoModalidade,
-        };        
+        };
         await ExecutaChamadaAsync(() => clientApi.PostAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/protestos", protesto));
     }
-    
-    public async Task AlterarBoleto(int nossoNumero, AlterarBoletoRequest boletos)
+
+    public async Task CancelarProtestoBoletos(int nossoNumero, int codigoModalidade)
     {
-        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/" + nossoNumero, boletos));
+        var protesto = new ProtestoRequest
+        {
+            numeroCliente = numeroContrato,
+            codigoModalidade = codigoModalidade,
+        };
+        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/protestos", protesto));
     }
 
+    public async Task DesistirProtestoBoletos(int nossoNumero)
+     => await ExecutaChamadaAsync(() => clientApi.DeleteAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/protestos"));
+     
     /* Movimentação */
     public async Task<RetornoSolicitacaoMovimentacoesCarteira> SolicitarMovimentacao(Tipo tipoMovimento, DateTime data)
     {
@@ -170,7 +234,7 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
     public async Task<RetornoConsultaMovimentacoes?> ConsultarSituacaoSolicitacao(int codigoSolicitacao)
     {
         await VerificaAtualizaCredenciaisAsync();
-        var result = await clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>( ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/solicitacoes/movimentacao", new { numeroCliente = numeroContrato, codigoSolicitacao });
+        var result = await clientApi.GetAsync<ResponseMovimentacao<RetornoConsultaMovimentacoes>>(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/movimentacoes", new { numeroCliente = numeroContrato, codigoSolicitacao });
 
         if (result.IsSuccessStatusCode) return result.Data.resultado;
 
@@ -189,9 +253,10 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
 
     private async Task<RetornoArquivoMovimentacao> DownloadArquivoMovimentacao(int codigoSolicitacao, int idArquivo)
     {
-        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>(ConfigApi.UrlApi + "/cobranca-bancaria/v3/boletos/movimentacoes/download", new { numeroCliente = numeroContrato, codigoSolicitacao, idArquivo }));
+        var retorno = await ExecutaChamadaAsync(() => clientApi.GetAsync<ResponseMovimentacao<RetornoArquivoMovimentacao>>(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/movimentacoes/download", new { numeroCliente = numeroContrato, codigoSolicitacao, idArquivo }));
         return retorno.resultado;
     }
+
     public async Task<MovimentacoesArquivos[]> BaixarMovimentacoes(int codigoSolicitacao, int[] arquivos)
     {
         var lst = new List<MovimentacoesArquivos>();
@@ -212,6 +277,98 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
             });
         }
         return lst.ToArray();
+    }
+
+    /* Webhook */
+
+    /// <summary>
+    /// Consultar os webhooks cadastrados.
+    /// Serviço para consultar os detalhes dos webhooks cadastrados.
+    /// </summary>
+    /// <param name="idWebhook">Identificador único do webhook.</param>
+    /// <param name="codigoTipoMovimento">Código do tipo de movimento do webhook. 7 - Pagamento (Baixa operacional)</param>
+    /// <returns>Webhooks cadastradros.</returns>
+    public async Task<ConsultaWebhookResponse> ConsultarWebHooksAsync(long? idWebhook = null, int? codigoTipoMovimento = null)
+    {
+        var consulta = new ConsultaWebhookRequest()
+        {
+            idWebhook = idWebhook,
+            codigoTipoMovimento = codigoTipoMovimento
+        };
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaWebhookResponse>(ConfigApi.UrlApi + "cobranca-bancaria/v3/webhooks", consulta));
+    }
+
+    /// <summary>
+    /// Cadastrar um webhook para receber notificações de acordo com o tipo de movimento.
+    /// Este serviço permite cadastrar uma URL que será notificada sempre que ocorrer um evento associado a um tipo de movimento. O webhook pode ser configurado para o período de movimentação atual (D0).
+    /// </summary>
+    /// <param name="url">Url a ser chamada com POST. A URL deve ser https.</param>
+    /// <param name="email">E-mail associado ao webhook.</param>
+    /// <param name="codigoTipoMovimento">Código do tipo de movimento do webhook. 7 - Pagamento (Baixa operacional)</param>
+    /// <param name="codigoPeriodoMovimento">Código do período de movimento. 1 - Movimento atual (D0) </param>
+    /// <returns></returns>
+    public async Task<IncluirWebhooksResponse?> CriarWebHookAsync(string url, string email, int codigoTipoMovimento = 7, int codigoPeriodoMovimento = 1) {
+        IncluirWebhookRequest webhook = new IncluirWebhookRequest()
+        {
+            url = url,
+            email = email,
+            codigoTipoMovimento = codigoTipoMovimento,
+             codigoPeriodoMovimento = codigoPeriodoMovimento
+        };
+        return await ExecutaChamadaAsync(() => clientApi.PostAsync<IncluirWebhooksResponse?>(ConfigApi.UrlApi + "cobranca-bancaria/v3/webhooks", webhook));
+    }
+
+    /// <summary>
+    /// Atualizar um webhook cadastrado.
+    /// Serviço de atualização de webhook. Ao modificar a URL, a situação do webhook será automaticamente alterada para '1 - Aguardando validação' e permanecerá assim até que a nova URL seja validada com sucesso.
+    /// </summary>
+    /// <param name="idWebhook">Identificador único do webhook.</param> 
+    /// <param name="webhook">Dados para alteração do webhook.</param>
+    /// <returns></returns>     
+    public async Task AlterarWebhookAsync(long idWebhook, AlterarWebhookRequest webhook)
+        => await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/webhooks/" + idWebhook, webhook));
+    
+
+    /// <summary>
+    /// Excluir um webhook.
+    /// Serviço responsável por remover permanentemente um webhook registrado, encerrando o envio de notificações para a URL vinculada."
+    /// </summary>
+    /// <param name="idWebhook">Identificador único do webhook.</param>
+    /// <returns></returns>
+    public async Task ExcluirWebhookAsync(long idWebhook)
+        => await ExecutaChamadaAsync(() => clientApi.DeleteAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/webhooks/" + idWebhook));
+
+    /// <summary>
+    /// Reativar um webhook inativo.
+    /// Serviço de reativação de webhook desativado, restabelecendo o recebimento de notificações. A situação do webhook será atualizada para '1 - Aguardando validação' e permanecerá assim até que a URL seja validada com sucesso.
+    /// </summary>
+    /// <param name="idWebhook">Identificador único do webhook.</param>     
+    /// <returns></returns>
+    public async Task ReativarWebhookAsync(long idWebhook)
+        => await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/webhooks/" + idWebhook + "/reativar", null));
+    
+    /// <summary>
+    /// Consultar solicitações de um webhook.
+    /// Consulta as solicitações de notificação para um webhook com base na data de solicitação informada.
+    /// </summary>
+    /// <param name="idWebhook">Identificador único do webhook.</param>
+    /// <param name="dataSolicitacao">Data da solicitação. Formato: yyyy-MM-dd</param>
+    /// <param name="pagina">Número da página a ser consultada.</param>
+    /// <param name="codigoSolicitacaoSituacao">Código da situação da solicitação do webhook. 2 - Aguardando envio, 3 - Enviado com sucesso e 6 - Erro no envio</param>
+    /// <param name="codigoBarras">Código de barras do boleto presente na notificação webhook</param>
+    /// <param name="nossoNumero">Nosso número do boleto presente na notificação webhook</param>
+    /// <returns>Retorna o histórico das tentativas de notificação, incluindo o status e a resposta da requisição.</returns>
+    public async Task<ConsultaSolicitacoesWebhookResponse> SolicitacoesWebhooksAsync(long idWebhook, DateTime dataSolicitacao, int? pagina = null, int? codigoSolicitacaoSituacao = null, string? codigoBarras = null, int? nossoNumero = null)
+    {
+        var consulta = new ConsultaSolicitacoesWebhookRequest()
+        {
+            dataSolicitacao = dataSolicitacao,
+            codigoBarras = codigoBarras,
+            nossoNumero = nossoNumero,
+            codigoSolicitacaoSituacao = codigoSolicitacaoSituacao,
+            pagina = pagina
+        };
+        return await ExecutaChamadaAsync(() => clientApi.GetAsync<ConsultaSolicitacoesWebhookResponse>(ConfigApi.UrlApi + "cobranca-bancaria/v3/webhooks/" + idWebhook + "/solicitacoes", consulta));
     }
 
     private void SalvarCopiaMovimentacao(byte[] bytesZip, string nomeArquivo)
