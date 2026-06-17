@@ -1,4 +1,4 @@
-﻿namespace Sicoob.Cobranca.Models.Shared;
+﻿namespace Sicoob.Cobranca.Models.v3;
 
 public class DadosPagador
 {
@@ -9,5 +9,5 @@ public class DadosPagador
     public string cidade { get; set; }
     public string cep { get; set; }
     public string uf { get; set; }
-    public string[] email { get; set; }
+    public string email { get; set; }
 }

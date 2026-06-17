@@ -42,7 +42,8 @@ public class IncluirBoletosRequest : BoletoBase
     public decimal valorMulta { get; set; }
     public int tipoJurosMora { get; set; }
     [JsonConverter(typeof(CustomDateTimeWithZoneConverter))]
-    public DateTime dataJurosMora { get; set; }
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+    public DateTime? dataJurosMora { get; set; }
     public decimal valorJurosMora { get; set; }
     public int numeroParcela { get; set; }
     public bool aceite { get; set; }

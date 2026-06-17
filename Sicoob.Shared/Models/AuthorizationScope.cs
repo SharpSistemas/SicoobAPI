@@ -62,6 +62,19 @@ public class AuthorizationScope
     /// </summary>
     public bool PAYLOAD_LOCATION_READ { get; set; }
 
+    /// <summary>
+    /// [API PIX Pagamentos] pixpagamentos_escrita: Permissao para iniciar/confirmar pagamentos Pix
+    /// </summary>
+    public bool PIX_PAGAMENTOS_ESCRITA { get; set; }
+    /// <summary>
+    /// [API PIX Pagamentos] pixpagamentos_webhook: Permissao para configurar webhook de pagamentos Pix
+    /// </summary>
+    public bool PIX_PAGAMENTOS_WEBHOOK { get; set; }
+    /// <summary>
+    /// [API PIX Pagamentos] pixpagamentos_consulta: Permissao para consulta de pagamentos Pix
+    /// </summary>
+    public bool PIX_PAGAMENTOS_CONSULTA { get; set; }
+
     /* API Conta Corrente */
     /// <summary>
     /// [API Conta Corrente] openid: Escopo de acesso para Logon para Conta Corrente
@@ -71,6 +84,14 @@ public class AuthorizationScope
     /// [API Conta Corrente] cco_extrato: Acessa dados do Extrato
     /// </summary>
     public bool CCO_EXTRATO { get; set; }
+    /// <summary>
+    /// [API Conta Corrente v4] Transações da Conta Corrente V4
+    /// </summary>
+    public bool CCO_TRANSFERENCIAS { get; set; }
+    /// <summary>
+    /// [API Conta Corrente v4] Consulta extratos
+    /// </summary>
+    public bool CCO_CONSULTA { get; set; }
     /// <summary>
     /// [API Conta Corrente] cco_saldo: Acessa dados do Saldo
     /// </summary>
@@ -199,6 +220,21 @@ public class AuthorizationScope
     /// [API Cobrança] cobranca_boletos_faixa_nn_disponiveis: Permissão ??
     /// </summary>
     public bool COBRANCA_BOLETOS_FAIXA_NN_DISPONIVEIS { get; set; }
+    
+    /// <summary>
+    /// [API Cobrança V3] boletos_inclusao: Permissão ??
+    /// </summary>
+    public bool BOLETOS_INCLUSAO { get; set; }
+    
+    /// <summary>
+    /// [API Cobrança V3] boletos_consulta : Permissão ??
+    /// </summary>
+    public bool BOLETOS_CONSULTA { get; set; }
+    
+    /// <summary>
+    /// [API Cobrança V3] boletos_alteracao : Permissão ??
+    /// </summary>
+    public bool BOLETOS_ALTERACAO { get; set; }
 
 
     /// <summary>
@@ -227,10 +263,19 @@ public class AuthorizationScope
         if (PAYLOAD_LOCATION_WRITE) lst.Add("payloadlocation.write");
         if (PAYLOAD_LOCATION_READ) lst.Add("payloadlocation.read");
 
+        if (PIX_PAGAMENTOS_ESCRITA) lst.Add("pixpagamentos_escrita");
+        if (PIX_PAGAMENTOS_WEBHOOK) lst.Add("pixpagamentos_webhook");
+        if (PIX_PAGAMENTOS_CONSULTA) lst.Add("pixpagamentos_consulta");
+
         /* API Conta Corrente */
         if (OPENID) lst.Add("openid");
         if (CCO_EXTRATO) lst.Add("cco_extrato");
         if (CCO_SALDO) lst.Add("cco_saldo");
+        
+        /* API Conta Corrente V4 */
+        if (CCO_TRANSFERENCIAS) lst.Add("cco_transferencias");
+        if (CCO_CONSULTA) lst.Add("cco_consulta");
+        if (OPENID) lst.Add("openid");
 
         /* API Poupança */
         if (POUPANCA_CONTAS) lst.Add("poupanca_contas");
@@ -265,6 +310,11 @@ public class AuthorizationScope
         if (COBRANCA_BOLETOS_ENCARGOS_JUROS_MORA) lst.Add("cobranca_boletos_encargos_juros_mora");
         if (COBRANCA_BOLETOS_PIX) lst.Add("cobranca_boletos_pix");
         if (COBRANCA_BOLETOS_FAIXA_NN_DISPONIVEIS) lst.Add("cobranca_boletos_faixa_nn_disponiveis");
+        
+        /*Api de Cobrança V3*/
+        if (BOLETOS_INCLUSAO) lst.Add("boletos_inclusao");
+        if (BOLETOS_CONSULTA) lst.Add("boletos_consulta");
+        if (BOLETOS_ALTERACAO) lst.Add("boletos_alteracao");
 
         return lst.ToArray();
     }
@@ -313,6 +363,13 @@ public class AuthorizationScope
         PAYLOAD_LOCATION_WRITE = valor;
         return this;
     }
+    public AuthorizationScope PIX_SetarPagamentos(bool valor)
+    {
+        PIX_PAGAMENTOS_ESCRITA = valor;
+        PIX_PAGAMENTOS_WEBHOOK = valor;
+        PIX_PAGAMENTOS_CONSULTA = valor;
+        return this;
+    }
 
     public AuthorizationScope PIX_Setar_Write(bool valor)
     {
@@ -336,13 +393,22 @@ public class AuthorizationScope
         return this;
     }
 
-    public AuthorizationScope CCorrente_Setar(bool valor)
+    public AuthorizationScope CCorrenteV2_Setar(bool valor)
     {
         OPENID = valor;
         CCO_EXTRATO = valor;
         CCO_SALDO = valor;
         return this;
     }
+    
+    public AuthorizationScope CCorrenteV4_Setar(bool valor)
+    {
+        CCO_TRANSFERENCIAS = valor;
+        CCO_CONSULTA = valor;
+        OPENID = valor;
+        return this;
+    }
+    
     public AuthorizationScope CPoupanca_Setar(bool valor)
     {
         POUPANCA_CONTAS = valor;
@@ -351,7 +417,7 @@ public class AuthorizationScope
         return this;
     }
 
-    public AuthorizationScope Cobranca_Setar(bool value)
+    public AuthorizationScope CobrancaV2_Setar(bool value)
     {
         COBRANCA_BOLETOS_CONSULTAR = value;
         COBRANCA_BOLETOS_INCLUIR = value;
@@ -380,6 +446,14 @@ public class AuthorizationScope
         COBRANCA_BOLETOS_ENCARGOS_JUROS_MORA = value;
         COBRANCA_BOLETOS_PIX = value;
         COBRANCA_BOLETOS_FAIXA_NN_DISPONIVEIS = value;
+        return this;
+    }
+    
+    public AuthorizationScope CobrancaV3_Setar(bool value)
+    {
+        BOLETOS_INCLUSAO = value;
+        BOLETOS_CONSULTA = value;
+        BOLETOS_ALTERACAO = value;
         return this;
     }
 
@@ -411,18 +485,26 @@ public class AuthorizationScope
     }
     public static AuthorizationScope TodosPIX()
     {
-        return new AuthorizationScope().PIX_Setar_Read(true).PIX_Setar_Write(true);
+        return new AuthorizationScope().PIX_Setar_Read(true).PIX_Setar_Write(true).PIX_SetarPagamentos(true);
     }
     public static AuthorizationScope TodosContaCorrente()
     {
-        return new AuthorizationScope().CCorrente_Setar(true);
+        return new AuthorizationScope().CCorrenteV2_Setar(true);
+    }
+    public static AuthorizationScope TodosContaCorrenteV4()
+    {
+        return new AuthorizationScope().CCorrenteV4_Setar(true);
     }
     public static AuthorizationScope TodosContaPoupanca()
     {
         return new AuthorizationScope().CPoupanca_Setar(true);
     }
-    public static AuthorizationScope TodosCobranca()
+    public static AuthorizationScope TodosCobrancaV2()
     {
-        return new AuthorizationScope().Cobranca_Setar(true);
+        return new AuthorizationScope().CobrancaV2_Setar(true);
+    }
+    public static AuthorizationScope TodosCobrancaV3()
+    {
+        return new AuthorizationScope().CobrancaV3_Setar(true);
     }
 }

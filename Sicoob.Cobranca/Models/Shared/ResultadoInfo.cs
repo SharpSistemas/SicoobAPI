@@ -1,4 +1,4 @@
-﻿namespace Sicoob.Cobranca.Models.v2;
+﻿namespace Sicoob.Cobranca.Models.Shared;
 
 public class ResultadoInfo
 {

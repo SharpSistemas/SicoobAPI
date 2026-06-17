@@ -31,16 +31,19 @@ public class ConsultaBoletoPagadorRequest
 public class IncluirBoletosResponse
 {
     public DadosBoleto? resultado { get; set; }
+    public ResultadoInfo[]? mensagens { get; set; }
 }
 
 public class ConsultaBoletoResponse
 {
     public DadosBoleto? resultado { get; set; }
+    public ResultadoInfo[]? mensagens { get; set; }
 }
 
 public class ConsultaBoletosPagadorResponse
 {
     public DadosBoleto[]? resultado { get; set; }
+    public ResultadoInfo[]? mensagens { get; set; }
 }
 
 public class DadosBoleto

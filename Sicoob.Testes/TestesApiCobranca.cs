@@ -122,7 +122,7 @@ public static class TestesApiCobranca
         //var consulta = await cobranca.ConsultarBoletosPagador(numeroCpfCnpj: "00000000000000");
         //var segVia = await cobranca.ConsultarSegundaViaBoleto(1, nossoNumero: 0, gerarPdf: true);
 
-        var p1 = await cobranca.SolicitarMovimentacao(Tipo.Liquidacao, new DateTime(2024, 02, 20), new DateTime(2024, 02, 23));
+        var p1 = await cobranca.SolicitarMovimentacao(Tipo.Liquidacao, new DateTime(2025, 12, 20), new DateTime(2024, 02, 23));
         int codigo = p1.codigoSolicitacao;
 
         RetornoConsultaMovimentacoes? p2 = null;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Sicoob.Cobranca.Models.Shared;
 
@@ -7,13 +6,14 @@ namespace Sicoob.Cobranca.Models.v3;
 
 public class IncluirBoletoRequest
 {
-    public long numeroCliente { get; set; }
+    public long numeroCliente { get;  set; }
     public int codigoModalidade { get; set; }
     public int numeroContaCorrente { get; set; }
     public string codigoEspecieDocumento { get; set; } = "DM"; // Duplicata Mercantil, ver lista
     [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime? dataEmissao { get; set; }
-    public long nossoNumero { get; set; }
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+    public long? nossoNumero { get; set; }
     public string seuNumero { get; set; }
     [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
     public string? identificacaoBoletoEmpresa { get; set; }
@@ -29,23 +29,25 @@ public class IncluirBoletoRequest
     public int tipoDesconto { get; set; }
     [JsonConverter(typeof(CustomDateTimeConverter))]
     [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
-    public DateTime dataPrimeiroDesconto { get; set; }
+    public DateTime? dataPrimeiroDesconto { get; set; }
     public decimal valorPrimeiroDesconto { get; set; }
     [JsonConverter(typeof(CustomDateTimeConverter))]
     [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
-    public DateTime dataSegundoDesconto { get; set; }
+    public DateTime? dataSegundoDesconto { get; set; }
     public decimal valorSegundoDesconto { get; set; }
     [JsonConverter(typeof(CustomDateTimeConverter))]
     [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
-    public DateTime dataTerceiroDesconto { get; set; }
+    public DateTime? dataTerceiroDesconto { get; set; }
     public decimal valorTerceiroDesconto { get; set; }
     public int tipoMulta { get; set; }
     [JsonConverter(typeof(CustomDateTimeConverter))]
-    public DateTime dataMulta { get; set; }
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+    public DateTime? dataMulta { get; set; }
     public decimal valorMulta { get; set; }
     public int tipoJurosMora { get; set; }
     [JsonConverter(typeof(CustomDateTimeConverter))]
-    public DateTime dataJurosMora { get; set; }
+    [JsonProperty(NullValueHandling=NullValueHandling.Ignore)]
+    public DateTime? dataJurosMora { get; set; }
     public decimal valorJurosMora { get; set; }
     public int numeroParcela { get; set; }
     public bool aceite { get; set; }

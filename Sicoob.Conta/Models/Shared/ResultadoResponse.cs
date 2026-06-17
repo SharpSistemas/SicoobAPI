@@ -3,7 +3,7 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
-namespace Sicoob.Conta.Models;
+namespace Sicoob.Conta.Models.Shared;
 
 public class ResultadoResponse<T>
 {

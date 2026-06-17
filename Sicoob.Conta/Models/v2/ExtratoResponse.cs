@@ -3,10 +3,19 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
-namespace Sicoob.Conta.Models;
 
-public class SaldoResponse
+using System;
+using Sicoob.Conta.Models.Shared;
+
+namespace Sicoob.Conta.Models.v2;
+
+public class ExtratoResponse
 {
     public decimal Saldo { get; set; }
-    public decimal SaldoLimite { get; set; }
+    public Transacao[] Transacoes { get; set; }
+
+}
+
+public class Transacao : TransacaoBase
+{
 }

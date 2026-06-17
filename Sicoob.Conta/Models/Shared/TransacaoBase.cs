@@ -1,19 +1,8 @@
-/**************************************\
- * Biblioteca C# para APIs do SICOOB  *
- * Autor: Rafael Estevam              *
- *        gh/SharpSistemas/SicoobAPI  *
-\**************************************/
-namespace Sicoob.Conta.Models;
-
 using System;
 
-public class ExtratoResponse
-{
-    public decimal Saldo { get; set; }
-    public Transacao[] Transacoes { get; set; }
+namespace Sicoob.Conta.Models.Shared;
 
-}
-public class Transacao
+public abstract class TransacaoBase
 {
     public string Tipo { get; set; }
     public decimal Valor { get; set; }

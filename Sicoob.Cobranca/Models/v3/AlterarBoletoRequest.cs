@@ -103,11 +103,13 @@ public class Pix
 
 public class ProrrogacaoVencimento
 {
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataVencimento { get; set; }
 }
 
 public class ProrrogacaoLimitePagamento
 {
+    [JsonConverter(typeof(CustomDateTimeConverter))]
     public DateTime dataLimitePagamento { get; set; }
 }
 

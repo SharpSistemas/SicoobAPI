@@ -52,6 +52,8 @@ public abstract class Sicoob
     protected void enableDebug(ClientInfo clientApi)
     {
         clientApi.SetHeader("apim-debug", "true"); // debug de OPEN-ID
+        clientApi.SetHeader("X-Debug", "true");
+        clientApi.SetHeader("X-Debug-Request", "true");
         clientApi.BeforeSend += ClientApi_BeforeSend;
         clientApi.ResponseDataReceived += ClientApi_ResponseDataReceived;
         debugLog("[SETUP]", "STARTUP");
@@ -136,10 +138,14 @@ public abstract class Sicoob
 
         if (!response.IsSuccessStatusCode)
         {
-            if (response.TryParseErrorResponseData(out ErroRequisicao err))
+            if (response.TryParseErrorResponseData(out ErroRequisicaoMensagens err))
             {
-                throw new ErroRequisicaoException(err);
+                if (err.mensagens?.Length > 0)
+                    throw new ErroRequisicaoException(err);
             }
+            
+            if (response.TryParseErrorResponseData(out ErroRequisicaoErrors erro))
+                throw new ErroRequisicaoException(erro);
         }
         response.EnsureSuccessStatusCode();
 
@@ -152,7 +158,7 @@ public abstract class Sicoob
 
         // Processa manualmente para não envelopar demais
         if (response.IsSuccessStatusCode) return;
-        if (response.TryParseErrorResponseData(out ErroRequisicao err))
+        if (response.TryParseErrorResponseData(out ErroRequisicaoMensagens err))
         {
             throw new ErroRequisicaoException(err);
         }

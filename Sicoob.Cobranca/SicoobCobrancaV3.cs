@@ -5,6 +5,7 @@
 \**************************************/
 namespace Sicoob.Cobranca;
 
+using Sicoob.Cobranca.Models;
 using Sicoob.Cobranca.Models.Shared;
 using Sicoob.Cobranca.Models.v3;
 using Sicoob.Shared.Models;
@@ -21,20 +22,19 @@ using System.Threading.Tasks;
 /// <summary>
 /// Classe para comunicação com as APIs de Cobrança do Sicoob
 /// </summary>
-public sealed class SicoobCobrancaV3 : Shared.Sicoob
+public sealed class SicoobCobrancaV3 : Shared.Sicoob, ISicoobCobranca
 {
     // Documentações
     // > APIs tipo "Swagger":
     //   https://developers.sicoob.com.br/#!/apis
     // > Link que o Suporte do Sicoob enviou
-    // https://documenter.getpostman.com/view/20565799/Uzs6yNhe#6447c293-f67b-44ba-b7be-41f5c3de978d
+    // https://documenter.getpostman.com/view/20565799/2sA3QqfsDi#12f19cf7-af18-4777-9bc8-94b8084130f2
 
     private readonly int numeroContrato;
     private ClientInfo clientApi;
     private ConfiguracaoAPI ConfigApi { get; }
     public string? PastaCopiaMovimentacoes { get; set; }
-    public delegate void UpdateToken(ConfiguracaoToken token);
-    public event UpdateToken? UpdateTokenEvent;
+    public event Action<ConfiguracaoToken>? UpdateTokenEvent;
 
     public SicoobCobrancaV3(ConfiguracaoAPI configApi, int nroContrato, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
        : base(configApi, certificado)
@@ -135,7 +135,7 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
             numeroCliente = numeroContrato,
             codigoModalidade = codigoModalidade
         };
-        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/baixar", baixa));
+        await ExecutaChamadaAsync(() => clientApi.PostAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/baixar", baixa));
     }
     
     public async Task ProtestarBoletos(int nossoNumero, int codigoModalidade)
@@ -148,9 +148,11 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
         await ExecutaChamadaAsync(() => clientApi.PostAsync(ConfigApi.UrlApi + $"cobranca-bancaria/v3/boletos/{nossoNumero}/protestos", protesto));
     }
     
-    public async Task AlterarBoleto(int nossoNumero, AlterarBoletoRequest boletos)
+    public async Task AlterarBoleto(int nossoNumero, AlterarBoletoRequest boleto)
     {
-        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/" + nossoNumero, boletos));
+        if (boleto.numeroCliente == 0)
+            boleto.numeroCliente = numeroContrato; 
+        await ExecutaChamadaAsync(() => clientApi.PatchAsync(ConfigApi.UrlApi + "cobranca-bancaria/v3/boletos/" + nossoNumero, boleto));
     }
 
     /* Movimentação */
@@ -175,7 +177,7 @@ public sealed class SicoobCobrancaV3 : Shared.Sicoob
         if (result.IsSuccessStatusCode) return result.Data.resultado;
 
         // "{\"mensagens\":[{\"mensagem\":\"Solicitação ainda em processamento.\",\"codigo\":\"5004\"}]}"
-        if (result.TryParseErrorResponseData(out ErroRequisicao err))
+        if (result.TryParseErrorResponseData(out ErroRequisicaoMensagens err))
         {
             if (err.mensagens == null) { }
             

@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Sicoob.Cobranca.Models.Shared;
 
 namespace Sicoob.Cobranca.Models.v2;
 

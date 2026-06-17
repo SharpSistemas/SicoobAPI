@@ -45,16 +45,16 @@ public static class TestesApiPIX
         //});
 
         /* PIX */
-        //var pixPeriodo = await sicoob.ListarPIXAsync(new CS.BCB.PIX.Models.ConsultarPix()
-        //{
-        //    inicio = DateTime.UtcNow.Date.AddDays(-7),
-        //    fim = DateTime.UtcNow.AddDays(1).Date,
-        //    //paginacao = new CS.BCB.PIX.Models.ConsultaPaginacao()
-        //    //{
-        //    //    itensPorPagina = 50,
-        //    //}
-        //});
-        //var ultimoPix = await sicoob.ConsultarPIXAsync(pixPeriodo.pix[^1].endToEndId);
+        var pixPeriodo = await sicoob.ListarPIXAsync(new CS.BCB.PIX.Models.ConsultarPix()
+        {
+            inicio = DateTime.UtcNow.Date.AddDays(-7),
+            fim = DateTime.UtcNow.AddDays(1).Date,
+            //paginacao = new CS.BCB.PIX.Models.ConsultaPaginacao()
+            //{
+            //    itensPorPagina = 50,
+            //}
+        });
+        var ultimoPix = await sicoob.ConsultarPIXAsync(pixPeriodo.pix[^1].endToEndId);
 
 
     }

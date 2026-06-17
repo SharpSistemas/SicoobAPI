@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 public static class TestesApiConta
 {
-    public static async Task Run_ContaCorrente()
+    public static async Task Run_ContaCorrenteV2()
     {
         // carrega do disco
         var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("config_CC.json"));
@@ -26,10 +26,30 @@ public static class TestesApiConta
         //};
         //File.WriteAllText("config_CC.json", JsonConvert.SerializeObject(cfg));
 
-        var cCorrente = new SicoobContaCorrente(cfg, 00000);
+        var cCorrente = new SicoobContaCorrenteV2(cfg, 00000);
         await cCorrente.SetupAsync();
 
         var extrato = await cCorrente.ObterExtratoAsync(12, 2023);
+        var saldo = await cCorrente.ObterSaldoAsync();
+    }
+    
+    public static async Task Run_ContaCorrenteV4()
+    {
+        // carrega do disco
+        var cfg = JsonConvert.DeserializeObject<ConfiguracaoAPI>(File.ReadAllText("config_CC.json"));
+        // salva no disco
+        //var cfg = new ConfiguracaoAPI()
+        //{
+        //    ClientId = "00000000-0000-0000-0000-000000000000", // Obtém no "Aplicativo" no developers.sicoob.com.br
+        //    CertificadoSenha = "SenhaCertificado",
+        //    UrlCertificadoPFX = "caminho/do/pfx/com/chave/privada.pfx"
+        //};
+        //File.WriteAllText("config_CC.json", JsonConvert.SerializeObject(cfg));
+
+        var cCorrente = new SicoobContaCorrenteV4(cfg, 3515001);
+        await cCorrente.SetupAsync();
+
+        var extrato = await cCorrente.ObterExtratoAsync(01, 2025);
         var saldo = await cCorrente.ObterSaldoAsync();
     }
     public static async Task Run_ContaPoupanca()

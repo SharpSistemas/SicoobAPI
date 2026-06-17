@@ -3,6 +3,10 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+
+using Sicoob.Conta.Models.Shared;
+using Sicoob.Conta.Models.v2;
+
 namespace Sicoob.Conta;
 
 using Sicoob.Conta.Models;
@@ -11,7 +15,7 @@ using Simple.API;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-public sealed class SicoobContaCorrente : Shared.Sicoob
+public sealed class SicoobContaCorrenteV2 : Shared.Sicoob
 {
     // Documentações
     // > APIs tipo "Swagger":
@@ -22,7 +26,7 @@ public sealed class SicoobContaCorrente : Shared.Sicoob
 
     public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
 
-    public SicoobContaCorrente(Shared.Models.ConfiguracaoAPI configApi, int NumeroContaCorrente, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
+    public SicoobContaCorrenteV2(Shared.Models.ConfiguracaoAPI configApi, int NumeroContaCorrente, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
         : base(configApi, certificado)
     {
         ConfigApi = configApi;
@@ -46,8 +50,8 @@ public sealed class SicoobContaCorrente : Shared.Sicoob
     /// <summary>
     /// O recurso de Saldo retorna o valor disponível atual e o limite de crédito (cheque especial) de uma conta corrente.
     /// </summary>
-    public async Task<ResultadoResponse<SaldoResponse>> ObterSaldoAsync()
-        => await ExecutaChamadaAsync(() => clientApi.GetAsync<ResultadoResponse<SaldoResponse>>("/conta-corrente/v2/saldo", new { numeroContaCorrente }));
+    public async Task<ResultadoResponse<SaldoResponseBase>> ObterSaldoAsync()
+        => await ExecutaChamadaAsync(() => clientApi.GetAsync<ResultadoResponse<SaldoResponseBase>>("/conta-corrente/v2/saldo", new { numeroContaCorrente }));
     
 
     /// <summary>

@@ -3,8 +3,12 @@
  * Autor: Rafael Estevam              *
  *        gh/SharpSistemas/SicoobAPI  *
 \**************************************/
+
+using Sicoob.Shared.Models;
+
 namespace Sicoob.Cobranca;
 
+using Sicoob.Cobranca.Models;
 using Sicoob.Cobranca.Models.Shared;
 using Sicoob.Cobranca.Models.v2;
 using Sicoob.Shared.Models.Acesso;
@@ -20,7 +24,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Classe para comunicação com as APIs de Cobrança do Sicoob
 /// </summary>
-public sealed class SicoobCobrancaV2 : Shared.Sicoob
+public sealed class SicoobCobrancaV2 : Shared.Sicoob, ISicoobCobranca
 {
     // Documentações
     // > APIs tipo "Swagger":
@@ -32,8 +36,7 @@ public sealed class SicoobCobrancaV2 : Shared.Sicoob
     private ClientInfo clientApi;
     public Shared.Models.ConfiguracaoAPI ConfigApi { get; }
     public string? PastaCopiaMovimentacoes { get; set; }
-    public delegate void UpdateToken(Shared.Models.ConfiguracaoToken token);
-    public event UpdateToken UpdateTokenEvent;
+    public event Action<ConfiguracaoToken>? UpdateTokenEvent;
 
     public SicoobCobrancaV2(Shared.Models.ConfiguracaoAPI configApi, int NumeroContrato, System.Security.Cryptography.X509Certificates.X509Certificate2? certificado = null)
        : base(configApi, certificado)
@@ -165,7 +168,7 @@ public sealed class SicoobCobrancaV2 : Shared.Sicoob
         if (result.IsSuccessStatusCode) return result.Data.resultado;
 
         // "{\"mensagens\":[{\"mensagem\":\"Solicitação ainda em processamento.\",\"codigo\":\"5004\"}]}"
-        if (result.TryParseErrorResponseData(out ErroRequisicao err))
+        if (result.TryParseErrorResponseData(out ErroRequisicaoMensagens err))
         {
             if (err.mensagens == null) { }
             

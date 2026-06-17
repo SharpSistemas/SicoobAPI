@@ -1,4 +1,10 @@
-# [![.NET](https://github.com/SharpSistemas/SicoobAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SharpSistemas/SicoobAPI) APIs Sicoob 
+ [![.NET](https://github.com/SharpSistemas/SicoobAPI/actions/workflows/dotnet.yml/badge.svg)](https://github.com/SharpSistemas/SicoobAPI) [![NuGet - Cobrança](https://img.shields.io/nuget/v/OpenFinance.Sicoob.Cobranca.svg?label=OpenFinance.Sicoob.Cobranca)](https://www.nuget.org/packages/OpenFinance.Sicoob.Cobranca/) [![NuGet - Conta](https://img.shields.io/nuget/v/OpenFinance.Sicoob.Conta.svg?label=OpenFinance.Sicoob.Conta)](https://www.nuget.org/packages/OpenFinance.Sicoob.Conta/) [![NuGet - PIX](https://img.shields.io/nuget/v/OpenFinance.Sicoob.PIX.svg?label=OpenFinance.Sicoob.PIX)](https://www.nuget.org/packages/OpenFinance.Sicoob.PIX/) 
+ ## ⚠️Comunicado a comunidade:
+Esse projeto é a continuação do projeo https://github.com/SharpSistemas/SicoobAPI
+Por essa questão fique a vontade para ajudar a comunidade com novos PRs.
+
+ # APIs Sicoob 
+
 
 - [ APIs Sicoob](#-apis-sicoob)
 - [Sicoob.PIX](#sicoobpix)
@@ -10,6 +16,8 @@
     - [Consulta de Saldo](#consulta-de-saldo)
     - [Consulta de Extrato](#consulta-de-extrato)
   - [Permissões](#permissões-1)
+
+
 
  
 O objetivo deste repositório para comunicação via API com o banco Sicoob.
